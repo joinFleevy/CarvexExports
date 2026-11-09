@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { X, MapPin, Phone, MessageSquare, Building2, CheckCircle2 } from 'lucide-react';
+import { X, MapPin, Phone } from 'lucide-react';
 
 interface BranchModalProps {
   isOpen: boolean;
@@ -14,7 +14,7 @@ export const BRANCHES = [
   {
     id: 'alger',
     name: 'صالة الجزائر العاصمة (المحمدية)',
-    location: 'المحمدية / الصنوبر البحري (قرب SAFEX)',
+    location: 'المحمدية / الصنوبر البحري',
     phones: ['0779055489', '0557053814'],
     whatsapp: '213779055489',
     badge: 'الوسط والغرب',
@@ -61,75 +61,59 @@ export default function BranchModal({ isOpen, onClose, carTitle, sourceContext }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-      <div className="relative w-full max-w-lg bg-carvex-surface border border-carvex-border rounded-2xl p-6 shadow-2xl text-right">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+      <div className="relative w-full max-w-lg bg-neutral-900 border border-neutral-800 rounded-xl p-6 text-right">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 left-4 p-2 text-carvex-muted hover:text-white rounded-lg hover:bg-carvex-card transition-colors"
+          className="absolute top-4 left-4 p-2 text-neutral-400 hover:text-white"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* Header */}
         <div className="mb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-carvex-cyan/10 text-carvex-cyan text-xs font-medium mb-2">
-            <Building2 className="w-3.5 h-3.5" />
-            تواصل مباشر وفوري
-          </div>
-          <h3 className="text-xl font-bold text-white mb-1">
-            اختر صالة العرض أو الإدارة للتواصل
+          <h3 className="text-lg font-bold text-white mb-1">
+            اختر صالة العرض أو الإدارة
           </h3>
-          <p className="text-sm text-carvex-muted">
+          <p className="text-xs text-neutral-400">
             {carTitle
-              ? `طلب استفسار أو حجز للسيارة: ${carTitle}`
-              : 'حدد الصالة الأقرب إليك لبدء محادثة واتساب مع المستشار التجاري'}
+              ? `طلب استفسار عن: ${carTitle}`
+              : 'اختر الصالة الأقرب لبدء محادثة واتساب مباشرة'}
           </p>
         </div>
 
         {/* Branches Grid */}
-        <div className="space-y-3">
+        <div className="space-y-2">
           {BRANCHES.map((b) => (
             <div
               key={b.id}
               onClick={() => handleWhatsApp(b.whatsapp, b.name)}
-              className="group p-4 bg-carvex-card border border-carvex-border hover:border-carvex-cyan rounded-xl cursor-pointer transition-all hover:shadow-lg hover:shadow-carvex-cyan/10 flex items-center justify-between"
+              className="p-3.5 bg-neutral-950 border border-neutral-800 hover:border-neutral-600 rounded-lg cursor-pointer transition-colors flex items-center justify-between"
             >
-              <div className="flex items-center gap-2 text-carvex-cyan">
-                <span className="p-2.5 rounded-lg bg-carvex-cyan/10 group-hover:bg-carvex-cyan group-hover:text-black transition-colors">
-                  <MessageSquare className="w-5 h-5" />
-                </span>
+              <div className="text-xs text-neutral-400">
+                <span>تواصل عبر واتساب &larr;</span>
               </div>
-              <div className="flex-1 pr-3">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-carvex-border text-carvex-muted">
+              <div className="text-right">
+                <div className="flex items-center gap-2 justify-end mb-1">
+                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-neutral-800 text-neutral-400">
                     {b.badge}
                   </span>
-                  <h4 className="text-sm font-bold text-white group-hover:text-carvex-cyan transition-colors">
+                  <h4 className="text-sm font-semibold text-white">
                     {b.name}
                   </h4>
                 </div>
-                <p className="text-xs text-carvex-muted flex items-center gap-1 justify-end">
+                <p className="text-xs text-neutral-400 flex items-center gap-1 justify-end">
                   {b.location}
-                  <MapPin className="w-3 h-3 text-carvex-muted" />
+                  <MapPin className="w-3 h-3" />
                 </p>
-                <p className="text-xs text-carvex-muted flex items-center gap-1 justify-end mt-0.5 font-mono">
+                <p className="text-xs text-neutral-400 flex items-center gap-1 justify-end mt-0.5 font-mono">
                   {b.phones.join(' / ')}
-                  <Phone className="w-3 h-3 text-carvex-muted" />
+                  <Phone className="w-3 h-3" />
                 </p>
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Footer note */}
-        <div className="mt-5 pt-4 border-t border-carvex-border text-center">
-          <p className="text-xs text-carvex-muted">
-            أو اتصل بالإدارة المركزية مباشرة على الرقم:{' '}
-            <a href="tel:0770727007" className="text-carvex-cyan font-bold hover:underline font-mono">
-              0770727007
-            </a>
-          </p>
         </div>
       </div>
     </div>

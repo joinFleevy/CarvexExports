@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X, PhoneCall, Calculator, Compass, Car, Building, ShieldCheck, FileText } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import BranchModal from './BranchModal';
 
 export default function Navbar() {
@@ -14,21 +14,21 @@ export default function Navbar() {
 
   const navLinks = [
     { href: '/', label: 'الرئيسية' },
-    { href: '/inventory', label: 'السيارات المتوفرة', badge: '2026' },
-    { href: '/calculator', label: 'حاسبة الجمارك', icon: Calculator },
-    { href: '/track', label: 'تتبع شحنتك', icon: Compass },
-    { href: '/showrooms', label: 'صالاتنا وفروعنا', icon: Building },
-    { href: '/documents', label: 'الوصولات والعقود', icon: FileText },
+    { href: '/inventory', label: 'المخزون والسيارات' },
+    { href: '/calculator', label: 'حاسبة التكلفة' },
+    { href: '/track', label: 'تتبع الشحنة' },
+    { href: '/showrooms', label: 'الفروع والصالات' },
+    { href: '/documents', label: 'الوثائق والعقود' },
   ];
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b border-carvex-border/80 bg-carvex-dark/90 backdrop-blur-md">
+      <header className="sticky top-0 z-40 w-full border-b border-neutral-800/80 bg-neutral-950/90 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           
           {/* Logo & Brand Identity */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-carvex-cyan/30 group-hover:border-carvex-cyan transition-colors bg-black shadow-lg shadow-carvex-cyan/5">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-neutral-800 bg-black">
               <Image
                 src="/images/logo.jpg"
                 alt="CARVEX EXPORT"
@@ -37,116 +37,88 @@ export default function Navbar() {
                 priority
               />
             </div>
-            <div className="text-right">
-              <span className="text-xl font-extrabold tracking-wider text-white block group-hover:text-carvex-cyan transition-colors">
-                CARVEX <span className="text-carvex-cyan font-black">EXPORT</span>
+            <div>
+              <span className="text-lg font-bold tracking-wide text-white block">
+                CARVEX EXPORT
               </span>
-              <span className="text-[10px] text-carvex-muted block tracking-tight font-medium -mt-1">
-                استيراد وبيع سيارات أصلية بجودة عالية
+              <span className="text-xs text-neutral-400 block">
+                استيراد وتوزيع السيارات
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1 lg:gap-2">
+          {/* Navigation Links */}
+          <nav className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative px-3.5 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-1.5 ${
+                  className={`text-sm transition-colors ${
                     isActive
-                      ? 'text-carvex-cyan bg-carvex-cyan/10 font-bold'
-                      : 'text-carvex-muted hover:text-white hover:bg-carvex-surface'
+                      ? 'text-white font-medium'
+                      : 'text-neutral-400 hover:text-white'
                   }`}
                 >
                   {link.label}
-                  {link.badge && (
-                    <span className="px-1.5 py-0.5 text-[10px] font-bold rounded-md bg-carvex-red text-white">
-                      {link.badge}
-                    </span>
-                  )}
                 </Link>
               );
             })}
           </nav>
 
-          {/* Action CTA: Branch Selector Drawer */}
+          {/* Action Button */}
           <div className="hidden sm:flex items-center gap-3">
             <button
               onClick={() => setBranchModalOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-carvex-cyan to-carvex-cyan-hover text-black font-extrabold text-sm shadow-lg shadow-carvex-cyan/20 hover:shadow-carvex-cyan/40 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="px-4 py-2 text-xs font-medium rounded-lg border border-neutral-700 hover:border-neutral-500 text-white transition-colors"
             >
-              <PhoneCall className="w-4 h-4" />
-              تواصل مع الصالات
+              فروعنا (العاصمة • جيجل • ورقلة)
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="flex md:hidden items-center gap-2">
-            <button
-              onClick={() => setBranchModalOpen(true)}
-              className="p-2 rounded-lg bg-carvex-cyan/10 text-carvex-cyan"
-              aria-label="Contact Branches"
-            >
-              <PhoneCall className="w-5 h-5" />
-            </button>
+          {/* Mobile menu trigger */}
+          <div className="md:hidden flex items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-lg text-carvex-muted hover:text-white hover:bg-carvex-surface"
-              aria-label="Toggle Navigation"
+              className="p-2 text-neutral-400 hover:text-white"
+              aria-label="القائمة"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Dropdown Menu */}
+        {/* Mobile menu dropdown */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-b border-carvex-border bg-carvex-surface px-4 pt-2 pb-6 space-y-2 animate-fade-in text-right">
-            {navLinks.map((link) => {
-              const isActive = pathname === link.href;
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`block px-4 py-3 rounded-xl text-base font-bold transition-colors ${
-                    isActive
-                      ? 'bg-carvex-cyan/15 text-carvex-cyan'
-                      : 'text-carvex-muted hover:text-white hover:bg-carvex-card'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    {link.badge && (
-                      <span className="px-2 py-0.5 text-xs font-bold rounded-md bg-carvex-red text-white">
-                        {link.badge}
-                      </span>
-                    )}
-                    <span>{link.label}</span>
-                  </div>
-                </Link>
-              );
-            })}
-            <div className="pt-2">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  setBranchModalOpen(true);
-                }}
-                className="w-full py-3 rounded-xl bg-carvex-cyan text-black font-extrabold text-sm shadow-md flex items-center justify-center gap-2"
+          <div className="md:hidden border-b border-neutral-800 bg-neutral-950 px-4 py-4 space-y-2">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-3 py-2 text-sm text-neutral-300 hover:text-white"
               >
-                <PhoneCall className="w-4 h-4" />
-                تواصل مع الصالات والمبيعات
-              </button>
-            </div>
+                {link.label}
+              </Link>
+            ))}
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setBranchModalOpen(true);
+              }}
+              className="w-full mt-2 text-center px-4 py-2.5 text-xs font-medium rounded-lg border border-neutral-700 text-white"
+            >
+              فروعنا وصالات العرض
+            </button>
           </div>
         )}
       </header>
 
-      {/* Global Branch Modal */}
-      <BranchModal isOpen={branchModalOpen} onClose={() => setBranchModalOpen(false)} />
+      <BranchModal
+        isOpen={branchModalOpen}
+        onClose={() => setBranchModalOpen(false)}
+      />
     </>
   );
 }
