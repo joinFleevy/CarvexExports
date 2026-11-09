@@ -178,6 +178,11 @@ export default function Footer() {
               </Link>
             </li>
             <li>
+              <Link href="/admin/pricing" className="hover:text-carvex-cyan transition-colors">
+                • حاسبة التسعير والتكاليف للإدارة (Pricing Pro)
+              </Link>
+            </li>
+            <li>
               <a
                 href="http://pocketbase-qfp2khqiopiac7purq5j4byg.185.183.181.158.sslip.io/_/"
                 target="_blank"
