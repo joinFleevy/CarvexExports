@@ -1,264 +1,258 @@
-# 🚀 دليل تسليم المشروع للمطور (Developer Handoff Dossier)
-### كل ما يحتاجه المطور والشريك للبدء الفوري وإكمال البرمجة بدون أي نواقص
-
-> **مرحباً بك في مشروع CARVEX EXPORT!**  
-> هذا الدليل يختصر عليك كل ساعات البحث والاجتماعات؛ قاعدة البيانات جاهزة وشغالة على السيرفر، الجداول معبأة بالسيارات الحقيقية والصالات، والأصول واللوغو والمعادلات الرياضية موثقة بالكامل هنا.
+# 🚀 ملف تسليم المشروع للشريك والمطور (Developer Handoff Dossier)
+### CARVEX EXPORT — الدليل التقني الشامل لإكمال برمجة المنصة الرقمية
 
 ---
 
-## 📌 الفهرس السريع
-1. **روابط السيرفرات وبيانات الدخول الحساسة (Credentials & URLs)**
-2. **مستودع الكود وبدء العمل (Git & Setup)**
-3. **قاعدة البيانات ومجموعات PocketBase الجاهزة (Live Database)**
-4. **الصفحات والميزات المطلوب برمجتها في الواجهة (Frontend Roadmap)**
-5. **معادلات حاسبة الجمارك الجزائرية الجاهزة للكود (Customs Engine)**
-6. **الهوية البصرية والألوان والأصول (Design Tokens & Assets)**
-7. **ملف المتغيرات البيئية المقترح (`.env.local`)**
+## 📌 إلى الزميل المطور (Quick Start Summary)
+هذا الملف يحتوي على **كل ما تحتاجه للبدء فوراً في إكمال وبرمجة المشروع**:
+* سيرفر **PocketBase شغال ومعد بالكامل** بقواعد البيانات والصور والأسعار الحقيقية.
+* مستودع **GitHub مربوط ومجهز**.
+* خوارزميات **حساب الجمارك والدفعات المالية** مكتوبة بكود جاهز للنسخ.
+* بنية الصفحات، روابط الـ API، أرقام الفروع، وروابط خرائط غوغل.
 
 ---
 
-## 1. روابط السيرفرات وبيانات الدخول الحساسة (Credentials & URLs)
+## 1. الروابط الأساسية وحسابات الوصول (Credentials & Access)
 
-| الخدمة | الرابط (URL) | بيانات الدخول / الصلاحيات |
+| الخدمة / المورد | الرابط أو المسار | بيانات الدخول / الملاحظات |
 | :--- | :--- | :--- |
-| **سيرفر PocketBase المباشر** | `http://pocketbase-qfp2khqiopiac7purq5j4byg.185.183.181.158.sslip.io` | متاح للاستعلامات العامة فوراً |
-| **لوحة تحكم السيرفر (Admin UI)** | `http://pocketbase-qfp2khqiopiac7purq5j4byg.185.183.181.158.sslip.io/_/` | **الإيميل:** `namaagrowthagency@gmail.com`<br>**كلمة المرور:** `fDTHzV3HhhiaTFy@` |
-| **مستودع الكود (GitHub)** | `https://github.com/joinFleevy/CarvexExports.git` | الفرع الرئيسي: `main` |
-| **تخزين الوسائط (Cloudflare R2)** | `https://pub-36fd74211d094e5b8986e7abc18d714c.r2.dev` | سعة تخزين الصور العامة |
-| **الخريطة التفاعلية المعمارية** | افتح الملف محلياً: `carvex-sitemap.html` | رسم معماري تفاعلي لكامل النظام |
+| **مستودع GitHub** | `https://github.com/joinFleevy/CarvexExports.git` | الفرع الرئيسي: `main` (تم عمل commit تأسيسي). |
+| **سيرفر PocketBase Live** | `http://pocketbase-qfp2khqiopiac7purq5j4byg.185.183.181.158.sslip.io` | شغال ومفعل عليه الـ API العام. |
+| **لوحة تحكم PocketBase (Admin)** | `http://pocketbase-qfp2khqiopiac7purq5j4byg.185.183.181.158.sslip.io/_/` | **الإيميل:** `namaagrowthagency@gmail.com`<br>**كلمة المرور:** `fDTHzV3HhhiaTFy@` |
+| **مستودع الصور R2 (Dev URL)** | `https://pub-36fd74211d094e5b8986e7abc18d714c.r2.dev` | متصل بسيرفر التخزين. |
+| **مجلد الأصول المحلية واللوغو** | `./assets/` | يضم اللوغو الرسمي عالي الدقة: `assets/carvex_logo_official.jpg` وصور البوسترات. |
+| **خريطة الموقع التفاعلية (Archify)** | `./carvex-sitemap.html` | ملف HTML تفاعلي يفتح بالمتصفح يوضح معمارية النظام ومسار الزوار. |
 
 ---
 
-## 2. مستودع الكود وبدء العمل (Git & Scaffolding)
+## 2. الواجهة البرمجية وقاعدة البيانات (PocketBase API Endpoints)
 
-تم ربط المشروع وتهيئة Git محلياً؛ للبدء في بناء تطبيق **Next.js 15 (App Router)** في نفس المجلد:
+تم إنشاء وتعبئة قاعدة البيانات بالكامل. يمكنك طلب البيانات في الواجهة الأمامية دون الحاجة لأي مفاتيح سرية (Public Read):
 
-```bash
-# 1. سحب المشروع
-git clone https://github.com/joinFleevy/CarvexExports.git
-cd CarvexExports
-
-# 2. تثبيت Next.js 15 مع Tailwind CSS ومكتبة PocketBase
-npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir=false --import-alias="@/*"
-
-# 3. تثبيت حزمة PocketBase و Lucide Icons
-npm install pocketbase lucide-react clsx tailwind-merge
+### أ. رابط جلب السيارات مع بيانات الصالة التابعة لها:
+```http
+GET http://pocketbase-qfp2khqiopiac7purq5j4byg.185.183.181.158.sslip.io/api/collections/vehicles/records?expand=branch
 ```
 
----
+### ب. رابط جلب الفروع وأرقام هواتفها وعناوينها:
+```http
+GET http://pocketbase-qfp2khqiopiac7purq5j4byg.185.183.181.158.sslip.io/api/collections/branches/records
+```
 
-## 3. قاعدة البيانات ومجموعات PocketBase الجاهزة (Live Database)
+### ج. رابط استعراض صور السيارات المرفوعة:
+```http
+http://pocketbase-qfp2khqiopiac7purq5j4byg.185.183.181.158.sslip.io/api/files/vehicles/<RECORD_ID>/<IMAGE_FILENAME>
+```
 
-قاعدة البيانات **ليست فارغة**؛ تم إنشاؤها وشحنها ببيانات حقيقية عبر سكربت `setup_pocketbase.mjs`، وكل الجداول التالية جاهزة مع صلاحيات القراءة العامة (`Public Read`):
-
-### أ. كيفية استدعاء البيانات في الكود (TypeScript):
+### د. كيفية الربط في كود Next.js / React:
 ```typescript
+// lib/pocketbase.ts
 import PocketBase from 'pocketbase';
 
-export const pb = new PocketBase(
-  process.env.NEXT_PUBLIC_POCKETBASE_URL || 'http://pocketbase-qfp2khqiopiac7purq5j4byg.185.183.181.158.sslip.io'
-);
+export const pb = new PocketBase('http://pocketbase-qfp2khqiopiac7purq5j4byg.185.183.181.158.sslip.io');
 
-// مثال: جلب كل السيارات مع الصالة التابعة لها وصورها:
-export async function getVehicles() {
+// جلب السيارات المتوفرة بالمعرض فوراً:
+export async function getInStockVehicles() {
   return await pb.collection('vehicles').getFullList({
+    filter: 'status = "in_stock"',
     expand: 'branch',
     sort: '-created',
   });
 }
-
-// بناء رابط الصورة الكامل:
-export function getCarImageUrl(record: any, fileName: string) {
-  return `${pb.baseUrl}/api/files/${record.collectionId}/${record.id}/${fileName}`;
-}
 ```
 
-### ب. الجداول الموجودة في PocketBase حالياً:
-1. **`branches` (الفروع):** 
-   * يحتوي على 3 صالات فعلية:
-     * **الجزائر العاصمة (المحمدية):** الهواتف `0779055489` / `0557053814`
-     * **جيجل (بوالرمل قرب ميناء جن جن):** الهواتف `0660656274` / `0554154163`
-     * **ورقلة (وسط المدينة):** الهواتف `0660414034` / `0661466727`
-     * **الإدارة العامة:** `0770727007`
-2. **`vehicles` (السيارات):**
-   * يحتوي على 5 سيارات حقيقية لعام 2026 محملة بأسعارها وصورها وبوستراتها:
-     * `Geely Coolray Battle 2026` (399M سنتيم)
-     * `Geely Coolray Full 2026` (388M سنتيم)
-     * `Geely Coolray Manuelle 2026` (307M سنتيم)
-     * `MG5 Global (MX) 2026` (268M سنتيم)
-     * `Jetour Dashing Luxury 2026` (415M سنتيم)
-3. **`shipments` (الشحنات والحاويات):** لتسجيل أرقام الحاويات، بواخر الملاحة (COSCO, CMA CGM)، وموانئ الوصول.
-4. **`orders` (طلبات وتتبع الزبائن):**
-   * مربوط برقم هاتف العميل ورمز الـ PIN السري.
-   * **الأمان:** محمي بقاعدة `@request.auth.id != "" || (client_phone = @request.headers.x_client_phone && client_pin = @request.headers.x_client_pin)` حتى لا يرى أي شخص غريب بيانات الزبائن.
-5. **`documents` (الوثائق الرسمية):**
-   * يحتوي على نوع الوثيقة (`recu_arbon`, `recu_paiement`, `bon_commande`) وملف الـ PDF المحمي.
+---
+
+## 3. السيارات والأسعار المعبأة حالياً في السيرفر (Seed Data)
+
+السيارات التالية مدخلة بالفعل في قاعدة البيانات ومرفوعة صورها الرسمية:
+1. **Geely Coolray Battle 2026** — السعر: **399 مليون سنتيم** (أوتوماتيك / صالة العاصمة).
+2. **Geely Coolray Full 2026** — السعر: **388 مليون سنتيم** (أوتوماتيك / صالة جيجل).
+3. **Geely Coolray Manuelle 2026** — السعر: **307 مليون سنتيم** (مانويل / صالة جيجل).
+4. **MG5 Global (MX) 2026** — السعر: **268 مليون سنتيم** (أوتوماتيك / صالة ورقلة).
+5. **Jetour Dashing Luxury 2026** — السعر: **415 مليون سنتيم** (أوتوماتيك / بالطلب من الصين).
 
 ---
 
-## 4. الصفحات والميزات المطلوب برمجتها في الواجهة (Frontend Roadmap)
+## 4. فروع الصالات، أرقام الهواتف، وروابط خرائط غوغل
 
-الموقع يجب أن يكون **ثنائي اللغة (عربي / فرنسي)** مع دعم **RTL** الافتراضي، ويركز على تجربة الهاتف المحمول (Mobile-First):
-
-### 1. الصفحة الرئيسية (`app/page.tsx`):
-* **Hero Section:** خلفية داكنة فخمة للسيارات مع الشعار الرسمي CARVEX وسلوجان: *"شريكك العالمي للسيارات"*.
-* **شريط الماركات العالمية (Brand Logos):** شريط متحرك يحمل شعارات (*Geely, Jetour, Chery, MG, Changan, Kia, Audi*).
-* **أداة البحث والفلترة السريعة:** اختيار الماركة + الحالة (حاضرة بالمعرض / في البحر / بالطلب) + الصالة (العاصمة / جيجل / ورقلة).
-* **عرض سيارات 2026 المميزة (Featured Stock).**
-* **خطوات الاستيراد الأربعة الشفافة (How It Works):**
-  1. *العقد والعربون* ➔ 2. *شحن الحاوية وإصدار بوليصة الباخرة (BL)* ➔ 3. *الوصول لميناء جن جن أو العاصمة والتخليص* ➔ 4. *استلام المفاتيح والملف الكامل*.
-* **معاينة الصالات الثلاث مع روابط خرائط غوغل وأزرار الاتصال المباشر.**
-
-### 2. كتالوج المعرض المتكامل (`app/inventory/page.tsx`):
-* شبكة كروت سيارات متجاوبة (Responsive Grid).
-* فلاتر جانبية / علوية: تصفية حسب السعر، ناقل الحركة (أوتوماتيك / يدوي)، والصالة المتواجدة بها.
-* بادجات حالة السيارة:
-  * 🟢 `متوفرة للتسليم الفوري`
-  * 🚢 `في البحر قادمة`
-  * 🇨🇳 `استيراد بالطلب`
-
-### 3. صفحة تفاصيل السيارة (`app/inventory/[id]/page.tsx`):
-* معرض صور كلاسيكي متعدد الزوايا (عالي الدقة وسريع).
-* المواصفات التقنية: سنة الصنع 2026، المحرك (1.5L Turbo)، القوة، الوقود، واللون.
-* السعر الصافي واصل للميناء + السعر الإجمالي شامل كل المصاريف.
-* **زر تحميل البطاقة التقنية (Fiche Technique PDF).**
-* **زر [طلب حجز أو استفسار] ➔ يفتح نافذة لاختيار الفرع (Modal):**
-  * ينقل الزبون مباشرة لواتساب الفرع المختار برسالة جاهزة:
-    `https://wa.me/213779055489?text=السلام عليكم، أنا مهتم بسيارة Geely Coolray Full 2026 المعروضة في موقعكم`
-
-### 4. حاسبة الجمارك التفاعلية (`app/calculator/page.tsx`):
-* أداة تفاعلية يدخل فيها الزبون:
-  1. سعر السيارة بالدينار (أو يختار سيارة من الكتالوج).
-  2. نوع المحرك (بنزين $\le 1.8L$، أو كهربائي، أو هجين).
-  3. نوع الملف: *(رخصة مجاهدين معفاة)* أو *(استيراد عادي للمواطنين قانون أقل من 3 سنوات)*.
-* تُظهر الحاسبة جدول التكاليف التقديري فوراً + زر: **[طلب عرض سعر رسمي عبر واتساب]**.
-
-### 5. بوابة تتبع الشحنة والطلب (`app/track/page.tsx`):
-* يدخل الزبون: **رقم الهاتف + رقم الطلب / رمز الـ PIN**.
-* يظهر له شريط تقدم مسار سيارته في المراحل الأربعة + رقم الحاوية واسم الباخرة مع رابط تتبع السفينة المباشر.
-
-### 6. صفحة الصالات والفروع (`app/showrooms/page.tsx`):
-* 3 كروت صالات تتضمن:
-  * العنوان الدقيق.
-  * أرقام المصلحة التجارية والإدارة.
-  * زر **[فتح في خرائط غوغل]**.
-  * زر **[محادثة واتساب مباشرة]**.
+| الفرع | العنوان الميداني | أرقام الهواتف الرسمية | رابط خرائط غوغل (Google Maps Link) |
+| :--- | :--- | :--- | :--- |
+| **الجزائر العاصمة (المحمدية)** | شارع نسيب عبود، المحمدية (قرب الصنوبر البحري وSAFEX) | `0779055489`<br>`0557053814` | [عرض الخريطة](https://www.google.com/maps/search/?api=1&query=Rue+Nacib+Abboud+Mohammadia+Alger) |
+| **جيجل (بوالرمل)** | المنطقة التجارية بوالرمل، بلدية الطاهير (محاذاة ميناء جن جن) | `0660656274`<br>`0554154163` | [عرض الخريطة](https://www.google.com/maps/search/?api=1&query=Boulrimal+Taher+Jijel) |
+| **ورقلة (وسط المدينة)** | حي النصر / وسط المدينة، ولاية ورقلة | `0660414034`<br>`0661466727` | [عرض الخريطة](https://www.google.com/maps/search/?api=1&query=Cite+En+Nasr+Ouargla) |
+| **الإدارة المركزية** | الجزائر العاصمة | `0770727007` | [واتساب الإدارة المباشر](https://wa.me/213770727007) |
 
 ---
 
-## 5. معادلات حاسبة الجمارك الجزائرية (Customs Engine Math)
+## 5. الصفحات المطلوبة وهندسة الواجهات (Pages & Architecture)
 
-هذه هي المعادلة البرمجية المعتمدة قانونياً وفق **المرسوم التنفيذي رقم 23-74** و **المادة 110 من قانون المالية**:
+المشروع يعتمد على **Next.js 15 (App Router)** مع **Tailwind CSS**:
+
+```
+app/
+├── layout.tsx                # الهيكل العام الداكن + خطوط Readex Pro و Outfit
+├── page.tsx                  # الرئيسية: الهيرو، شريط الماركات، فلتر سريع، عروض مميزة
+├── inventory/
+│   ├── page.tsx              # صفحة الكتالوج مع فلاتر (الماركة، الحالة، الصالة)
+│   └── [id]/page.tsx         # صفحة تفاصيل السيارة: صور، مواصفات، زر PDF، وزر واتساب الصالة
+├── calculator/page.tsx       # حاسبة الجمارك التفاعلية بنسب القانون الجزائري
+├── track/page.tsx            # بوابة تتبع الطلب بالهاتف + رمز الـ PIN
+└── showrooms/page.tsx        # صالات العاصمة وجيجل وورقلة مع أزرار الاتصال والخرائط
+```
+
+### الطابع البصري المعتمد (Design Tokens):
+* **الخلفية الأساسية:** أسود داكن فخم (`#0A0D14` / `#0F131C`) مع كروت زجاجية.
+* **اللون التفاعلي (Primary):** أزرق فيروزي كهربائي (`#00A2E8`) مطابق للوغو.
+* **لون الأسعار والأزرار الثانوية (Accent):** أحمر ناري (`#E50914`).
+* **النصوص:** أبيض ناصع (`#FFFFFF`) ورمادي فاتح (`#94A3B8`).
+
+---
+
+## 6. الكود الجاهز لحاسبة الجمارك الجزائرية (Customs Calculator Code)
+
+وفق نصوص **المرسوم التنفيذي رقم 23-74** وقانون المالية الجزائري (المادة 110)، استخدم هذه الدالة الرياضية الجاهزة في صفحة `/calculator`:
 
 ```typescript
-// utils/customsCalculator.ts
+// lib/customsCalculator.ts
 
-export interface CalculationInput {
-  fobPriceCentimes: number; // السعر الصافي واصل للميناء بالسنتيم (مثلاً 280)
-  engineType: 'essence' | 'hybrid' | 'electric';
-  displacementCc: number;   // سعة المحرك (مثلاً 1498)
-  regime: 'licence_moudjahidine' | 'individual_less_3_years';
-  needBuyLicence?: boolean; // هل يحتاج شراء رخصة مجاهدين من السوق؟
+export interface CalculatorInput {
+  carFobPriceCentimes: number; // السعر واصل للميناء بالسنتيم (مثلاً: 280)
+  engineDisplacementCc: number; // سعة المحرك بالـ cc (مثلاً: 1498)
+  fuelType: 'essence' | 'hybrid' | 'electric';
+  regime: 'individual_under_3_years' | 'moudjahidine_has_license' | 'moudjahidine_need_license';
 }
 
-export function calculateCustomsCost(input: CalculationInput) {
-  const { fobPriceCentimes, engineType, displacementCc, regime, needBuyLicence } = input;
+export function calculateCustomsCost(input: CalculatorInput) {
+  const { carFobPriceCentimes, engineDisplacementCc, fuelType, regime } = input;
   
-  // مصاريف ثابتة في الميناء الجزائري (إنزال + عبور transitaire + فحص المناجم)
+  // مصاريف ثابتة: الميناء والإنزال بميناء جن جن/الجزائر + وكيل العبور + فحص المناجم
   const fixedPortAndTransitCentimes = 13; // 13 مليون سنتيم
-  let customsTaxPercentage = 0;
-  let licenceMarketCostCentimes = 0;
+  let customsTaxCentimes = 0;
+  let licenseCostCentimes = 0;
 
-  if (regime === 'licence_moudjahidine') {
-    // إعفاء 100% من الرسم الجمركي ورسم TVA لمحركات البنزين حتى 2000cc
-    customsTaxPercentage = 0.01; // رسوم إدارية وشكليات طوابع D10 فقط (~1%)
-    if (needBuyLicence) {
-      licenceMarketCostCentimes = 65; // متوسط سعر كراء/شراء الرخصة بالسوق (65 مليون)
-    }
+  if (regime === 'moudjahidine_has_license') {
+    // إعفاء 100% من الجمركة و TVA
+    customsTaxCentimes = carFobPriceCentimes * 0.01; // رسوم إدارية رمزية
+  } else if (regime === 'moudjahidine_need_license') {
+    // إعفاء جمركي + تكلفة كراء/شراء الرخصة من السوق
+    customsTaxCentimes = carFobPriceCentimes * 0.01;
+    licenseCostCentimes = 65; // متوسط سعر الرخصة (65 مليون سنتيم)
   } else {
-    // استيراد عادي للمواطنين (قانون أقل من 3 سنوات)
-    // الضريبة الكاملة قبل التخفيض = DD(30%) + TCS(2%) + TVA(19% x 1.32) = 57.08%
-    const baseStandardRate = 0.5708;
-
-    if (engineType === 'electric') {
-      // تخفيض 80% من إجمالي الضرائب
-      customsTaxPercentage = baseStandardRate * 0.20; // 11.4%
-    } else if (displacementCc <= 1800) {
-      // تخفيض 50% لمحركات البنزين والهجين <= 1.8L (الفئة الأكثر شيوعاً)
-      customsTaxPercentage = baseStandardRate * 0.50; // 28.54%
+    // جمركة عادية للمواطنين (قانون أقل من 3 سنوات)
+    // النسبة الكاملة قبل التخفيض = ~57.08%
+    if (fuelType === 'electric') {
+      // تخفيض 80% من الرسوم
+      customsTaxCentimes = carFobPriceCentimes * (0.5708 * 0.20);
+    } else if (engineDisplacementCc <= 1800) {
+      // تخفيض 50% من الرسوم (الفئة الأكثر مبيعاً 1.5L)
+      customsTaxCentimes = carFobPriceCentimes * (0.5708 * 0.50);
     } else {
-      // تخفيض 20% فقط للمحركات الكبيرة > 1.8L
-      customsTaxPercentage = baseStandardRate * 0.80; // 45.66%
+      // تخفيض 20% فقط
+      customsTaxCentimes = carFobPriceCentimes * (0.5708 * 0.80);
     }
   }
 
-  const estimatedCustomsTaxes = Math.round(fobPriceCentimes * customsTaxPercentage);
-  const totalEstimatedCost = fobPriceCentimes + estimatedCustomsTaxes + fixedPortAndTransitCentimes + licenceMarketCostCentimes;
+  const totalEstimatedCentimes = carFobPriceCentimes + customsTaxCentimes + fixedPortAndTransitCentimes + licenseCostCentimes;
 
   return {
-    fobPriceCentimes,
-    estimatedCustomsTaxes,
-    fixedPortAndTransitCentimes,
-    licenceMarketCostCentimes,
-    totalEstimatedCost,
+    fobPrice: Math.round(carFobPriceCentimes),
+    customsTaxes: Math.round(customsTaxCentimes),
+    portAndTransit: fixedPortAndTransitCentimes,
+    licenseCost: licenseCostCentimes,
+    totalPrice: Math.round(totalEstimatedCentimes),
   };
 }
 ```
 
 ---
 
-## 6. الهوية البصرية والألوان والأصول (Design Tokens & Assets)
+## 7. هندسة اختيار جهة التواصل (Branch WhatsApp Routing)
 
-### الألوان الأساسية (Tailwind / CSS Variables):
-* **Dark Onyx (الخلفية):** `#0A0D14` أو `#0F131C`
-* **Electric Cyan (اللون الأساسي المتفاعل):** `#00A2E8` (لون خط CARVEX وشعار السيارة)
-* **Crimson Red (لون الأسعار والتمييز):** `#E50914` (لون الخط الفاصل في اللوغو وبادجات العروض)
-* **Text Primary:** `#FFFFFF`
-* **Text Muted:** `#94A3B8` (Slate-400)
-* **Card Surface:** `rgba(18, 22, 34, 0.75)` مع `backdrop-blur-md` و `border border-white/10`.
+عندما يضغط الزبون على **[طلب حجز أو استفسار]** داخل صفحة السيارة، تفتح له نافذة منبثقة (Drawer أو Modal) تحتوي على الخيارات التالية بروابط مباشرة:
 
-### الأصول الجاهزة في المشروع:
-* **الشعار الرسمي عالي الدقة:** موجود محلياً في `assets/carvex_logo_official.jpg`.
-* **صور سيارات حقيقية:** موجودة في مجلد `assets/` وتم رفعها أيضاً على سيرفر PocketBase.
+```typescript
+// مصفوفة الصالات لربط أزرار الواتساب
+export const SHOWROOMS = [
+  {
+    city: 'الجزائر العاصمة',
+    location: 'المحمدية / الصنوبر البحري',
+    phone: '213779055489',
+    displayPhone: '0779055489',
+  },
+  {
+    city: 'جيجل',
+    location: 'بوالرمل (قرب ميناء جن جن)',
+    phone: '213660656274',
+    displayPhone: '0660656274',
+  },
+  {
+    city: 'ورقلة',
+    location: 'وسط المدينة / حي النصر',
+    phone: '213660414034',
+    displayPhone: '0660414034',
+  },
+  {
+    city: 'الإدارة العامة',
+    location: 'المركز الرئيسي',
+    phone: '213770727007',
+    displayPhone: '0770727007',
+  },
+];
 
----
-
-## 7. ملف المتغيرات البيئية المقترح (`.env.local`)
-
-أنشئ ملف `.env.local` في جذر مشروع الـ Next.js وضع فيه:
-
-```env
-# PocketBase Backend
-NEXT_PUBLIC_POCKETBASE_URL=http://pocketbase-qfp2khqiopiac7purq5j4byg.185.183.181.158.sslip.io
-
-# Cloudflare R2 Public CDN
-NEXT_PUBLIC_R2_URL=https://pub-36fd74211d094e5b8986e7abc18d714c.r2.dev
-
-# Official Contact Numbers
-NEXT_PUBLIC_PHONE_ADMIN=0770727007
-NEXT_PUBLIC_PHONE_ALGER=0779055489
-NEXT_PUBLIC_PHONE_JIJEL=0660656274
-NEXT_PUBLIC_PHONE_OUERGLA=0660414034
-
-# Site URL
-NEXT_PUBLIC_SITE_URL=https://carvexexport.com
+// دالة توليد رابط الواتساب الجاهز
+export function getWhatsAppLink(phone: string, carTitle: string, priceCentimes: number) {
+  const text = encodeURIComponent(
+    `السلام عليكم، أنا مهتم بسيارة [${carTitle}] المعروضة في موقع Carvex بسعر [${priceCentimes} مليون سنتيم]. أود الاستفسار عن تفاصيل الحجز وموعد التسليم.`
+  );
+  return `https://wa.me/${phone}?text=${text}`;
+}
 ```
 
 ---
 
-## 8. عناوين الصالات وروابط خرائط غوغل الجاهزة:
+## 8. نظام تتبع الطلبات بالـ PIN (Zero-Friction Order Tracking)
 
-* **صالة الجزائر العاصمة (المحمدية):**
-  * شارع نسيب عبود، المحمدية (قرب قصر المعارض SAFEX).
-  * رابط خرائط غوغل: `https://www.google.com/maps/search/?api=1&query=Rue+Nacib+Abboud+Mohammadia+Alger`
-* **صالة جيجل (بوالرمل):**
-  * بوالرمل، بلدية الطاهير، ولاية جيجل (بمحاذاة ميناء جن جن).
-  * رابط خرائط غوغل: `https://www.google.com/maps/search/?api=1&query=Boulrimal+Taher+Jijel`
-* **صالة ورقلة (وسط المدينة):**
-  * حي النصر / وسط المدينة، ولاية ورقلة.
-  * رابط خرائط غوغل: `https://www.google.com/maps/search/?api=1&query=Cite+En+Nasr+Ouargla`
+في صفحة `/track`:
+1. يدخل الزبون: **رقم الهاتف** + **رمز الـ PIN المكون من 4 أرقام** (المسجلين في جدول `orders`).
+2. يقوم النظام بجلب السجل وعرض المراحل الأربعة:
+   * **المرحلة 1:** تم توقيع العقد واستلام العربون 📝
+   * **المرحلة 2:** الحاوية على متن الباخرة (عرض رقم الحاوية واسم السفينة ورابط تتبع الملاحة) 🚢
+   * **المرحلة 3:** وصول السفينة لميناء جن جن أو العاصمة والبدء في إجراءات الجمركة ⚓
+   * **المرحلة 4:** السيارة جاهزة للاستلام في صالة العرض مع المفاتيح والملف القاعدي 🔑
 
 ---
 
-> 💡 **ملاحظة ختامية للمطور:**  
-> تم تسجيل كافة الوثائق والملفات في مستودع Git على فرع `main`. يمكنك البدء فوراً في إعداد الواجهة وسحب بيانات السيارات عبر `pb.collection('vehicles').getFullList({ expand: 'branch' })` وستجد كل شيء يعمل بسلاسة وسرعة فائقة!
+## 9. محرك الوثائق وتوليد الـ PDF (`Reçu d'Arbon`)
+
+* في لوحة تحكم المعرض، يمكن توليد وطباعة وصل استلام العربون (`Reçu d'Arbon`) بصيغة PDF.
+* يجب أن يحمل الوصل:
+  * شعار Carvex الرسمي ورقم السجل التجاري والتعريف الجبائي.
+  * اسم الصالة (العاصمة، جيجل، ورقلة).
+  * رقم الشاسيه (Châssis / VIN) والموديل.
+  * **المبلغ بالأرقام وبالحروف (Montant en toutes lettres):** (مثال: `500,000 دج` ➔ *"خمسمائة ألف دينار جزائري"*).
+
+---
+
+## 10. خطوات البدء الفوري للمطور (Commands to Run)
+
+```bash
+# 1. استنساخ المستودع
+git clone https://github.com/joinFleevy/CarvexExports.git
+cd CarvexExports
+
+# 2. بدء مشروع Next.js إذا لم يكن موجوداً
+npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir=false --import-alias="@/*"
+
+# 3. تثبيت مكتبة PocketBase و Lucide Icons
+npm install pocketbase lucide-react clsx tailwind-merge
+
+# 4. تشغيل السيرفر المحلي
+npm run dev
+```
+
+كل الملفات المرجعية الأخرى موجودة في جذر المشروع:
+* `CARVEX_PRD.md` — وثيقة متطلبات المنتج الكاملة.
+* `CARVEX_CUSTOMS_AND_FINANCE.md` — الدليل التفصيلي لقوانين الجمارك والنسب.
+* `carvex-sitemap.html` — خريطة النظام البصرية.
+* `assets/` — جميع صور اللوغو والسيارات الأصلية.
