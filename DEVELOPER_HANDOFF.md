@@ -21,6 +21,7 @@
 | **لوحة تحكم PocketBase (Admin)** | `http://pocketbase-qfp2khqiopiac7purq5j4byg.185.183.181.158.sslip.io/_/` | **الإيميل:** `namaagrowthagency@gmail.com`<br>**كلمة المرور:** `fDTHzV3HhhiaTFy@` |
 | **مستودع الصور R2 (Dev URL)** | `https://pub-36fd74211d094e5b8986e7abc18d714c.r2.dev` | متصل بسيرفر التخزين. |
 | **مجلد الأصول المحلية واللوغو** | `./assets/` | يضم اللوغو الرسمي عالي الدقة: `assets/carvex_logo_official.jpg` وصور البوسترات. |
+| **بوت تيليغرام للمبيعات** | `@CarvexExports_bot` | **Token:** `9106570417:AAFZJAYjg-O4FQdCOfdm6loLwUsQSFjFDt0`<br>**Admin ID:** `8209658134` (Hichem Djouadi) |
 | **خريطة الموقع التفاعلية (Archify)** | `./carvex-sitemap.html` | ملف HTML تفاعلي يفتح بالمتصفح يوضح معمارية النظام ومسار الزوار. |
 
 ---
@@ -256,3 +257,22 @@ npm run dev
 * `CARVEX_CUSTOMS_AND_FINANCE.md` — الدليل التفصيلي لقوانين الجمارك والنسب.
 * `carvex-sitemap.html` — خريطة النظام البصرية.
 * `assets/` — جميع صور اللوغو والسيارات الأصلية.
+
+
+---
+
+## 11. نظام إدارة معرفات تيليغرام والتوجيه للفروع (Telegram User IDs & Role Routing)
+
+تم إنشاء جدول `telegram_users` داخل قاعدة بيانات PocketBase لتمكين الإدارة من إضافة وحذف معرفات مستخدمي تيليغرام (User IDs) لكل من مسؤولي الفروع والمبيعات:
+* **حقول الجدول:**
+  * `user_id`: معرف تيليغرام الرقمي للمسؤول (مثل: `8209658134`).
+  * `name`: اسم المسؤول وصفته (مثل: `Hichem Djouadi - الإدارة العامة`).
+  * `role`: الرتبة (`admin`, `manager_alger`, `manager_jijel`, `manager_ouergla`, `sales_agent`).
+  * `branch`: الفرع المخصص (`all`, `alger`, `jijel`, `ouergla`).
+  * `is_active`: حالة الحساب.
+  * `receive_alerts`: تفعيل استلام تنبيهات الزبائن الفورية.
+
+* **آلية التوجيه الذكي (`app/api/lead/route.ts`):**
+  * عند قيام زبون بطلب حجز أو استخدام الحاسبة، يقرأ النظام المستخدمين النشطين من جدول `telegram_users`.
+  * يتم توجيه التنبيه لمدير الصالة المختارة (مثلاً صالة جيجل) + الإدارة العامة دفعة واحدة.
+  * يدعم النظام أيضاً قراءة عدة معرفات مباشرة من متغير البيئة `TELEGRAM_CHAT_ID` مفصولة بفواصل.

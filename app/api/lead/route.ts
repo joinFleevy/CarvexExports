@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { pb } from '@/lib/pocketbase';
 
 export async function POST(request: Request) {
   try {
@@ -29,24 +30,66 @@ export async function POST(request: Request) {
     `.trim();
 
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
-    const chatId = process.env.TELEGRAM_CHAT_ID;
 
-    if (botToken && chatId) {
-      try {
-        await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id: chatId,
-            text: telegramMessage,
-            parse_mode: 'HTML',
-          }),
-        });
-      } catch (tgError) {
-        console.error('Telegram notification error:', tgError);
+    // Collect recipient user IDs
+    const targetChatIds = new Set<string>();
+
+    // 1. From environment variable (supports comma or space separated list)
+    if (process.env.TELEGRAM_CHAT_ID) {
+      process.env.TELEGRAM_CHAT_ID.split(/[\s,]+/)
+        .map((id) => id.trim())
+        .filter(Boolean)
+        .forEach((id) => targetChatIds.add(id));
+    }
+
+    // 2. From PocketBase telegram_users collection (dynamic database-managed users)
+    try {
+      const activeUsers = await pb.collection('telegram_users').getFullList({
+        filter: 'is_active = true && receive_alerts = true',
+      });
+
+      // Map branch text to branch codes if needed
+      const branchLower = (branch || '').toLowerCase();
+      let targetCode = 'all';
+      if (branchLower.includes('جيجل') || branchLower.includes('jijel')) targetCode = 'jijel';
+      else if (branchLower.includes('ورقلة') || branchLower.includes('ouergla')) targetCode = 'ouergla';
+      else if (branchLower.includes('عاصمة') || branchLower.includes('alger')) targetCode = 'alger';
+
+      for (const user of activeUsers) {
+        if (user.branch === 'all' || user.branch === targetCode) {
+          if (user.user_id) targetChatIds.add(String(user.user_id).trim());
+        }
       }
+    } catch (pbErr) {
+      console.log('PocketBase telegram_users lookup fallback:', pbErr);
+    }
+
+    // Default fallback to primary admin ID if no target found
+    if (targetChatIds.size === 0) {
+      targetChatIds.add('8209658134');
+    }
+
+    // Send notifications to all authorized IDs
+    if (botToken && targetChatIds.size > 0) {
+      const promises = Array.from(targetChatIds).map(async (chatId) => {
+        try {
+          return await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: chatId,
+              text: telegramMessage,
+              parse_mode: 'HTML',
+            }),
+          });
+        } catch (err) {
+          console.error(`Failed to send telegram message to ${chatId}:`, err);
+        }
+      });
+
+      await Promise.allSettled(promises);
     } else {
-      console.log('Telegram Bot Token/Chat ID not configured. Lead data:', {
+      console.log('Lead data logged (Bot token not provided):', {
         client_name,
         client_phone,
         branch,
