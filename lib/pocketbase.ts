@@ -47,8 +47,8 @@ export interface Vehicle {
   hide_price?: boolean; // If true, hides numeric price and shows "السعر عند الطلب / تواصل للمناقشة"
   is_deleted?: boolean;
   deleted_at?: string; // ISO Date string when moved to trash
-  created: string;
-  updated: string;
+  created?: string;
+  updated?: string;
 }
 
 export interface TelegramUser {
