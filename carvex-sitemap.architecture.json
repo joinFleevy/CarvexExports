@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "CARVEX EXPORT — Sitemap & Platform Architecture",
+    "output": "carvex-sitemap.html",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "public-discovery",
+        "label": "Public Discovery & Inventory",
+        "focus": ["visitor", "home", "inventory", "car_detail", "pb_api"],
+        "note": "Visitors browse 2026 stock, filter by branch, and view full vehicle specs."
+      },
+      {
+        "id": "conversion-tools",
+        "label": "Customs Calculator & Tracking",
+        "focus": ["visitor", "calculator", "tracking", "whatsapp", "telegram_bot"],
+        "note": "Interactive tools calculate customs taxes and track shipping containers."
+      },
+      {
+        "id": "dealership-operations",
+        "label": "Showroom Operations & Admin",
+        "focus": ["showrooms", "admin_portal", "pb_api", "doc_engine"],
+        "note": "Algiers, Jijel, and Ouargla staff manage vehicles and generate legal receipts."
+      }
+    ]
+  },
+  "components": [
+    { "id": "visitor", "type": "external", "label": "Customer Traffic", "sublabel": "Mobile 4G / Web", "pos": [40, 280], "size": [130, 60] },
+    { "id": "home", "type": "frontend", "label": "Homepage (/)", "sublabel": "Hero + Brands Carousel", "pos": [230, 280], "size": [140, 60] },
+    { "id": "inventory", "type": "frontend", "label": "Catalog (/inventory)", "sublabel": "Multi-Branch Stock", "pos": [430, 150], "size": [150, 60] },
+    { "id": "car_detail", "type": "frontend", "label": "Vehicle Details", "sublabel": "/inventory/[id]", "pos": [640, 150], "size": [150, 60] },
+    { "id": "calculator", "type": "frontend", "label": "Customs Calculator", "sublabel": "/calculator · Law 23-74", "pos": [430, 280], "size": [150, 60] },
+    { "id": "tracking", "type": "frontend", "label": "Voyage Tracker", "sublabel": "/track · Phone + PIN", "pos": [430, 410], "size": [150, 60] },
+    { "id": "showrooms", "type": "frontend", "label": "Showrooms (/showrooms)", "sublabel": "Algiers · Jijel · Ouargla", "pos": [230, 440], "size": [140, 60] },
+    { "id": "whatsapp", "type": "external", "label": "WhatsApp Sales", "sublabel": "Branch Direct Chat", "pos": [640, 280], "size": [150, 60], "tag": "Direct Routing" },
+    { "id": "telegram_bot", "type": "messagebus", "label": "Telegram Bot", "sublabel": "Instant Lead Alerts", "pos": [640, 410], "size": [150, 60], "tag": "Branch Webhook" },
+    { "id": "admin_portal", "type": "security", "label": "Admin Panel (/_/)", "sublabel": "Staff Auth & RBAC", "pos": [870, 150], "size": [150, 60] },
+    { "id": "pb_api", "type": "backend", "label": "PocketBase API", "sublabel": "REST + Realtime WS", "pos": [870, 280], "size": [150, 60] },
+    { "id": "doc_engine", "type": "backend", "label": "Document Engine", "sublabel": "Reçu d'Arbon & Contrat", "pos": [870, 410], "size": [150, 60], "tag": "Montant en lettres" }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Carvex Web Platform (Next.js 15)", "wraps": ["home", "inventory", "car_detail", "calculator", "tracking", "showrooms"] },
+    { "kind": "security-group", "label": "Backend & Dealership OS (PocketBase on VPS)", "wraps": ["pb_api", "admin_portal", "doc_engine"] }
+  ],
+  "connections": [
+    { "id": "traffic-to-home", "from": "visitor", "to": "home", "label": "HTTPS", "variant": "emphasis" },
+    { "id": "home-to-inventory", "from": "home", "to": "inventory", "fromSide": "top", "toSide": "left" },
+    { "id": "inventory-to-detail", "from": "inventory", "to": "car_detail" },
+    { "id": "home-to-calculator", "from": "home", "to": "calculator" },
+    { "id": "home-to-tracking", "from": "home", "to": "tracking", "fromSide": "bottom", "toSide": "left" },
+    { "id": "home-to-showrooms", "from": "home", "to": "showrooms", "fromSide": "bottom", "toSide": "top" },
+    { "id": "detail-to-whatsapp", "from": "car_detail", "to": "whatsapp", "fromSide": "bottom", "toSide": "top" },
+    { "id": "calculator-to-whatsapp", "from": "calculator", "to": "whatsapp", "labelDy": -20 },
+    { "id": "calculator-to-telegram", "from": "calculator", "to": "telegram_bot", "fromSide": "bottom", "toSide": "left" },
+    { "id": "tracking-to-telegram", "from": "tracking", "to": "telegram_bot" },
+    { "id": "detail-to-pb", "from": "car_detail", "to": "pb_api", "fromSide": "right", "toSide": "top" },
+    { "id": "admin-to-pb", "from": "admin_portal", "to": "pb_api", "fromSide": "bottom", "toSide": "top" },
+    { "id": "pb-to-docs", "from": "pb_api", "to": "doc_engine", "fromSide": "bottom", "toSide": "top" }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Public Sitemap",
+      "items": [
+        "الرئيسية (/)، الكتالوج (/inventory)، وتفاصيل المركبة",
+        "حاسبة الجمارك (/calculator) وبوابة التتبع بالـ PIN (/track)",
+        "صالات العاصمة وجيجل وورقلة وروابط خرائط غوغل"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Conversion Funnel",
+      "items": [
+        "توجيه مباشر لواتساب الصالة الأقرب للزبون",
+        "إشعار فوري لمدير الفرع عبر بوت تيليغرام"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Dealership OS",
+      "items": [
+        "سيرفر PocketBase لإدارة المخزون والتسعير",
+        "توليد وصولات العربون الرسمية (Montant en lettres)"
+      ]
+    }
+  ]
+}
