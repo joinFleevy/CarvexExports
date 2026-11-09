@@ -163,33 +163,54 @@ export default function VehicleDetailClient({
             </p>
           </div>
 
-          {/* Price Header Box (Dynamically updated by in-context calculator) */}
-          <div className="bg-carvex-surface border-2 border-carvex-cyan/40 p-5 rounded-2xl md:min-w-[340px] text-right shadow-xl shadow-carvex-cyan/5 transition-all">
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-xs text-carvex-muted">{activeLabel}</span>
-              <span className="text-[10px] font-bold text-carvex-cyan bg-carvex-cyan/10 px-2 py-0.5 rounded-full border border-carvex-cyan/30">
-                {badgeHighlight}
-              </span>
-            </div>
-            <div className="text-3xl sm:text-4xl font-black text-carvex-cyan font-mono tracking-tight">
-              {formatPriceCentimes(activePriceCentimes)}
-            </div>
-            <div className="text-xs text-slate-300 font-mono mt-1">
-              ما يعادل {formatDinar(activePriceCentimes)} دج
-            </div>
-
-            {savingsCentimes > 0 && (
-              <div className="mt-2 text-xs font-bold text-emerald-400 bg-emerald-500/10 p-1.5 rounded-lg border border-emerald-500/20 flex items-center gap-1.5">
-                <TrendingDown className="w-3.5 h-3.5 flex-shrink-0" />
-                <span>توفير مؤكد: {savingsCentimes} مليون سنتيم مقارنة بالجمركة العادية!</span>
+          {/* Price Header Box (Dynamically updated or Hidden for WhatsApp discussion) */}
+          {vehicle.hide_price ? (
+            <div className="bg-carvex-surface border-2 border-amber-500/40 p-5 rounded-2xl md:min-w-[340px] text-right shadow-xl shadow-amber-500/5 transition-all">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs text-carvex-muted">التسعير والمفاوضة</span>
+                <span className="text-[10px] font-bold text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-full border border-amber-400/30">
+                  تواصل للمناقشة
+                </span>
               </div>
-            )}
-
-            <div className="mt-2 text-[11px] text-slate-400 flex items-center gap-1">
-              <CheckCircle2 className="w-3 h-3 text-carvex-cyan flex-shrink-0" />
-              <span>{activeSubtext}</span>
+              <div className="text-2xl sm:text-3xl font-black text-amber-400 tracking-tight">
+                السعر عند الطلب
+              </div>
+              <div className="text-xs text-slate-300 font-sans mt-1">
+                Prix sur demande — التفاوض المباشر مع مدير الصالة
+              </div>
+              <div className="mt-2 text-[11px] text-emerald-400 flex items-center gap-1">
+                <CheckCircle2 className="w-3 h-3 flex-shrink-0" />
+                <span>تواصل عبر واتساب لمناقشة السعر حسب الصيغة والمواصفات</span>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="bg-carvex-surface border-2 border-carvex-cyan/40 p-5 rounded-2xl md:min-w-[340px] text-right shadow-xl shadow-carvex-cyan/5 transition-all">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs text-carvex-muted">{activeLabel}</span>
+                <span className="text-[10px] font-bold text-carvex-cyan bg-carvex-cyan/10 px-2 py-0.5 rounded-full border border-carvex-cyan/30">
+                  {badgeHighlight}
+                </span>
+              </div>
+              <div className="text-3xl sm:text-4xl font-black text-carvex-cyan font-mono tracking-tight">
+                {formatPriceCentimes(activePriceCentimes)}
+              </div>
+              <div className="text-xs text-slate-300 font-mono mt-1">
+                ما يعادل {formatDinar(activePriceCentimes)} دج
+              </div>
+
+              {savingsCentimes > 0 && (
+                <div className="mt-2 text-xs font-bold text-emerald-400 bg-emerald-500/10 p-1.5 rounded-lg border border-emerald-500/20 flex items-center gap-1.5">
+                  <TrendingDown className="w-3.5 h-3.5 flex-shrink-0" />
+                  <span>توفير مؤكد: {savingsCentimes} مليون سنتيم مقارنة بالجمركة العادية!</span>
+                </div>
+              )}
+
+              <div className="mt-2 text-[11px] text-slate-400 flex items-center gap-1">
+                <CheckCircle2 className="w-3 h-3 text-carvex-cyan flex-shrink-0" />
+                <span>{activeSubtext}</span>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* 🌟 AUTOMATIC IN-CONTEXT CUSTOMS CALCULATOR SELECTOR */}
@@ -437,7 +458,9 @@ export default function VehicleDetailClient({
                   className="w-full py-4 px-5 rounded-xl bg-carvex-cyan hover:bg-carvex-cyan-hover text-black font-black text-sm transition-all shadow-lg shadow-carvex-cyan/20 flex items-center justify-center gap-2 group"
                 >
                   <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                  <span>طلب حجز وتواصل عبر واتساب</span>
+                  <span>
+                    {vehicle.hide_price ? 'تواصل للتفاوض على السعر عبر واتساب' : 'طلب حجز وتواصل عبر واتساب'}
+                  </span>
                 </button>
 
                 <Link
@@ -782,7 +805,11 @@ export default function VehicleDetailClient({
       <BranchModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
-        carTitle={`${vehicle.title} (صيغة: ${badgeHighlight} بسعر ${formatPriceCentimes(activePriceCentimes)})`}
+        carTitle={
+          vehicle.hide_price
+            ? `${vehicle.title} (استفسار وتفاوض على السعر مع صالة ${vehicle.expand?.branch?.name_ar || 'العاصمة'})`
+            : `${vehicle.title} (صيغة: ${badgeHighlight} بسعر ${formatPriceCentimes(activePriceCentimes)})`
+        }
       />
     </>
   );

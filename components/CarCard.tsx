@@ -122,20 +122,35 @@ export default function CarCard({ vehicle }: CarCardProps) {
           </div>
 
           {/* Pricing Box */}
-          <div className="bg-carvex-surface p-3.5 rounded-xl border border-carvex-border/60 flex items-center justify-between">
-            <div>
-              <span className="text-[10px] text-carvex-muted block">السعر الإجمالي شامل كل المصاريف</span>
-              <span className="text-xl font-black text-carvex-cyan font-mono tracking-tight">
-                {formatPriceCentimes(vehicle.price_total_dzd_centimes)}
-              </span>
+          {vehicle.hide_price ? (
+            <div className="bg-carvex-surface p-3.5 rounded-xl border border-amber-500/30 flex items-center justify-between">
+              <div>
+                <span className="text-[10px] text-carvex-muted block">التسعير والتفاوض</span>
+                <span className="text-base font-black text-amber-400 tracking-tight">
+                  السعر عند الطلب
+                </span>
+              </div>
+              <div className="text-left">
+                <span className="text-[10px] text-emerald-400 block font-bold">تواصل للمناقشة</span>
+                <span className="text-xs text-slate-400 font-sans">عبر واتساب الصالة</span>
+              </div>
             </div>
-            <div className="text-left">
-              <span className="text-[10px] text-carvex-muted block">بالدينار الجزائري</span>
-              <span className="text-xs font-bold text-slate-300 font-mono">
-                {formatDinar(vehicle.price_total_dzd_centimes)}
-              </span>
+          ) : (
+            <div className="bg-carvex-surface p-3.5 rounded-xl border border-carvex-border/60 flex items-center justify-between">
+              <div>
+                <span className="text-[10px] text-carvex-muted block">السعر الإجمالي شامل كل المصاريف</span>
+                <span className="text-xl font-black text-carvex-cyan font-mono tracking-tight">
+                  {formatPriceCentimes(vehicle.price_total_dzd_centimes)}
+                </span>
+              </div>
+              <div className="text-left">
+                <span className="text-[10px] text-carvex-muted block">بالدينار الجزائري</span>
+                <span className="text-xs font-bold text-slate-300 font-mono">
+                  {formatDinar(vehicle.price_total_dzd_centimes)}
+                </span>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Action Buttons */}
           <div className="grid grid-cols-2 gap-2 pt-1">

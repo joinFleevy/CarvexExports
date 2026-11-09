@@ -44,6 +44,7 @@ export interface Vehicle {
   images: string[];
   spec_sheet_pdf?: string;
   is_featured: boolean;
+  hide_price?: boolean; // If true, hides numeric price and shows "السعر عند الطلب / تواصل للمناقشة"
   is_deleted?: boolean;
   deleted_at?: string; // ISO Date string when moved to trash
   created: string;
