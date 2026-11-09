@@ -23,10 +23,15 @@ import {
   ChevronLeft,
   ChevronRight,
   Info,
+  TrendingDown,
+  Percent,
 } from 'lucide-react';
 import { Vehicle, getVehicleImageUrl } from '@/lib/pocketbase';
 import { formatPriceCentimes, formatDinar } from '@/lib/utils';
+import { calculateAlgerianCustoms } from '@/lib/customs';
 import BranchModal from '@/components/BranchModal';
+
+type CustomsMode = 'turnkey' | 'moudjahidine_own' | 'moudjahidine_market' | 'fob_port';
 
 interface VehicleDetailClientProps {
   vehicle: Vehicle;
@@ -37,12 +42,10 @@ interface VehicleDetailClientProps {
 
 export default function VehicleDetailClient({
   vehicle,
-  tranche1,
-  tranche2,
-  tranche3,
 }: VehicleDetailClientProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [customsMode, setCustomsMode] = useState<CustomsMode>('turnkey');
 
   // Status mapping
   const statusConfig = {
@@ -59,6 +62,54 @@ export default function VehicleDetailClient({
   const rawImages = vehicle.images && vehicle.images.length > 0 ? vehicle.images : ['carvexexport_DfXYcp-HC7n.jpg'];
   const galleryUrls = rawImages.map((img) => getVehicleImageUrl(vehicle, img));
   const currentImage = galleryUrls[selectedImageIndex] || galleryUrls[0];
+
+  // Automatic In-Context Customs Calculations
+  const fobPrice = vehicle.price_fob_dzd_centimes || Math.round(vehicle.price_total_dzd_centimes * 0.7);
+
+  const customsCalcMoudjahidineOwn = calculateAlgerianCustoms({
+    fobPriceCentimes: fobPrice,
+    engineType: vehicle.engine_type || 'essence',
+    displacementCc: vehicle.engine_displacement_cc || 1498,
+    regime: 'moudjahidine_own_license',
+  });
+
+  const customsCalcMoudjahidineMarket = calculateAlgerianCustoms({
+    fobPriceCentimes: fobPrice,
+    engineType: vehicle.engine_type || 'essence',
+    displacementCc: vehicle.engine_displacement_cc || 1498,
+    regime: 'moudjahidine_market_license',
+  });
+
+  // Determine active price and description based on selected regime
+  let activePriceCentimes = vehicle.price_total_dzd_centimes;
+  let activeLabel = 'السعر الإجمالي الصافي (Clé en main)';
+  let activeSubtext = 'يشمل الشحن البحري، التخليص الجمركي (تخفيض 50% قانوني)، والتسليم في المعرض';
+  let badgeHighlight = 'جمركة عادية (مرسوم 23-74)';
+  let savingsCentimes = 0;
+
+  if (customsMode === 'moudjahidine_own') {
+    activePriceCentimes = customsCalcMoudjahidineOwn.totalEstimatedCentimes;
+    activeLabel = 'السعر برخصتك الخاصة (Licence Moudjahidine)';
+    activeSubtext = 'معفى 100% من الجمركة و TVA — يشمل الشحن ومصاريف ميناء جن جن أو العاصمة';
+    badgeHighlight = 'إعفاء جمركي 100%';
+    savingsCentimes = vehicle.price_total_dzd_centimes - activePriceCentimes;
+  } else if (customsMode === 'moudjahidine_market') {
+    activePriceCentimes = customsCalcMoudjahidineMarket.totalEstimatedCentimes;
+    activeLabel = 'السعر مع شراء رخصة مجاهدين موثقة';
+    activeSubtext = 'يشمل سعر شراء الرخصة المعتمدة رسمياً + الشحن ومصاريف الوكيل الجمركي والميناء';
+    badgeHighlight = 'شراء رخصة معتمدة';
+    savingsCentimes = vehicle.price_total_dzd_centimes - activePriceCentimes;
+  } else if (customsMode === 'fob_port') {
+    activePriceCentimes = fobPrice;
+    activeLabel = 'السعر واصل للميناء فقط (FOB / بدون جمارك)';
+    activeSubtext = 'سعر شراء السيارة مع الشحن البحري والتأمين واصل للميناء (تتولى الجمركة بنفسك)';
+    badgeHighlight = 'سعر الميناء الخام';
+  }
+
+  // Recalculate 3 tranches dynamically based on active regime price
+  const activeTranche1 = Math.round(activePriceCentimes * 0.28);
+  const activeTranche2 = Math.round(activePriceCentimes * 0.42);
+  const activeTranche3 = activePriceCentimes - activeTranche1 - activeTranche2;
 
   return (
     <>
@@ -112,19 +163,157 @@ export default function VehicleDetailClient({
             </p>
           </div>
 
-          {/* Price Header Box */}
-          <div className="bg-carvex-surface border-2 border-carvex-cyan/40 p-5 rounded-2xl md:min-w-[320px] text-right shadow-xl shadow-carvex-cyan/5">
-            <span className="text-xs text-carvex-muted block mb-1">السعر الإجمالي الصافي (Clé en main)</span>
+          {/* Price Header Box (Dynamically updated by in-context calculator) */}
+          <div className="bg-carvex-surface border-2 border-carvex-cyan/40 p-5 rounded-2xl md:min-w-[340px] text-right shadow-xl shadow-carvex-cyan/5 transition-all">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-xs text-carvex-muted">{activeLabel}</span>
+              <span className="text-[10px] font-bold text-carvex-cyan bg-carvex-cyan/10 px-2 py-0.5 rounded-full border border-carvex-cyan/30">
+                {badgeHighlight}
+              </span>
+            </div>
             <div className="text-3xl sm:text-4xl font-black text-carvex-cyan font-mono tracking-tight">
-              {formatPriceCentimes(vehicle.price_total_dzd_centimes)}
+              {formatPriceCentimes(activePriceCentimes)}
             </div>
             <div className="text-xs text-slate-300 font-mono mt-1">
-              ما يعادل {formatDinar(vehicle.price_total_dzd_centimes)} دج
+              ما يعادل {formatDinar(activePriceCentimes)} دج
             </div>
-            <div className="mt-2 text-[11px] text-emerald-400 flex items-center gap-1">
-              <CheckCircle2 className="w-3 h-3 flex-shrink-0" />
-              <span>يشمل الشحن البحري، التأمين، والتسليم في صالة العرض</span>
+
+            {savingsCentimes > 0 && (
+              <div className="mt-2 text-xs font-bold text-emerald-400 bg-emerald-500/10 p-1.5 rounded-lg border border-emerald-500/20 flex items-center gap-1.5">
+                <TrendingDown className="w-3.5 h-3.5 flex-shrink-0" />
+                <span>توفير مؤكد: {savingsCentimes} مليون سنتيم مقارنة بالجمركة العادية!</span>
+              </div>
+            )}
+
+            <div className="mt-2 text-[11px] text-slate-400 flex items-center gap-1">
+              <CheckCircle2 className="w-3 h-3 text-carvex-cyan flex-shrink-0" />
+              <span>{activeSubtext}</span>
             </div>
+          </div>
+        </div>
+
+        {/* 🌟 AUTOMATIC IN-CONTEXT CUSTOMS CALCULATOR SELECTOR */}
+        <div className="rounded-2xl bg-gradient-to-r from-carvex-card via-carvex-surface to-carvex-card border-2 border-carvex-border p-6 shadow-xl space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-carvex-border/60 pb-3">
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-xl bg-carvex-cyan/15 text-carvex-cyan">
+                <Calculator className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-base font-black text-white">
+                  حاسبة الجمارك التلقائية الفورية لهذه السيارة (Simulateur Douanier Intégré)
+                </h3>
+                <p className="text-xs text-carvex-muted">
+                  اختر النظام الجمركي لحساب السعر وجدول الدفعات بدقة وحفظ النتائج في عرض السعر
+                </p>
+              </div>
+            </div>
+            <span className="text-xs font-mono text-carvex-cyan bg-carvex-cyan/10 px-3 py-1 rounded-full border border-carvex-cyan/30 self-start sm:self-auto">
+              سعة المحرك: {vehicle.engine_displacement_cc || 1498} cc
+            </span>
+          </div>
+
+          {/* Interactive Options Tabs */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-1">
+            {/* Option 1: Turnkey Standard Import */}
+            <button
+              onClick={() => setCustomsMode('turnkey')}
+              className={`p-4 rounded-xl border-2 text-right transition-all flex flex-col justify-between ${
+                customsMode === 'turnkey'
+                  ? 'bg-carvex-cyan/10 border-carvex-cyan text-white shadow-lg shadow-carvex-cyan/10'
+                  : 'bg-carvex-dark/60 border-carvex-border hover:border-carvex-border/80 text-slate-300'
+              }`}
+            >
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-bold">تسليم في الصالة (Clé en main)</span>
+                  <span className="text-[10px] font-mono bg-carvex-surface px-1.5 py-0.5 rounded text-carvex-muted">قانوني</span>
+                </div>
+                <p className="text-[11px] text-carvex-muted leading-relaxed">
+                  جمركة عادية (مرسوم 23-74) بتخفيض 50% شاملة كل المصاريف حتى الصالة.
+                </p>
+              </div>
+              <div className="mt-3 pt-2 border-t border-carvex-border/40">
+                <span className="text-base font-black text-carvex-cyan font-mono block">
+                  {formatPriceCentimes(vehicle.price_total_dzd_centimes)}
+                </span>
+              </div>
+            </button>
+
+            {/* Option 2: Own Moudjahidine License */}
+            <button
+              onClick={() => setCustomsMode('moudjahidine_own')}
+              className={`p-4 rounded-xl border-2 text-right transition-all flex flex-col justify-between relative overflow-hidden ${
+                customsMode === 'moudjahidine_own'
+                  ? 'bg-emerald-500/10 border-emerald-400 text-white shadow-lg shadow-emerald-500/10'
+                  : 'bg-carvex-dark/60 border-carvex-border hover:border-carvex-border/80 text-slate-300'
+              }`}
+            >
+              <div className="absolute top-0 left-0 bg-emerald-500 text-black text-[9px] font-black px-2 py-0.5 rounded-br-lg uppercase">
+                الأوفر سعراً
+              </div>
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-bold text-emerald-400">برخصتك الخاصة (مجاهدين)</span>
+                </div>
+                <p className="text-[11px] text-carvex-muted leading-relaxed">
+                  لديك رخصة مجاهدين شخصية؟ إعفاء 100% من الجمركة و TVA، تدفع فقط مصاريف الميناء.
+                </p>
+              </div>
+              <div className="mt-3 pt-2 border-t border-carvex-border/40">
+                <span className="text-base font-black text-emerald-400 font-mono block">
+                  {formatPriceCentimes(customsCalcMoudjahidineOwn.totalEstimatedCentimes)}
+                </span>
+              </div>
+            </button>
+
+            {/* Option 3: Market Moudjahidine License Included */}
+            <button
+              onClick={() => setCustomsMode('moudjahidine_market')}
+              className={`p-4 rounded-xl border-2 text-right transition-all flex flex-col justify-between ${
+                customsMode === 'moudjahidine_market'
+                  ? 'bg-carvex-cyan/10 border-carvex-cyan text-white shadow-lg shadow-carvex-cyan/10'
+                  : 'bg-carvex-dark/60 border-carvex-border hover:border-carvex-border/80 text-slate-300'
+              }`}
+            >
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-bold">شراء رخصة مجاهدين عبرنا</span>
+                </div>
+                <p className="text-[11px] text-carvex-muted leading-relaxed">
+                  نوفر لك رخصة معتمدة وموثقة رسمياً من السوق (~65 مليون) مع التخليص الكامل.
+                </p>
+              </div>
+              <div className="mt-3 pt-2 border-t border-carvex-border/40">
+                <span className="text-base font-black text-white font-mono block">
+                  {formatPriceCentimes(customsCalcMoudjahidineMarket.totalEstimatedCentimes)}
+                </span>
+              </div>
+            </button>
+
+            {/* Option 4: Port Only FOB */}
+            <button
+              onClick={() => setCustomsMode('fob_port')}
+              className={`p-4 rounded-xl border-2 text-right transition-all flex flex-col justify-between ${
+                customsMode === 'fob_port'
+                  ? 'bg-blue-500/10 border-blue-400 text-white shadow-lg shadow-blue-500/10'
+                  : 'bg-carvex-dark/60 border-carvex-border hover:border-carvex-border/80 text-slate-300'
+              }`}
+            >
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs font-bold text-blue-400">واصل للميناء فقط (FOB)</span>
+                </div>
+                <p className="text-[11px] text-carvex-muted leading-relaxed">
+                  شراء وشحن وتأمين حتى ميناء جن جن أو العاصمة دون جمركة (تتكفل بالجمركة بنفسك).
+                </p>
+              </div>
+              <div className="mt-3 pt-2 border-t border-carvex-border/40">
+                <span className="text-base font-black text-blue-400 font-mono block">
+                  {formatPriceCentimes(fobPrice)}
+                </span>
+              </div>
+            </button>
           </div>
         </div>
 
@@ -238,7 +427,7 @@ export default function VehicleDetailClient({
                   تواصل مباشر مع مدير الصالة
                 </h3>
                 <p className="text-xs text-carvex-muted mt-1 leading-relaxed">
-                  اختر الصالة الأقرب إليك (العاصمة، جيجل، أو ورقلة) للتفاوض، الاستفسار، أو تحديد موعد المعاينة.
+                  اختر الصالة الأقرب إليك (العاصمة، جيجل، أو ورقلة) للتفاوض، الاستفسار، أو تأكيد طلب الشراء وفق الصيغة الجمركية المختارة.
                 </p>
               </div>
 
@@ -252,19 +441,19 @@ export default function VehicleDetailClient({
                 </button>
 
                 <Link
-                  href={`/calculator?car=${vehicle.id}&price=${vehicle.price_fob_dzd_centimes || 270}`}
-                  className="w-full py-3 px-4 rounded-xl bg-carvex-surface hover:bg-carvex-hover text-white text-xs font-bold border border-carvex-border flex items-center justify-center gap-2 transition-colors"
+                  href={`/documents?carTitle=${encodeURIComponent(vehicle.title)}&price=${activePriceCentimes}&brand=${encodeURIComponent(vehicle.brand)}&branch=${encodeURIComponent(vehicle.expand?.branch?.name_ar || 'الجزائر العاصمة')}`}
+                  className="w-full py-3 px-4 rounded-xl bg-carvex-surface hover:bg-carvex-hover text-slate-200 text-xs font-bold border border-carvex-border flex items-center justify-center gap-2 transition-colors"
                 >
-                  <Calculator className="w-4 h-4 text-carvex-cyan" />
-                  <span>حاسبة الجمارك التقديرية لهذه السيارة</span>
+                  <Printer className="w-4 h-4 text-carvex-cyan" />
+                  <span>توليد البطاقة التقنية / وصل العربون</span>
                 </Link>
 
                 <Link
-                  href={`/documents?carTitle=${encodeURIComponent(vehicle.title)}&price=${vehicle.price_total_dzd_centimes}&brand=${encodeURIComponent(vehicle.brand)}&branch=${encodeURIComponent(vehicle.expand?.branch?.name_ar || 'الجزائر العاصمة')}`}
-                  className="w-full py-3 px-4 rounded-xl bg-carvex-surface hover:bg-carvex-hover text-slate-300 text-xs font-medium border border-carvex-border flex items-center justify-center gap-2 transition-colors"
+                  href="/calculator"
+                  className="w-full py-2.5 px-4 rounded-xl bg-transparent hover:bg-carvex-surface text-carvex-muted hover:text-white text-xs font-medium border border-carvex-border/50 flex items-center justify-center gap-1.5 transition-colors"
                 >
-                  <Printer className="w-4 h-4 text-carvex-muted" />
-                  <span>توليد البطاقة التقنية / وصل العربون</span>
+                  <Calculator className="w-3.5 h-3.5 text-carvex-muted" />
+                  <span>فتح الحاسبة الجمركية العامة</span>
                 </Link>
               </div>
 
@@ -275,7 +464,7 @@ export default function VehicleDetailClient({
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                  <span>تتبع حاوية الشحن البحري عبر رمز PIN الخاص بك</span>
+                  <span>تتبع حاوية الشحن البحري عبر رمز PIN الخاص بك بالموقع</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
@@ -317,19 +506,19 @@ export default function VehicleDetailClient({
           </div>
         </div>
 
-        {/* Financial Tranches & Payment Breakdown (User explicit request) */}
+        {/* Financial Tranches & Payment Breakdown (Dynamically updated with the chosen regime) */}
         <div className="rounded-2xl bg-carvex-card border border-carvex-border p-6 sm:p-8 space-y-6">
           <div className="border-b border-carvex-border pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <span className="text-xs font-bold text-carvex-cyan uppercase tracking-wider">
-                الشفافية المالية التامة
+                الشفافية المالية التامة — محسوبة تلقائياً وفق النظام المختار
               </span>
               <h2 className="text-2xl font-black text-white mt-1">
                 جدول الدفعات المالية الثلاث (Modalités de Paiement)
               </h2>
             </div>
-            <div className="text-xs text-carvex-muted">
-              حماية لحقوق المشتري وفق عقود الاستيراد الرسمية
+            <div className="text-xs text-slate-300 bg-carvex-surface px-3 py-1.5 rounded-lg border border-carvex-border font-mono">
+              الإجمالي الصافي: {formatPriceCentimes(activePriceCentimes)}
             </div>
           </div>
 
@@ -355,10 +544,10 @@ export default function VehicleDetailClient({
               <div className="pt-3 border-t border-carvex-border/60">
                 <span className="text-[10px] text-carvex-muted block">المبلغ المقدر (~28%):</span>
                 <span className="text-xl font-black text-carvex-cyan font-mono">
-                  {formatPriceCentimes(tranche1)}
+                  {formatPriceCentimes(activeTranche1)}
                 </span>
                 <span className="text-xs text-slate-400 font-mono block">
-                  ({formatDinar(tranche1)} دج)
+                  ({formatDinar(activeTranche1)} دج)
                 </span>
               </div>
             </div>
@@ -384,10 +573,10 @@ export default function VehicleDetailClient({
               <div className="pt-3 border-t border-carvex-border/60">
                 <span className="text-[10px] text-carvex-muted block">المبلغ المقدر (~42%):</span>
                 <span className="text-xl font-black text-carvex-cyan font-mono">
-                  {formatPriceCentimes(tranche2)}
+                  {formatPriceCentimes(activeTranche2)}
                 </span>
                 <span className="text-xs text-slate-400 font-mono block">
-                  ({formatDinar(tranche2)} دج)
+                  ({formatDinar(activeTranche2)} دج)
                 </span>
               </div>
             </div>
@@ -413,10 +602,10 @@ export default function VehicleDetailClient({
               <div className="pt-3 border-t border-carvex-border/60">
                 <span className="text-[10px] text-carvex-muted block">المبلغ المقدر (~30%):</span>
                 <span className="text-xl font-black text-carvex-cyan font-mono">
-                  {formatPriceCentimes(tranche3)}
+                  {formatPriceCentimes(activeTranche3)}
                 </span>
                 <span className="text-xs text-slate-400 font-mono block">
-                  ({formatDinar(tranche3)} دج)
+                  ({formatDinar(activeTranche3)} دج)
                 </span>
               </div>
             </div>
@@ -576,7 +765,7 @@ export default function VehicleDetailClient({
               جاهز لحجز {vehicle.title}؟
             </h3>
             <p className="text-xs sm:text-sm text-carvex-muted max-w-xl">
-              تواصل مع فريق مبيعات CARVEX الآن للاطلاع على العقود المتوفرة أو حجز مكان في الحاوية القادمة.
+              تواصل مع فريق مبيعات CARVEX الآن للاطلاع على العقود المتوفرة أو حجز مكان في الحاوية القادمة بالصيغة التي اخترتها ({badgeHighlight}).
             </p>
           </div>
           <button
@@ -589,11 +778,11 @@ export default function VehicleDetailClient({
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Modal with chosen regime details */}
       <BranchModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
-        carTitle={vehicle.title}
+        carTitle={`${vehicle.title} (صيغة: ${badgeHighlight} بسعر ${formatPriceCentimes(activePriceCentimes)})`}
       />
     </>
   );
