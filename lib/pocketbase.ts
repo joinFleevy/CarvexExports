@@ -44,8 +44,20 @@ export interface Vehicle {
   images: string[];
   spec_sheet_pdf?: string;
   is_featured: boolean;
+  is_deleted?: boolean;
+  deleted_at?: string; // ISO Date string when moved to trash
   created: string;
   updated: string;
+}
+
+export interface TelegramUser {
+  id: string;
+  user_id: string;
+  name: string;
+  role: 'admin' | 'manager_alger' | 'manager_jijel' | 'manager_ouergla' | 'sales_agent';
+  branch: 'all' | 'alger' | 'jijel' | 'ouergla';
+  is_active: boolean;
+  receive_alerts: boolean;
 }
 
 export interface Shipment {

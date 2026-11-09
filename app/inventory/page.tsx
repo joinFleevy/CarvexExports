@@ -185,6 +185,7 @@ export default function InventoryPage() {
     async function loadCars() {
       try {
         const res = await pb.collection('vehicles').getFullList<Vehicle>({
+          filter: 'is_deleted != true',
           expand: 'branch',
           sort: '-year',
         });

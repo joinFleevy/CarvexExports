@@ -158,7 +158,7 @@ const FALLBACK_VEHICLES: Vehicle[] = [
 async function getFeaturedVehicles(): Promise<Vehicle[]> {
   try {
     const res = await pb.collection('vehicles').getList<Vehicle>(1, 6, {
-      filter: 'is_featured = true',
+      filter: 'is_featured = true && is_deleted != true',
       expand: 'branch',
       sort: '-year',
       requestKey: null,
