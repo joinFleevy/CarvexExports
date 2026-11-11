@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { Heart, Star } from 'lucide-react';
+import { Heart, MapPin, Ship } from 'lucide-react';
 import { VehicleItem } from '@/lib/vehiclesData';
 
 interface VehicleCardProps {
@@ -10,7 +10,8 @@ interface VehicleCardProps {
   isFavorite: boolean;
   onToggleFavorite: (id: string, e: React.MouseEvent) => void;
   onSelectVehicle: (vehicle: VehicleItem) => void;
-  currency: 'USD' | 'DZD';
+  onSelectShowroomFilter?: (showroom: 'Alger' | 'Jijel' | 'Ouargla', e: React.MouseEvent) => void;
+  currency?: 'USD' | 'DZD';
 }
 
 export default function VehicleCard({
@@ -18,60 +19,57 @@ export default function VehicleCard({
   isFavorite,
   onToggleFavorite,
   onSelectVehicle,
-  currency,
+  onSelectShowroomFilter,
+  currency = 'DZD',
 }: VehicleCardProps) {
-  // Format price based on currency
-  const formattedPrice =
-    currency === 'USD'
-      ? `$${vehicle.pricePerHour.toFixed(2)}`
-      : `${vehicle.priceDzdCentimes || Math.round(vehicle.pricePerHour * 10)} M`;
-
-  const unitLabel = currency === 'USD' ? '/ hour' : '/ دج';
+  const formattedPrice = `${vehicle.priceDzdCentimes} M`;
+  const priceSubtitle = 'سنتيم شاملة كل الرسوم';
 
   return (
     <div
       onClick={() => onSelectVehicle(vehicle)}
-      className="bg-white border border-neutral-100 hover:border-neutral-200 rounded-xl p-4 flex flex-col justify-between transition-all duration-200 hover:shadow-md cursor-pointer group relative"
+      className="bg-white border border-neutral-100 hover:border-neutral-300 rounded-2xl p-4 sm:p-5 flex flex-col justify-between transition-all duration-200 hover:shadow-lg cursor-pointer group relative"
     >
-      {/* Top Meta Row */}
-      <div className="flex items-center justify-between text-xs font-sans">
-        {/* Left: Walking distance & time */}
-        <div className="flex items-center gap-1.5 text-neutral-700 font-medium">
-          {/* Walking icon (SVG) */}
-          <svg
-            className="w-3.5 h-3.5 text-neutral-500"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+      {/* Top Functional Meta Row */}
+      <div className="flex items-center justify-between text-xs font-sans gap-2">
+        {/* Availability Status Badge & Showroom Pill */}
+        <div className="flex items-center gap-1.5 flex-wrap">
+          {vehicle.status === 'in_stock' ? (
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60 shadow-2xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span>متوفرة بالمعرض</span>
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/60 shadow-2xs">
+              <Ship className="w-3 h-3 text-blue-500" />
+              <span>استيراد بالطلب</span>
+            </span>
+          )}
+
+          {/* Showroom Pill (clickable to filter by branch) */}
+          <button
+            type="button"
+            onClick={(e) => {
+              if (onSelectShowroomFilter) {
+                e.stopPropagation();
+                onSelectShowroomFilter(vehicle.showroom, e);
+              }
+            }}
+            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold bg-neutral-100 hover:bg-neutral-200 text-neutral-700 transition-colors"
+            title={`Filtrer par showroom: ${vehicle.showroom}`}
           >
-            <circle cx="12" cy="5" r="2" />
-            <path d="m9 20 3-6 3 6" />
-            <path d="m6 8 6 2 6-2" />
-            <path d="M12 10v4" />
-          </svg>
-          <span className="text-[11px] text-neutral-800">
-            {vehicle.distanceMeters}m <span className="text-neutral-400">({vehicle.walkTimeMinutes} min)</span>
-          </span>
+            <MapPin className="w-2.5 h-2.5 text-neutral-500" />
+            <span>{vehicle.showroom}</span>
+          </button>
         </div>
 
-        {/* Middle: Star Rating */}
-        <div className="flex items-center gap-1 text-[11px] font-semibold text-neutral-800">
-          <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-          <span>
-            {vehicle.rating.toFixed(1)}{' '}
-            <span className="text-neutral-400 font-normal">({vehicle.reviewsCount})</span>
-          </span>
-        </div>
-
-        {/* Right: Favorite Heart Toggle */}
+        {/* Favorite Heart Button */}
         <button
           type="button"
           onClick={(e) => onToggleFavorite(vehicle.id, e)}
-          className="p-1 rounded-full hover:bg-neutral-50 transition-colors"
-          title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+          className="p-1.5 rounded-full hover:bg-neutral-100 transition-colors shrink-0"
+          title={isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris'}
+          aria-label="Toggle favorite"
         >
           <Heart
             className={`w-4 h-4 transition-colors ${
@@ -83,38 +81,54 @@ export default function VehicleCard({
         </button>
       </div>
 
-      {/* Center: Car Photo with contact shadow */}
-      <div className="my-4 h-28 flex items-center justify-center relative overflow-hidden group-hover:scale-[1.03] transition-transform duration-200">
-        <div className="relative w-full h-full max-h-24">
+      {/* Center: High-Resolution Car Studio Photo */}
+      <div className="my-3 sm:my-4 h-36 sm:h-40 flex items-center justify-center relative overflow-hidden group-hover:scale-[1.02] transition-transform duration-300">
+        <div className="relative w-full h-full">
           <Image
             src={vehicle.image}
             alt={vehicle.title}
             fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-contain filter drop-shadow-sm"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-contain"
+            priority={false}
           />
         </div>
       </div>
 
       {/* Bottom Meta Row */}
-      <div className="flex items-end justify-between pt-1 border-t border-neutral-50 font-sans">
-        {/* Car Name & Subtitle */}
-        <div className="max-w-[70%]">
-          <h4 className="text-sm font-bold text-neutral-900 leading-tight group-hover:text-black">
-            {vehicle.title}
-          </h4>
-          <p className="text-[11px] text-neutral-400 truncate mt-0.5 leading-tight">
+      <div className="pt-3 border-t border-neutral-100 flex items-end justify-between gap-3 font-sans">
+        {/* Car Name & Details */}
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2">
+            <h4 className="text-sm sm:text-base font-bold text-neutral-900 group-hover:text-black truncate">
+              {vehicle.title}
+            </h4>
+          </div>
+          <p className="text-[11px] text-neutral-500 truncate mt-0.5">
             {vehicle.subtitle}
           </p>
+
+          {/* Functional Tag Pills */}
+          <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-neutral-100 text-neutral-700">
+              {vehicle.year}
+            </span>
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-neutral-100 text-neutral-700">
+              {vehicle.transmission}
+            </span>
+            <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200/50">
+              {vehicle.customsRegime}
+            </span>
+          </div>
         </div>
 
-        {/* Price & Unit */}
-        <div className="text-right">
-          <span className="text-sm font-bold text-neutral-900 block leading-none">
+        {/* Real Price in Million Centimes */}
+        <div className="text-right shrink-0">
+          <span className="text-base sm:text-lg font-black text-neutral-950 block leading-tight">
             {formattedPrice}
           </span>
-          <span className="text-[10px] text-neutral-400 block font-normal mt-0.5">
-            {unitLabel}
+          <span className="text-[10px] text-neutral-400 block font-medium mt-0.5">
+            {priceSubtitle}
           </span>
         </div>
       </div>

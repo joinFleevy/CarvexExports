@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { X, Navigation, MapPin, Star } from 'lucide-react';
+import { X, MapPin } from 'lucide-react';
 import { VehicleItem } from '@/lib/vehiclesData';
 
 interface VehiclesMapModalProps {
@@ -22,8 +22,8 @@ export default function VehiclesMapModal({
         <div className="p-4 border-b border-neutral-100 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4 text-neutral-900" />
-            <h3 className="text-sm font-bold text-neutral-900">Vehicles Live Map View</h3>
-            <span className="text-xs text-neutral-400">({vehicles.length} locations)</span>
+            <h3 className="text-sm font-bold text-neutral-900">Carte des Showrooms et Véhicules</h3>
+            <span className="text-xs text-neutral-400">({vehicles.length} véhicules)</span>
           </div>
           <button
             type="button"
@@ -36,10 +36,8 @@ export default function VehiclesMapModal({
 
         {/* Mock Interactive Map Canvas */}
         <div className="flex-1 bg-neutral-100 relative overflow-hidden flex items-center justify-center">
-          {/* Stylized Vector Grid & Roads */}
           <div className="absolute inset-0 opacity-40 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:16px_16px]" />
           
-          {/* Decorative roads */}
           <svg className="absolute inset-0 w-full h-full stroke-neutral-300 stroke-[3] fill-none">
             <path d="M 0 150 Q 300 200 600 120 T 1200 250" />
             <path d="M 200 0 Q 350 300 450 600" />
@@ -49,7 +47,7 @@ export default function VehiclesMapModal({
 
           {/* Vehicle Markers */}
           <div className="absolute inset-0 p-8 grid grid-cols-3 gap-8 pointer-events-none">
-            {vehicles.slice(0, 9).map((car, idx) => (
+            {vehicles.slice(0, 9).map((car) => (
               <div
                 key={car.id}
                 className="pointer-events-auto cursor-pointer group flex flex-col items-center justify-center"
@@ -59,7 +57,7 @@ export default function VehiclesMapModal({
                 }}
               >
                 <div className="bg-white border-2 border-neutral-950 px-2.5 py-1 rounded-full shadow-lg flex items-center gap-1.5 transform group-hover:scale-110 transition-transform">
-                  <span className="text-[10px] font-bold text-neutral-950">${car.pricePerHour}</span>
+                  <span className="text-[10px] font-bold text-neutral-950">{car.priceDzdCentimes} M</span>
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 </div>
                 <div className="w-2 h-2 bg-neutral-950 rotate-45 -mt-1 shadow-sm" />

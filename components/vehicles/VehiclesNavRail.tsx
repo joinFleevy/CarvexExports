@@ -5,75 +5,95 @@ import Link from 'next/link';
 import {
   Home,
   Car,
-  FileText,
   Heart,
   Clock,
-  Bell,
-  MessageSquare,
-  CreditCard,
   LifeBuoy,
-  LogOut,
+  X,
+  PhoneCall,
+  Sparkles,
 } from 'lucide-react';
 
 interface VehiclesNavRailProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
   favoritesCount: number;
-  unreadNotifications?: number;
+  onCloseMobile?: () => void;
+  isMobileDrawer?: boolean;
 }
 
 export default function VehiclesNavRail({
   activeTab,
   onTabChange,
   favoritesCount,
-  unreadNotifications = 3,
+  onCloseMobile,
+  isMobileDrawer = false,
 }: VehiclesNavRailProps) {
   const mainNav = [
     { id: 'home', label: 'Home', icon: Home, href: '/' },
     { id: 'vehicles', label: 'Vehicles', icon: Car, href: '/vehicles' },
-    { id: 'notes', label: 'Notes', icon: FileText },
     { id: 'favourites', label: 'Favourites', icon: Heart, badge: favoritesCount },
     { id: 'recents', label: 'Recents', icon: Clock },
   ];
 
-  const secondaryNav = [
-    { id: 'notifications', label: 'Notifications', icon: Bell, badge: unreadNotifications },
-    { id: 'chat', label: 'Chat', icon: MessageSquare },
-  ];
-
-  const bottomNav = [
-    { id: 'license', label: 'License', icon: CreditCard, href: '/track' },
-    { id: 'support', label: 'Support', icon: LifeBuoy },
-    { id: 'logout', label: 'Logout', icon: LogOut },
-  ];
+  const handleNavClick = (id: string) => {
+    onTabChange(id);
+    if (onCloseMobile) {
+      onCloseMobile();
+    }
+  };
 
   return (
-    <aside className="w-44 shrink-0 bg-white border-r border-neutral-100 flex flex-col justify-between py-6 px-3 select-none">
+    <aside
+      className={`shrink-0 bg-white border-r border-neutral-100 flex flex-col justify-between py-6 px-3 select-none ${
+        isMobileDrawer ? 'w-64 h-full' : 'w-48 hidden md:flex'
+      }`}
+    >
       <div className="space-y-6">
-        {/* Top Navigation Items */}
-        <nav className="space-y-1">
+        {/* Mobile Header if inside Drawer */}
+        {isMobileDrawer && (
+          <div className="flex items-center justify-between pb-3 border-b border-neutral-100 px-2">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded bg-neutral-900 flex items-center justify-center text-white text-[10px] font-black">
+                AU
+              </div>
+              <span className="text-xs font-bold text-neutral-900 tracking-tight">Navigation</span>
+            </div>
+            {onCloseMobile && (
+              <button
+                type="button"
+                onClick={onCloseMobile}
+                className="p-1 rounded-md text-neutral-400 hover:text-neutral-700"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* Primary Navigation Items */}
+        <nav className="space-y-1.5">
           {mainNav.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
 
-            const content = (
+            const buttonContent = (
               <button
                 type="button"
-                onClick={() => onTabChange(item.id)}
-                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                onClick={() => handleNavClick(item.id)}
+                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-all ${
                   isActive
-                    ? 'bg-neutral-100 text-neutral-900 font-semibold'
-                    : 'text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50'
+                    ? 'bg-neutral-900 text-white font-semibold shadow-2xs'
+                    : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100/70'
                 }`}
               >
-                <div className="flex items-center gap-2.5">
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-neutral-900' : 'text-neutral-400'}`} />
+                <div className="flex items-center gap-3">
+                  <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-neutral-400'}`} />
                   <span>{item.label}</span>
                 </div>
                 {item.badge !== undefined && item.badge > 0 && (
                   <span
-                    className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                      isActive ? 'bg-neutral-900 text-white' : 'bg-neutral-100 text-neutral-600'
+                    className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
+                      isActive ? 'bg-white text-neutral-900' : 'bg-neutral-100 text-neutral-700'
                     }`}
                   >
                     {item.badge}
@@ -84,70 +104,42 @@ export default function VehiclesNavRail({
 
             return item.href ? (
               <Link key={item.id} href={item.href} className="block">
-                {content}
+                {buttonContent}
               </Link>
             ) : (
-              <div key={item.id}>{content}</div>
-            );
-          })}
-        </nav>
-
-        {/* Divider */}
-        <div className="border-t border-neutral-100 mx-2" />
-
-        {/* Secondary Nav */}
-        <nav className="space-y-1">
-          {secondaryNav.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeTab === item.id;
-
-            return (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => onTabChange(item.id)}
-                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
-                  isActive
-                    ? 'bg-neutral-100 text-neutral-900 font-semibold'
-                    : 'text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50'
-                }`}
-              >
-                <div className="flex items-center gap-2.5">
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-neutral-900' : 'text-neutral-400'}`} />
-                  <span>{item.label}</span>
-                </div>
-                {item.badge && item.badge > 0 && (
-                  <span className="w-2 h-2 rounded-full bg-rose-500" />
-                )}
-              </button>
+              <div key={item.id}>{buttonContent}</div>
             );
           })}
         </nav>
       </div>
 
-      {/* Bottom Pinned Items */}
-      <div className="pt-4 border-t border-neutral-100 space-y-1">
-        {bottomNav.map((item) => {
-          const Icon = item.icon;
-          const content = (
-            <button
-              type="button"
-              onClick={() => onTabChange(item.id)}
-              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50 transition-colors"
-            >
-              <Icon className="w-4 h-4 text-neutral-400" />
-              <span>{item.label}</span>
-            </button>
-          );
+      {/* Bottom Pinned: Support & Dealership Info */}
+      <div className="pt-4 border-t border-neutral-100 space-y-2">
+        {/* Support Button */}
+        <a
+          href="https://wa.me/213770727007?text=Bonjour%2C%20j%27ai%20besoin%20d%27assistance%20Carvex"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 transition-colors"
+        >
+          <LifeBuoy className="w-4 h-4 text-neutral-400" />
+          <span>Support & Aide</span>
+        </a>
 
-          return item.href ? (
-            <Link key={item.id} href={item.href} className="block">
-              {content}
-            </Link>
-          ) : (
-            <div key={item.id}>{content}</div>
-          );
-        })}
+        {/* Showroom Direct Call */}
+        <a
+          href="tel:+213770727007"
+          className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-emerald-700 bg-emerald-50/70 hover:bg-emerald-100 transition-colors"
+        >
+          <PhoneCall className="w-4 h-4 text-emerald-600" />
+          <span>Service Client</span>
+        </a>
+
+        {/* Small Tagline */}
+        <div className="px-3 pt-2 text-[10px] text-neutral-400">
+          <span>CARVEX EXPORT DZ</span>
+          <span className="block text-[9px] text-neutral-300">Alger • Jijel • Ouargla</span>
+        </div>
       </div>
     </aside>
   );
