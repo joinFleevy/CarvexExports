@@ -12,6 +12,11 @@ export default function Navbar() {
   const [branchModalOpen, setBranchModalOpen] = useState(false);
   const pathname = usePathname();
 
+  // If on the full-screen vehicle catalogue app page, do not render the public navbar
+  if (pathname === '/vehicles' || pathname === '/inventory' || pathname === '/products') {
+    return null;
+  }
+
   const navLinks = [
     { href: '/', label: 'الرئيسية' },
     { href: '/inventory', label: 'المخزون والسيارات' },

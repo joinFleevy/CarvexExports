@@ -1,8 +1,18 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  // If on the full-screen vehicle catalogue app page, do not render the public footer
+  if (pathname === '/vehicles' || pathname === '/inventory' || pathname === '/products') {
+    return null;
+  }
+
   return (
     <footer className="border-t border-neutral-800 bg-neutral-950 text-neutral-400 text-right">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
