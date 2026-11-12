@@ -1,0 +1,334 @@
+@font-face {
+  font-family: 'PP Neue Corp Tight';
+  src: url('https://cdn.prod.website-files.com/673af51dea86ab95d124c3ee/673b0f5784f7060c0ac05534_PPNeueCorp-TightUltrabold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Neue Montreal';
+  src: url('https://cdn.prod.website-files.com/6819ed8312518f61b84824df/6819ed8312518f61b84825ba_PPNeueMontreal-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+.osmo-cursor-scope {
+  cursor: url("https://cdn.prod.website-files.com/6708f85ff3d3cba6aff436fb/671251b239d7aeb290a31ac5_cursor-default%402x.svg") 2 0, auto;
+}
+
+.osmo-cursor-scope a,
+.osmo-cursor-scope button {
+  cursor: url("https://cdn.prod.website-files.com/6708f85ff3d3cba6aff436fb/671251b212e6b71494aa67ff_cursor-pointer%402x.svg") 12 0, pointer;
+}
+
+.osmo-menu-root {
+  --osmo-primary: #ff4c24;
+  --osmo-dark: #131313;
+  --osmo-neutral-100: #ffffff;
+  --osmo-neutral-200: #ffffff;
+  --osmo-neutral-300: #efeeec;
+  --osmo-neutral-800: #131313;
+  --osmo-cubic-default: cubic-bezier(0.65, 0.05, 0, 1);
+  --menu-padding: 2rem;
+}
+
+/* Toggle Button (Top Left) */
+.osmo-menu-button {
+  position: relative;
+  z-index: 120;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.625rem;
+  background-color: transparent;
+  border: none;
+  padding: 0.5rem 0.625rem;
+  margin-left: -0.625rem;
+  color: var(--osmo-dark);
+  font-family: 'PP Neue Montreal', var(--font-outfit), Arial, sans-serif;
+  font-weight: 500;
+  line-height: 1;
+  user-select: none;
+  outline: none;
+}
+
+.osmo-menu-button-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 1.125rem;
+  overflow: hidden;
+}
+
+.osmo-menu-button-text p {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.125rem;
+  height: 1.125rem;
+  font-weight: 500;
+  color: var(--osmo-dark);
+}
+
+.osmo-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s var(--osmo-cubic-default);
+}
+
+.osmo-menu-button-icon {
+  width: 0.95rem;
+  height: 0.95rem;
+  display: block;
+}
+
+/* Fullscreen Nav Container & Wipe Drawer (Left Side) */
+.osmo-nav {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  display: none;
+}
+
+.osmo-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(19, 19, 19, 0.42);
+  backdrop-filter: blur(2px);
+}
+
+.osmo-menu {
+  position: relative;
+  z-index: 1;
+  width: min(33rem, 100vw);
+  height: 100%;
+  margin-right: auto;
+  margin-left: 0;
+  padding-top: 5.5rem;
+  padding-bottom: var(--menu-padding);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.osmo-menu-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-top-right-radius: 1.25rem;
+  border-bottom-right-radius: 1.25rem;
+}
+
+.osmo-bg-panel {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: var(--osmo-neutral-300);
+  border-top-right-radius: 1.25rem;
+  border-bottom-right-radius: 1.25rem;
+}
+
+.osmo-bg-panel.first {
+  background-color: var(--osmo-primary);
+}
+
+.osmo-bg-panel.second {
+  background-color: var(--osmo-neutral-100);
+}
+
+.osmo-menu-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2.5rem;
+}
+
+.osmo-menu-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.osmo-menu-list-item {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.osmo-menu-link {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.6rem var(--menu-padding);
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  text-align: left;
+  color: var(--osmo-dark);
+}
+
+.osmo-menu-link-heading {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  text-transform: uppercase;
+  font-family: 'PP Neue Corp Tight', var(--font-outfit), Arial, sans-serif;
+  font-size: clamp(3rem, 7.2vh, 5rem);
+  font-weight: 700;
+  line-height: 0.75;
+  letter-spacing: -0.01em;
+  color: var(--osmo-dark);
+  text-shadow: 0px 1em 0px var(--osmo-neutral-200);
+  transition: transform 0.55s var(--osmo-cubic-default);
+}
+
+.osmo-eyebrow {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: var(--osmo-primary);
+  text-transform: uppercase;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1;
+  padding-top: 0.15rem;
+  transition: color 0.3s ease;
+}
+
+.osmo-menu-link-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: var(--osmo-neutral-800);
+  transform-origin: 50% 100%;
+  transform-style: preserve-3d;
+  transform: scale3d(1, 0, 1);
+  transition: transform 0.55s var(--osmo-cubic-default);
+}
+
+.osmo-menu-details {
+  padding-left: var(--menu-padding);
+  padding-right: var(--menu-padding);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 1rem;
+  width: 100%;
+}
+
+.osmo-p-small {
+  margin: 0;
+  font-size: 0.875rem;
+  color: rgba(19, 19, 19, 0.6);
+  font-family: 'PP Neue Montreal', Arial, sans-serif;
+  font-weight: 500;
+}
+
+.osmo-socials-row {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 1.5rem;
+}
+
+.osmo-p-large {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-family: 'PP Neue Montreal', Arial, sans-serif;
+  font-weight: 500;
+  color: var(--osmo-dark);
+}
+
+.osmo-text-link {
+  position: relative;
+  text-decoration: none;
+  color: var(--osmo-dark);
+  padding-bottom: 2px;
+}
+
+@media (hover: hover) {
+  .osmo-menu-button:hover .osmo-icon-wrap {
+    transform: rotate(90deg);
+  }
+
+  .osmo-menu-link:hover .osmo-menu-link-heading {
+    transform: translate(0px, -1em);
+    transition-delay: 0.1s;
+  }
+
+  .osmo-menu-link:hover .osmo-menu-link-bg {
+    transform: scale(1, 1);
+  }
+
+  .osmo-text-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--osmo-primary);
+    transform-origin: right center;
+    transform: scale(0, 1);
+    transition: transform 0.4s var(--osmo-cubic-default);
+  }
+
+  .osmo-text-link:hover::after {
+    transform-origin: left center;
+    transform: scale(1, 1);
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .osmo-menu-root {
+    --menu-padding: 1.25rem;
+  }
+
+  .osmo-menu {
+    width: 100%;
+    padding-top: 5.5rem;
+  }
+
+  .osmo-menu-bg,
+  .osmo-bg-panel {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .osmo-menu-link-heading {
+    font-size: clamp(2.75rem, 11vw, 3.75rem);
+  }
+
+  .osmo-socials-row {
+    gap: 1rem 1.25rem;
+  }
+
+  .osmo-p-large.osmo-text-link {
+    font-size: 1rem;
+  }
+}

@@ -1,40 +1,31 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { Clock, Navigation, ChevronDown, Check, Menu, SlidersHorizontal, Phone, MessageCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { Navigation, ChevronDown, Check, SlidersHorizontal, Phone, MessageCircle } from 'lucide-react';
+import OsmoMenu, { VehiclesNavTab } from './OsmoMenu';
 
 interface VehiclesHeaderProps {
   currentShowroom: 'all' | 'Alger' | 'Jijel' | 'Ouargla';
   onShowroomChange: (showroom: 'all' | 'Alger' | 'Jijel' | 'Ouargla') => void;
   activeFiltersCount?: number;
-  onOpenMobileNav?: () => void;
   onOpenMobileFilters?: () => void;
+  activeTab: VehiclesNavTab;
+  onTabChange: (tab: VehiclesNavTab) => void;
+  favoritesCount: number;
+  recentsCount?: number;
 }
 
 export default function VehiclesHeader({
   currentShowroom,
   onShowroomChange,
   activeFiltersCount = 0,
-  onOpenMobileNav,
   onOpenMobileFilters,
+  activeTab,
+  onTabChange,
+  favoritesCount,
+  recentsCount = 0,
 }: VehiclesHeaderProps) {
-  const [timeStr, setTimeStr] = useState('01:48 PM');
   const [locationDropdownOpen, setLocationDropdownOpen] = useState(false);
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const hours = now.getHours();
-      const minutes = now.getMinutes().toString().padStart(2, '0');
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-      const formattedHours = (hours % 12 || 12).toString().padStart(2, '0');
-      setTimeStr(`${formattedHours}:${minutes} ${ampm} (Algérie UTC+1)`);
-    };
-    updateTime();
-    const interval = setInterval(updateTime, 30000);
-    return () => clearInterval(interval);
-  }, []);
 
   const showrooms: { id: 'all' | 'Alger' | 'Jijel' | 'Ouargla'; label: string; city: string }[] = [
     { id: 'all', label: 'Toutes les salles d\'exposition', city: 'Algérie (Alger, Jijel, Ouargla)' },
@@ -47,65 +38,31 @@ export default function VehiclesHeader({
     showrooms.find((s) => s.id === currentShowroom)?.city || 'Tous les showrooms (DZ)';
 
   return (
-    <header className="h-16 shrink-0 bg-white border-b border-neutral-100 px-4 sm:px-6 flex items-center justify-between select-none z-30 relative">
-      {/* Left: Brand Logo & Showroom Location */}
-      <div className="flex items-center gap-3 sm:gap-6">
-        {/* Mobile Nav Hamburger Menu */}
-        <button
-          type="button"
-          onClick={onOpenMobileNav}
-          className="md:hidden p-2 -ml-2 rounded-lg text-neutral-600 hover:bg-neutral-100 transition-colors"
-          aria-label="Open Navigation Menu"
-        >
-          <Menu className="w-5 h-5" />
-        </button>
-
-        {/* Brand Logo matching reference */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="w-7 h-7 rounded-md bg-neutral-900 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="w-4 h-4 text-white"
-            >
-              <path d="M12 2L2 7l10 5 10-5-10-5z" />
-              <path d="M2 17l10 5 10-5" />
-              <path d="M2 12l10 5 10-5" />
-            </svg>
-          </div>
-          <div className="leading-none">
-            <span className="text-xs font-black tracking-tight text-neutral-900 block font-sans">
-              AUTO
-            </span>
-            <span className="text-[10px] font-extrabold tracking-widest text-neutral-900 block font-sans">
-              ULTIMATE
-            </span>
-          </div>
-        </Link>
-
-        {/* Separator */}
-        <div className="hidden lg:block h-4 w-[1px] bg-neutral-200" />
-
-        {/* Time Indicator */}
-        <div className="hidden xl:flex items-center gap-1.5 text-xs text-neutral-500 font-medium font-sans">
-          <Clock className="w-3.5 h-3.5 text-neutral-400" />
-          <span>{timeStr}</span>
+    <header className="h-16 shrink-0 bg-white border-b border-neutral-100 px-3 sm:px-6 flex items-center justify-between gap-2 select-none relative">
+      {/* Left: Osmo Top-Left Wipe Menu & Showroom Location */}
+      <div className="flex items-center gap-2 sm:gap-5 min-w-0 flex-1">
+        <div className="shrink-0">
+          <OsmoMenu
+            activeTab={activeTab}
+            onTabChange={onTabChange}
+            favoritesCount={favoritesCount}
+            recentsCount={recentsCount}
+          />
         </div>
 
+        {/* Separator */}
+        <div className="hidden sm:block h-4 w-[1px] bg-neutral-200 shrink-0" />
+
         {/* Functional Showroom Location Selector */}
-        <div className="relative">
+        <div className="relative min-w-0">
           <button
             type="button"
             onClick={() => setLocationDropdownOpen(!locationDropdownOpen)}
-            className="flex items-center gap-1.5 text-xs text-neutral-700 font-medium hover:text-neutral-900 bg-neutral-50 hover:bg-neutral-100 border border-neutral-200/60 px-2.5 py-1.5 rounded-lg transition-colors"
+            className="flex items-center gap-1.5 text-xs text-neutral-700 font-medium hover:text-neutral-900 bg-neutral-50 hover:bg-neutral-100 border border-neutral-200/60 px-2 sm:px-2.5 py-1.5 rounded-lg transition-colors max-w-full"
             title="Changer de salle d'exposition"
           >
-            <Navigation className="w-3.5 h-3.5 text-neutral-500 rotate-45" />
-            <span className="max-w-[140px] sm:max-w-[220px] truncate">{currentLabel}</span>
+            <Navigation className="w-3.5 h-3.5 text-neutral-500 rotate-45 shrink-0" />
+            <span className="max-w-[115px] sm:max-w-[220px] truncate">{currentLabel}</span>
             <ChevronDown className="w-3 h-3 text-neutral-400 shrink-0" />
           </button>
 
@@ -139,7 +96,7 @@ export default function VehiclesHeader({
       </div>
 
       {/* Right: Hotline contact & Mobile filter toggle */}
-      <div className="flex items-center gap-2 sm:gap-3">
+      <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
         {/* Dealership Hotline / WhatsApp */}
         <a
           href="https://wa.me/213770727007?text=Bonjour%20Carvex%2C%20je%20souhaite%20des%20informations%20sur%20vos%20v%C3%A9hicules"
