@@ -159,7 +159,7 @@
   align-items: flex-start;
   gap: 0.75rem;
   width: 100%;
-  padding: 0.6rem var(--menu-padding);
+  padding: 0.72rem var(--menu-padding);
   text-decoration: none;
   background: transparent;
   border: none;
@@ -174,12 +174,12 @@
   margin: 0;
   text-transform: uppercase;
   font-family: var(--font-outfit), system-ui, sans-serif;
-  font-size: clamp(3rem, 7.2vh, 5rem);
+  font-size: clamp(2.85rem, 6.8vh, 4.75rem);
   font-weight: 800;
-  line-height: 0.78;
+  line-height: 0.88;
   letter-spacing: -0.025em;
   color: var(--osmo-dark);
-  text-shadow: 0px 1em 0px var(--osmo-neutral-200);
+  text-shadow: 0px 1.25em 0px var(--osmo-neutral-200);
   transition: transform 0.55s var(--osmo-cubic-default);
 }
 
@@ -257,8 +257,8 @@
   }
 
   .osmo-menu-link:hover .osmo-menu-link-heading {
-    transform: translate(0px, -1em);
-    transition-delay: 0.1s;
+    transform: translate(0px, -1.25em);
+    transition-delay: 0.08s;
   }
 
   .osmo-menu-link:hover .osmo-menu-link-bg {
@@ -301,7 +301,7 @@
   }
 
   .osmo-menu-link-heading {
-    font-size: clamp(2.75rem, 11vw, 3.75rem);
+    font-size: clamp(2.2rem, 10.2vw, 3.5rem);
   }
 
   .osmo-socials-row {

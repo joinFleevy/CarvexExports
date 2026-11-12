@@ -9,7 +9,7 @@ import './OsmoMenu.css';
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(CustomEase);
   if (!CustomEase.get('main')) {
-    CustomEase.create('main', '0.65, 0.01, 0.05, 0.99');
+    CustomEase.create('main', '0.22, 1, 0.36, 1');
   }
 }
 
@@ -50,6 +50,18 @@ export default function OsmoMenu({
 
     navWrap.setAttribute('data-nav', 'open');
 
+    const allTargets = [
+      navWrap,
+      menu,
+      overlay,
+      ...Array.from(bgPanels),
+      ...Array.from(menuLinks),
+      ...Array.from(fadeTargets),
+      ...Array.from(menuButtonTexts),
+      ...(menuButtonIcon ? [menuButtonIcon] : []),
+    ];
+    gsap.killTweensOf(allTargets);
+
     if (!tlRef.current) {
       tlRef.current = gsap.timeline();
     }
@@ -61,37 +73,53 @@ export default function OsmoMenu({
       .fromTo(
         menuButtonTexts,
         { yPercent: 0 },
-        { yPercent: -100, stagger: 0.2, ease: 'main', duration: 0.7 }
+        { yPercent: -100, stagger: 0.06, ease: 'main', duration: 0.42 },
+        '<'
       )
       .fromTo(
         menuButtonIcon,
         { rotate: 0 },
-        { rotate: 315, ease: 'main', duration: 0.7 },
+        { rotate: 315, ease: 'main', duration: 0.42 },
         '<'
       )
       .fromTo(
         overlay,
         { autoAlpha: 0 },
-        { autoAlpha: 1, ease: 'main', duration: 0.7 },
+        { autoAlpha: 1, ease: 'power2.out', duration: 0.38 },
         '<'
       )
       .fromTo(
         bgPanels,
         { xPercent: -101 },
-        { xPercent: 0, stagger: 0.12, duration: 0.575, ease: 'main' },
+        { xPercent: 0, stagger: 0.07, duration: 0.46, ease: 'main' },
         '<'
       )
       .fromTo(
         menuLinks,
-        { yPercent: 140, rotate: 10 },
-        { yPercent: 0, rotate: 0, stagger: 0.05, ease: 'main', duration: 0.7 },
-        '<+=0.35'
+        { y: 26, autoAlpha: 0, rotate: 0 },
+        {
+          y: 0,
+          autoAlpha: 1,
+          rotate: 0,
+          stagger: 0.03,
+          ease: 'main',
+          duration: 0.44,
+          clearProps: 'transform,opacity,visibility',
+        },
+        '<+=0.1'
       )
       .fromTo(
         fadeTargets,
-        { autoAlpha: 0, yPercent: 50 },
-        { autoAlpha: 1, yPercent: 0, stagger: 0.04, ease: 'main', duration: 0.7 },
-        '<+=0.2'
+        { autoAlpha: 0, y: 16 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          stagger: 0.03,
+          ease: 'main',
+          duration: 0.4,
+          clearProps: 'transform,opacity,visibility',
+        },
+        '<+=0.08'
       );
   }, []);
 
@@ -102,10 +130,25 @@ export default function OsmoMenu({
     const menuButton = menuButtonRef.current;
     if (!navWrap || !menu || !overlay || !menuButton) return;
 
+    const bgPanels = navWrap.querySelectorAll('.osmo-bg-panel');
+    const menuLinks = navWrap.querySelectorAll('.osmo-menu-link');
+    const fadeTargets = navWrap.querySelectorAll('[data-menu-fade]');
     const menuButtonTexts = menuButton.querySelectorAll('p');
     const menuButtonIcon = menuButton.querySelector('.osmo-menu-button-icon');
 
     navWrap.setAttribute('data-nav', 'closed');
+
+    const allTargets = [
+      navWrap,
+      menu,
+      overlay,
+      ...Array.from(bgPanels),
+      ...Array.from(menuLinks),
+      ...Array.from(fadeTargets),
+      ...Array.from(menuButtonTexts),
+      ...(menuButtonIcon ? [menuButtonIcon] : []),
+    ];
+    gsap.killTweensOf(allTargets);
 
     if (!tlRef.current) {
       tlRef.current = gsap.timeline();
@@ -113,10 +156,10 @@ export default function OsmoMenu({
     const tl = tlRef.current;
 
     tl.clear()
-      .to(overlay, { autoAlpha: 0, ease: 'main', duration: 0.7 })
-      .to(menu, { xPercent: -120, ease: 'main', duration: 0.7 }, '<')
-      .to(menuButtonTexts, { yPercent: 0, ease: 'main', duration: 0.7 }, '<')
-      .to(menuButtonIcon, { rotate: 0, ease: 'main', duration: 0.7 }, '<')
+      .to(overlay, { autoAlpha: 0, ease: 'power2.inOut', duration: 0.36 })
+      .to(menu, { xPercent: -105, ease: 'power3.inOut', duration: 0.38 }, '<')
+      .to(menuButtonTexts, { yPercent: 0, ease: 'main', duration: 0.36 }, '<')
+      .to(menuButtonIcon, { rotate: 0, ease: 'main', duration: 0.36 }, '<')
       .set(navWrap, { display: 'none' });
   }, []);
 
@@ -132,6 +175,10 @@ export default function OsmoMenu({
   }, [openNav, closeNav]);
 
   useEffect(() => {
+    gsap.registerPlugin(CustomEase);
+    if (!CustomEase.get('main')) {
+      CustomEase.create('main', '0.22, 1, 0.36, 1');
+    }
     const navWrap = navWrapRef.current;
     if (navWrap) {
       gsap.set(navWrap, { display: 'none' });
