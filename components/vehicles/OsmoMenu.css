@@ -14,15 +14,6 @@
   font-display: swap;
 }
 
-.osmo-cursor-scope {
-  cursor: url("https://cdn.prod.website-files.com/6708f85ff3d3cba6aff436fb/671251b239d7aeb290a31ac5_cursor-default%402x.svg") 2 0, auto;
-}
-
-.osmo-cursor-scope a,
-.osmo-cursor-scope button {
-  cursor: url("https://cdn.prod.website-files.com/6708f85ff3d3cba6aff436fb/671251b212e6b71494aa67ff_cursor-pointer%402x.svg") 12 0, pointer;
-}
-
 .osmo-menu-root {
   --osmo-primary: #ff4c24;
   --osmo-dark: #131313;
@@ -52,6 +43,7 @@
   line-height: 1;
   user-select: none;
   outline: none;
+  cursor: pointer;
 }
 
 .osmo-menu-button-text {
@@ -102,6 +94,7 @@
   z-index: 0;
   width: 100%;
   height: 100%;
+  cursor: pointer;
   background-color: rgba(19, 19, 19, 0.42);
   backdrop-filter: blur(2px);
 }
@@ -188,6 +181,7 @@
   border: none;
   text-align: left;
   color: var(--osmo-dark);
+  cursor: pointer;
 }
 
 .osmo-menu-link-heading {

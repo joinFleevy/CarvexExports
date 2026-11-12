@@ -171,7 +171,7 @@ export default function VehiclesPage() {
   return (
     <div
       dir="ltr"
-      className="osmo-cursor-scope w-full min-h-screen h-screen bg-white text-left font-sans flex flex-col overflow-hidden p-0 m-0"
+      className="w-full min-h-screen h-screen bg-white text-left font-sans flex flex-col overflow-hidden p-0 m-0"
     >
       {/* 1. Top Header with Top-Left Osmo Wipe Menu */}
       <VehiclesHeader
