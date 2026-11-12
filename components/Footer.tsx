@@ -8,8 +8,8 @@ import { usePathname } from 'next/navigation';
 export default function Footer() {
   const pathname = usePathname();
 
-  // If on the full-screen vehicle catalogue app page, do not render the public footer
-  if (pathname === '/vehicles' || pathname === '/inventory' || pathname === '/products') {
+  // If on the full-screen homepage or vehicle catalogue app page, do not render the public footer
+  if (pathname === '/' || pathname === '/vehicles' || pathname === '/inventory' || pathname === '/products') {
     return null;
   }
 
@@ -51,15 +51,22 @@ export default function Footer() {
 
         {/* Col 3: Showroom Contacts */}
         <div className="space-y-2 text-xs">
-          <h4 className="text-xs font-semibold text-white uppercase tracking-wider">فروعنا الرسمية</h4>
-          <p className="text-neutral-300">الجزائر العاصمة: <span className="font-mono text-neutral-400">0779055489</span></p>
-          <p className="text-neutral-300">جيجل (بوالرمل): <span className="font-mono text-neutral-400">0660656274</span></p>
-          <p className="text-neutral-300">ورقلة (حي النصر): <span className="font-mono text-neutral-400">0660414034</span></p>
+          <h4 className="text-xs font-semibold text-white uppercase tracking-[0.06em]">فروعنا الرسمية</h4>
+          <p className="text-neutral-300">
+            الجزائر العاصمة: <bdi dir="ltr" className="tabular-nums text-neutral-400">0779 05 54 89</bdi>
+          </p>
+          <p className="text-neutral-300">
+            جيجل (بوالرمل): <bdi dir="ltr" className="tabular-nums text-neutral-400">0660 65 62 74</bdi>
+          </p>
+          <p className="text-neutral-300">
+            ورقلة (حي النصر): <bdi dir="ltr" className="tabular-nums text-neutral-400">0660 41 40 34</bdi>
+          </p>
         </div>
       </div>
 
       <div className="border-t border-neutral-900 py-6 text-center text-xs text-neutral-600">
-        &copy; {new Date().getFullYear()} CARVEX EXPORT. جميع الحقوق محفوظة.
+        &copy; <span className="tabular-nums">{new Date().getFullYear()}</span>{' '}
+        <bdi dir="ltr">CARVEX EXPORT</bdi>. جميع الحقوق محفوظة.
       </div>
     </footer>
   );

@@ -12,8 +12,8 @@ export default function Navbar() {
   const [branchModalOpen, setBranchModalOpen] = useState(false);
   const pathname = usePathname();
 
-  // If on the full-screen vehicle catalogue app page, do not render the public navbar
-  if (pathname === '/vehicles' || pathname === '/inventory' || pathname === '/products') {
+  // If on the full-screen homepage or vehicle catalogue app page, do not render the public navbar
+  if (pathname === '/' || pathname === '/vehicles' || pathname === '/inventory' || pathname === '/products') {
     return null;
   }
 
@@ -43,9 +43,9 @@ export default function Navbar() {
               />
             </div>
             <div>
-              <span className="text-lg font-bold tracking-wide text-white block">
+              <bdi dir="ltr" className="text-lg font-bold tracking-[0.02em] text-white block">
                 CARVEX EXPORT
-              </span>
+              </bdi>
               <span className="text-xs text-neutral-400 block">
                 استيراد وتوزيع السيارات
               </span>

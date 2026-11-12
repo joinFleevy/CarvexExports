@@ -121,7 +121,7 @@ export default function VehicleDetailClient({
             <span>/</span>
             <Link href="/inventory" className="hover:text-carvex-cyan transition-colors">مخزون السيارات</Link>
             <span>/</span>
-            <span className="text-white font-medium">{vehicle.title}</span>
+            <span className="text-white font-medium"><bdi>{vehicle.title}</bdi></span>
           </div>
 
           <Link
@@ -141,11 +141,11 @@ export default function VehicleDetailClient({
                 <span className="w-2 h-2 rounded-full bg-current animate-pulse" />
                 {status.label}
               </span>
-              <span className="px-3 py-1 rounded-full text-xs font-black bg-carvex-surface border border-carvex-border text-white font-mono">
-                موديل {vehicle.year}
+              <span className="px-3 py-1 rounded-full text-xs font-bold bg-carvex-surface border border-carvex-border text-white tabular-nums">
+                موديل <bdi dir="ltr">{vehicle.year}</bdi>
               </span>
-              <span className="px-3 py-1 rounded-full text-xs font-bold bg-carvex-red/20 text-carvex-red border border-carvex-red/30">
-                0 كلم (جديدة كلياً)
+              <span className="px-3 py-1 rounded-full text-xs font-bold bg-carvex-red/20 text-carvex-red border border-carvex-red/30 tabular-nums">
+                <bdi dir="ltr">0</bdi> كلم (جديدة كلياً)
               </span>
               {vehicle.expand?.branch && (
                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs text-slate-300 bg-carvex-surface border border-carvex-border">
@@ -155,58 +155,60 @@ export default function VehicleDetailClient({
               )}
             </div>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
-              {vehicle.title}
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-[-0.02em] leading-[1.15]">
+              <bdi>{vehicle.title}</bdi>
             </h1>
-            <p className="text-carvex-muted text-sm sm:text-base">
+            <p className="text-carvex-muted text-base max-w-prose leading-relaxed">
               استيراد أصلي من المصنع المباشر — كاملة الوثائق والملف القاعدي مع ضمان المصدر والشهادة الدولية.
             </p>
           </div>
 
           {/* Price Header Box (Dynamically updated or Hidden for WhatsApp discussion) */}
           {vehicle.hide_price ? (
-            <div className="bg-carvex-surface border-2 border-amber-500/40 p-5 rounded-2xl md:min-w-[340px] text-right shadow-xl shadow-amber-500/5 transition-all">
+            <div className="bg-carvex-surface border-2 border-amber-500/40 p-5 rounded-2xl md:min-w-[340px] text-start shadow-xl shadow-amber-500/5 transition-all">
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs text-carvex-muted">التسعير والمفاوضة</span>
-                <span className="text-[10px] font-bold text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-full border border-amber-400/30">
+                <span className="text-xs font-bold text-amber-400 bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/30">
                   تواصل للمناقشة
                 </span>
               </div>
-              <div className="text-2xl sm:text-3xl font-black text-amber-400 tracking-tight">
+              <div className="text-2xl sm:text-3xl font-bold text-amber-400 tracking-[-0.015em]">
                 السعر عند الطلب
               </div>
               <div className="text-xs text-slate-300 font-sans mt-1">
-                Prix sur demande — التفاوض المباشر مع مدير الصالة
+                <bdi dir="ltr">Prix sur demande</bdi> — التفاوض المباشر مع مدير الصالة
               </div>
-              <div className="mt-2 text-[11px] text-emerald-400 flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3 flex-shrink-0" />
+              <div className="mt-2 text-xs text-emerald-400 flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" />
                 <span>تواصل عبر واتساب لمناقشة السعر حسب الصيغة والمواصفات</span>
               </div>
             </div>
           ) : (
-            <div className="bg-carvex-surface border-2 border-carvex-cyan/40 p-5 rounded-2xl md:min-w-[340px] text-right shadow-xl shadow-carvex-cyan/5 transition-all">
+            <div className="bg-carvex-surface border-2 border-carvex-cyan/40 p-5 rounded-2xl md:min-w-[340px] text-start shadow-xl shadow-carvex-cyan/5 transition-all">
               <div className="flex items-center justify-between mb-1">
                 <span className="text-xs text-carvex-muted">{activeLabel}</span>
-                <span className="text-[10px] font-bold text-carvex-cyan bg-carvex-cyan/10 px-2 py-0.5 rounded-full border border-carvex-cyan/30">
+                <span className="text-xs font-bold text-carvex-cyan bg-carvex-cyan/10 px-2.5 py-0.5 rounded-full border border-carvex-cyan/30">
                   {badgeHighlight}
                 </span>
               </div>
-              <div className="text-3xl sm:text-4xl font-black text-carvex-cyan font-mono tracking-tight">
-                {formatPriceCentimes(activePriceCentimes)}
+              <div className="text-3xl sm:text-4xl font-bold text-carvex-cyan tabular-nums tracking-[-0.02em]">
+                <bdi>{formatPriceCentimes(activePriceCentimes)}</bdi>
               </div>
-              <div className="text-xs text-slate-300 font-mono mt-1">
-                ما يعادل {formatDinar(activePriceCentimes)} دج
+              <div className="text-xs text-slate-300 tabular-nums mt-1">
+                ما يعادل <bdi dir="ltr">{formatDinar(activePriceCentimes)}</bdi> دج
               </div>
 
               {savingsCentimes > 0 && (
                 <div className="mt-2 text-xs font-bold text-emerald-400 bg-emerald-500/10 p-1.5 rounded-lg border border-emerald-500/20 flex items-center gap-1.5">
                   <TrendingDown className="w-3.5 h-3.5 flex-shrink-0" />
-                  <span>توفير مؤكد: {savingsCentimes} مليون سنتيم مقارنة بالجمركة العادية!</span>
+                  <span>
+                    توفير مؤكد: <span className="tabular-nums">{savingsCentimes}</span> مليون سنتيم مقارنة بالجمركة العادية!
+                  </span>
                 </div>
               )}
 
-              <div className="mt-2 text-[11px] text-slate-400 flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3 text-carvex-cyan flex-shrink-0" />
+              <div className="mt-2 text-xs text-slate-400 flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-carvex-cyan flex-shrink-0" />
                 <span>{activeSubtext}</span>
               </div>
             </div>
@@ -221,16 +223,16 @@ export default function VehicleDetailClient({
                 <Calculator className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-base font-black text-white">
-                  حاسبة الجمارك التلقائية الفورية لهذه السيارة (Simulateur Douanier Intégré)
-                </h3>
-                <p className="text-xs text-carvex-muted">
+                <h2 className="text-lg font-bold text-white tracking-[-0.01em]">
+                  حاسبة الجمارك التلقائية الفورية لهذه السيارة <bdi dir="ltr">(Simulateur Douanier Intégré)</bdi>
+                </h2>
+                <p className="text-xs sm:text-sm text-carvex-muted leading-relaxed">
                   اختر النظام الجمركي لحساب السعر وجدول الدفعات بدقة وحفظ النتائج في عرض السعر
                 </p>
               </div>
             </div>
-            <span className="text-xs font-mono text-carvex-cyan bg-carvex-cyan/10 px-3 py-1 rounded-full border border-carvex-cyan/30 self-start sm:self-auto">
-              سعة المحرك: {vehicle.engine_displacement_cc || 1498} cc
+            <span className="text-xs text-carvex-cyan bg-carvex-cyan/10 px-3 py-1 rounded-full border border-carvex-cyan/30 self-start sm:self-auto tabular-nums">
+              سعة المحرك: <bdi dir="ltr">{vehicle.engine_displacement_cc || 1498}{"\u00A0"}cc</bdi>
             </span>
           </div>
 
@@ -239,24 +241,24 @@ export default function VehicleDetailClient({
             {/* Option 1: Turnkey Standard Import */}
             <button
               onClick={() => setCustomsMode('turnkey')}
-              className={`p-4 rounded-xl border-2 text-right transition-all flex flex-col justify-between ${
+              className={`p-4 rounded-xl border-2 text-start transition-all flex flex-col justify-between ${
                 customsMode === 'turnkey'
                   ? 'bg-carvex-cyan/10 border-carvex-cyan text-white shadow-lg shadow-carvex-cyan/10'
                   : 'bg-carvex-dark/60 border-carvex-border hover:border-carvex-border/80 text-slate-300'
               }`}
             >
               <div>
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs font-bold">تسليم في الصالة (Clé en main)</span>
-                  <span className="text-[10px] font-mono bg-carvex-surface px-1.5 py-0.5 rounded text-carvex-muted">قانوني</span>
+                <div className="flex items-center justify-between gap-2 mb-1">
+                  <span className="text-xs font-bold">تسليم في الصالة <bdi dir="ltr">(Clé en main)</bdi></span>
+                  <span className="text-xs bg-carvex-surface px-2 py-0.5 rounded text-carvex-muted">قانوني</span>
                 </div>
-                <p className="text-[11px] text-carvex-muted leading-relaxed">
-                  جمركة عادية (مرسوم 23-74) بتخفيض 50% شاملة كل المصاريف حتى الصالة.
+                <p className="text-xs text-carvex-muted leading-relaxed">
+                  جمركة عادية (مرسوم <span className="tabular-nums">23-74</span>) بتخفيض <span className="tabular-nums">50%</span> شاملة كل المصاريف حتى الصالة.
                 </p>
               </div>
               <div className="mt-3 pt-2 border-t border-carvex-border/40">
-                <span className="text-base font-black text-carvex-cyan font-mono block">
-                  {formatPriceCentimes(vehicle.price_total_dzd_centimes)}
+                <span className="text-base font-bold text-carvex-cyan tabular-nums block">
+                  <bdi>{formatPriceCentimes(vehicle.price_total_dzd_centimes)}</bdi>
                 </span>
               </div>
             </button>
@@ -264,26 +266,26 @@ export default function VehicleDetailClient({
             {/* Option 2: Own Moudjahidine License */}
             <button
               onClick={() => setCustomsMode('moudjahidine_own')}
-              className={`p-4 rounded-xl border-2 text-right transition-all flex flex-col justify-between relative overflow-hidden ${
+              className={`p-4 rounded-xl border-2 text-start transition-all flex flex-col justify-between relative overflow-hidden ${
                 customsMode === 'moudjahidine_own'
                   ? 'bg-emerald-500/10 border-emerald-400 text-white shadow-lg shadow-emerald-500/10'
                   : 'bg-carvex-dark/60 border-carvex-border hover:border-carvex-border/80 text-slate-300'
               }`}
             >
-              <div className="absolute top-0 left-0 bg-emerald-500 text-black text-[9px] font-black px-2 py-0.5 rounded-br-lg uppercase">
+              <div className="absolute top-0 left-0 bg-emerald-500 text-black text-xs font-bold px-2.5 py-0.5 rounded-br-lg">
                 الأوفر سعراً
               </div>
               <div>
-                <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center justify-between mb-1 pt-2 sm:pt-0">
                   <span className="text-xs font-bold text-emerald-400">برخصتك الخاصة (مجاهدين)</span>
                 </div>
-                <p className="text-[11px] text-carvex-muted leading-relaxed">
-                  لديك رخصة مجاهدين شخصية؟ إعفاء 100% من الجمركة و TVA، تدفع فقط مصاريف الميناء.
+                <p className="text-xs text-carvex-muted leading-relaxed">
+                  لديك رخصة مجاهدين شخصية؟ إعفاء <span className="tabular-nums">100%</span> من الجمركة و <bdi dir="ltr">TVA</bdi>، تدفع فقط مصاريف الميناء.
                 </p>
               </div>
               <div className="mt-3 pt-2 border-t border-carvex-border/40">
-                <span className="text-base font-black text-emerald-400 font-mono block">
-                  {formatPriceCentimes(customsCalcMoudjahidineOwn.totalEstimatedCentimes)}
+                <span className="text-base font-bold text-emerald-400 tabular-nums block">
+                  <bdi>{formatPriceCentimes(customsCalcMoudjahidineOwn.totalEstimatedCentimes)}</bdi>
                 </span>
               </div>
             </button>
@@ -291,7 +293,7 @@ export default function VehicleDetailClient({
             {/* Option 3: Market Moudjahidine License Included */}
             <button
               onClick={() => setCustomsMode('moudjahidine_market')}
-              className={`p-4 rounded-xl border-2 text-right transition-all flex flex-col justify-between ${
+              className={`p-4 rounded-xl border-2 text-start transition-all flex flex-col justify-between ${
                 customsMode === 'moudjahidine_market'
                   ? 'bg-carvex-cyan/10 border-carvex-cyan text-white shadow-lg shadow-carvex-cyan/10'
                   : 'bg-carvex-dark/60 border-carvex-border hover:border-carvex-border/80 text-slate-300'
@@ -301,13 +303,13 @@ export default function VehicleDetailClient({
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-xs font-bold">شراء رخصة مجاهدين عبرنا</span>
                 </div>
-                <p className="text-[11px] text-carvex-muted leading-relaxed">
-                  نوفر لك رخصة معتمدة وموثقة رسمياً من السوق (~65 مليون) مع التخليص الكامل.
+                <p className="text-xs text-carvex-muted leading-relaxed">
+                  نوفر لك رخصة معتمدة وموثقة رسمياً من السوق (<span className="tabular-nums">~65</span> مليون) مع التخليص الكامل.
                 </p>
               </div>
               <div className="mt-3 pt-2 border-t border-carvex-border/40">
-                <span className="text-base font-black text-white font-mono block">
-                  {formatPriceCentimes(customsCalcMoudjahidineMarket.totalEstimatedCentimes)}
+                <span className="text-base font-bold text-white tabular-nums block">
+                  <bdi>{formatPriceCentimes(customsCalcMoudjahidineMarket.totalEstimatedCentimes)}</bdi>
                 </span>
               </div>
             </button>
@@ -315,7 +317,7 @@ export default function VehicleDetailClient({
             {/* Option 4: Port Only FOB */}
             <button
               onClick={() => setCustomsMode('fob_port')}
-              className={`p-4 rounded-xl border-2 text-right transition-all flex flex-col justify-between ${
+              className={`p-4 rounded-xl border-2 text-start transition-all flex flex-col justify-between ${
                 customsMode === 'fob_port'
                   ? 'bg-blue-500/10 border-blue-400 text-white shadow-lg shadow-blue-500/10'
                   : 'bg-carvex-dark/60 border-carvex-border hover:border-carvex-border/80 text-slate-300'
@@ -323,15 +325,15 @@ export default function VehicleDetailClient({
             >
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs font-bold text-blue-400">واصل للميناء فقط (FOB)</span>
+                  <span className="text-xs font-bold text-blue-400">واصل للميناء فقط <bdi dir="ltr">(FOB)</bdi></span>
                 </div>
-                <p className="text-[11px] text-carvex-muted leading-relaxed">
+                <p className="text-xs text-carvex-muted leading-relaxed">
                   شراء وشحن وتأمين حتى ميناء جن جن أو العاصمة دون جمركة (تتكفل بالجمركة بنفسك).
                 </p>
               </div>
               <div className="mt-3 pt-2 border-t border-carvex-border/40">
-                <span className="text-base font-black text-blue-400 font-mono block">
-                  {formatPriceCentimes(fobPrice)}
+                <span className="text-base font-bold text-blue-400 tabular-nums block">
+                  <bdi>{formatPriceCentimes(fobPrice)}</bdi>
                 </span>
               </div>
             </button>
@@ -407,24 +409,28 @@ export default function VehicleDetailClient({
               <div className="p-4 rounded-xl bg-carvex-card border border-carvex-border text-center">
                 <Gauge className="w-5 h-5 text-carvex-cyan mx-auto mb-1.5" />
                 <span className="text-xs text-carvex-muted block">سعة المحرك</span>
-                <span className="text-sm font-bold text-white font-mono">
-                  {vehicle.engine_displacement_cc ? `${(vehicle.engine_displacement_cc / 1000).toFixed(1)}L Turbo` : '1.5L'}
+                <span className="text-sm font-bold text-white tabular-nums">
+                  <bdi dir="ltr">{vehicle.engine_displacement_cc ? `${(vehicle.engine_displacement_cc / 1000).toFixed(1)}L Turbo` : '1.5L'}</bdi>
                 </span>
               </div>
 
               <div className="p-4 rounded-xl bg-carvex-card border border-carvex-border text-center">
                 <Settings className="w-5 h-5 text-carvex-cyan mx-auto mb-1.5" />
                 <span className="text-xs text-carvex-muted block">ناقل الحركة</span>
-                <span className="text-sm font-bold text-white capitalize">
-                  {vehicle.transmission === 'automatique' ? 'أوتوماتيك DCT' : 'يدوي 6 سرعات'}
+                <span className="text-sm font-bold text-white">
+                  {vehicle.transmission === 'automatique' ? (
+                    <>أوتوماتيك <bdi dir="ltr">DCT</bdi></>
+                  ) : (
+                    'يدوي 6 سرعات'
+                  )}
                 </span>
               </div>
 
               <div className="p-4 rounded-xl bg-carvex-card border border-carvex-border text-center">
                 <Fuel className="w-5 h-5 text-carvex-cyan mx-auto mb-1.5" />
                 <span className="text-xs text-carvex-muted block">نوع الوقود</span>
-                <span className="text-sm font-bold text-white capitalize">
-                  {vehicle.engine_type === 'essence' ? 'بنزين اقتصادي' : vehicle.engine_type}
+                <span className="text-sm font-bold text-white">
+                  {vehicle.engine_type === 'essence' ? 'بنزين اقتصادي' : <bdi>{vehicle.engine_type}</bdi>}
                 </span>
               </div>
 
@@ -441,13 +447,13 @@ export default function VehicleDetailClient({
             {/* Primary Action Card */}
             <div className="p-6 rounded-2xl bg-carvex-card border border-carvex-border shadow-xl space-y-5">
               <div className="border-b border-carvex-border pb-4">
-                <span className="text-xs font-bold text-carvex-cyan uppercase tracking-wider block">
+                <span className="text-xs font-bold text-carvex-cyan block">
                   احجز سيارتك الآن
                 </span>
-                <h3 className="text-xl font-bold text-white mt-1">
+                <h2 className="text-xl font-bold text-white tracking-[-0.015em] mt-1">
                   تواصل مباشر مع مدير الصالة
-                </h3>
-                <p className="text-xs text-carvex-muted mt-1 leading-relaxed">
+                </h2>
+                <p className="text-xs sm:text-sm text-carvex-muted mt-1.5 leading-relaxed max-w-prose">
                   اختر الصالة الأقرب إليك (العاصمة، جيجل، أو ورقلة) للتفاوض، الاستفسار، أو تأكيد طلب الشراء وفق الصيغة الجمركية المختارة.
                 </p>
               </div>
@@ -455,7 +461,7 @@ export default function VehicleDetailClient({
               <div className="space-y-3">
                 <button
                   onClick={() => setModalOpen(true)}
-                  className="w-full py-4 px-5 rounded-xl bg-carvex-cyan hover:bg-carvex-cyan-hover text-black font-black text-sm transition-all shadow-lg shadow-carvex-cyan/20 flex items-center justify-center gap-2 group"
+                  className="w-full py-4 px-5 rounded-xl bg-carvex-cyan hover:bg-carvex-cyan-hover text-black font-bold text-sm transition-all shadow-lg shadow-carvex-cyan/20 flex items-center justify-center gap-2 group"
                 >
                   <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform" />
                   <span>
@@ -480,18 +486,18 @@ export default function VehicleDetailClient({
                 </Link>
               </div>
 
-              <div className="pt-2 text-[11px] text-carvex-muted space-y-2 border-t border-carvex-border/50">
+              <div className="pt-3 text-xs text-carvex-muted space-y-2 leading-relaxed border-t border-carvex-border/50">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                  <span>عقد بيع وتوثيق رسمي مختوم من شركة CARVEX EXPORT</span>
+                  <span>عقد بيع وتوثيق رسمي مختوم من شركة <bdi dir="ltr">CARVEX EXPORT</bdi></span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                  <span>تتبع حاوية الشحن البحري عبر رمز PIN الخاص بك بالموقع</span>
+                  <span>تتبع حاوية الشحن البحري عبر رمز <bdi dir="ltr">PIN</bdi> الخاص بك بالموقع</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                  <span>استلام السيارة جاهزة للسير مع الملف القاعدي (Carte Grise)</span>
+                  <span>استلام السيارة جاهزة للسير مع الملف القاعدي <bdi dir="ltr">(Carte Grise)</bdi></span>
                 </div>
               </div>
             </div>
@@ -509,9 +515,9 @@ export default function VehicleDetailClient({
                 <div className="flex gap-2 pt-1">
                   <a
                     href={`tel:${vehicle.expand.branch.phone_commercial_1}`}
-                    className="flex-1 py-2 px-3 rounded-lg bg-black/60 hover:bg-black text-xs font-bold text-white border border-white/10 text-center transition-colors"
+                    className="flex-1 py-2 px-3 rounded-lg bg-black/60 hover:bg-black text-xs font-bold text-white border border-white/10 text-center transition-colors tabular-nums"
                   >
-                    📞 {vehicle.expand.branch.phone_commercial_1}
+                    📞 <bdi dir="ltr">{vehicle.expand.branch.phone_commercial_1}</bdi>
                   </a>
                   {vehicle.expand.branch.google_maps_url && (
                     <a
@@ -520,7 +526,7 @@ export default function VehicleDetailClient({
                       rel="noopener noreferrer"
                       className="py-2 px-3 rounded-lg bg-carvex-cyan/10 hover:bg-carvex-cyan/20 text-xs font-bold text-carvex-cyan border border-carvex-cyan/30 text-center transition-colors"
                     >
-                      خريطة GPS
+                      خريطة <bdi dir="ltr">GPS</bdi>
                     </a>
                   )}
                 </div>
@@ -533,15 +539,15 @@ export default function VehicleDetailClient({
         <div className="rounded-2xl bg-carvex-card border border-carvex-border p-6 sm:p-8 space-y-6">
           <div className="border-b border-carvex-border pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <span className="text-xs font-bold text-carvex-cyan uppercase tracking-wider">
+              <span className="text-xs font-bold text-carvex-cyan">
                 الشفافية المالية التامة — محسوبة تلقائياً وفق النظام المختار
               </span>
-              <h2 className="text-2xl font-black text-white mt-1">
-                جدول الدفعات المالية الثلاث (Modalités de Paiement)
+              <h2 className="text-2xl font-bold tracking-[-0.015em] text-white mt-1">
+                جدول الدفعات المالية الثلاث <bdi dir="ltr">(Modalités de Paiement)</bdi>
               </h2>
             </div>
-            <div className="text-xs text-slate-300 bg-carvex-surface px-3 py-1.5 rounded-lg border border-carvex-border font-mono">
-              الإجمالي الصافي: {formatPriceCentimes(activePriceCentimes)}
+            <div className="text-xs text-slate-300 bg-carvex-surface px-3 py-1.5 rounded-lg border border-carvex-border tabular-nums">
+              الإجمالي الصافي: <bdi>{formatPriceCentimes(activePriceCentimes)}</bdi>
             </div>
           </div>
 
@@ -550,7 +556,7 @@ export default function VehicleDetailClient({
             <div className="p-5 rounded-xl bg-carvex-surface border border-carvex-border/80 relative flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="w-8 h-8 rounded-lg bg-carvex-cyan/20 text-carvex-cyan font-black flex items-center justify-center font-mono">
+                  <span className="w-8 h-8 rounded-lg bg-carvex-cyan/20 text-carvex-cyan font-bold flex items-center justify-center tabular-nums">
                     01
                   </span>
                   <span className="text-xs font-bold text-amber-400 bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/20">
@@ -558,19 +564,21 @@ export default function VehicleDetailClient({
                   </span>
                 </div>
                 <h3 className="text-base font-bold text-white mb-1">
-                  دفعة العربون الأولي (Acompte)
+                  دفعة العربون الأولي <bdi dir="ltr">(Acompte)</bdi>
                 </h3>
-                <p className="text-xs text-carvex-muted mb-4 leading-relaxed">
+                <p className="text-xs sm:text-sm text-carvex-muted mb-4 leading-relaxed">
                   تُسدد عند إبرام اتفاقية الطلب في صالة العرض لحجز الشاسيه وتأكيد رقم الهيكل من المصنع.
                 </p>
               </div>
               <div className="pt-3 border-t border-carvex-border/60">
-                <span className="text-[10px] text-carvex-muted block">المبلغ المقدر (~28%):</span>
-                <span className="text-xl font-black text-carvex-cyan font-mono">
-                  {formatPriceCentimes(activeTranche1)}
+                <span className="text-xs text-carvex-muted block">
+                  المبلغ المقدر <bdi dir="ltr" className="tabular-nums">(~28%)</bdi>:
                 </span>
-                <span className="text-xs text-slate-400 font-mono block">
-                  ({formatDinar(activeTranche1)} دج)
+                <span className="text-xl font-bold text-carvex-cyan tabular-nums">
+                  <bdi>{formatPriceCentimes(activeTranche1)}</bdi>
+                </span>
+                <span className="text-xs text-slate-400 tabular-nums block">
+                  (<bdi dir="ltr">{formatDinar(activeTranche1)}</bdi> دج)
                 </span>
               </div>
             </div>
@@ -579,27 +587,29 @@ export default function VehicleDetailClient({
             <div className="p-5 rounded-xl bg-carvex-surface border border-carvex-border/80 relative flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="w-8 h-8 rounded-lg bg-carvex-cyan/20 text-carvex-cyan font-black flex items-center justify-center font-mono">
+                  <span className="w-8 h-8 rounded-lg bg-carvex-cyan/20 text-carvex-cyan font-bold flex items-center justify-center tabular-nums">
                     02
                   </span>
                   <span className="text-xs font-bold text-blue-400 bg-blue-400/10 px-2.5 py-0.5 rounded-full border border-blue-400/20">
-                    عند شحن الباخرة (Au BL)
+                    عند شحن الباخرة <bdi dir="ltr">(Au BL)</bdi>
                   </span>
                 </div>
                 <h3 className="text-base font-bold text-white mb-1">
                   دفعة الشحن والملاحة البحرية
                 </h3>
-                <p className="text-xs text-carvex-muted mb-4 leading-relaxed">
-                  تُسدد عند إصدار بوليصة الشحن البحرية الرسمية (Bill of Lading) وتسليم رقم تتبع الحاوية للزبون.
+                <p className="text-xs sm:text-sm text-carvex-muted mb-4 leading-relaxed">
+                  تُسدد عند إصدار بوليصة الشحن البحرية الرسمية <bdi dir="ltr">(Bill of Lading)</bdi> وتسليم رقم تتبع الحاوية للزبون.
                 </p>
               </div>
               <div className="pt-3 border-t border-carvex-border/60">
-                <span className="text-[10px] text-carvex-muted block">المبلغ المقدر (~42%):</span>
-                <span className="text-xl font-black text-carvex-cyan font-mono">
-                  {formatPriceCentimes(activeTranche2)}
+                <span className="text-xs text-carvex-muted block">
+                  المبلغ المقدر <bdi dir="ltr" className="tabular-nums">(~42%)</bdi>:
                 </span>
-                <span className="text-xs text-slate-400 font-mono block">
-                  ({formatDinar(activeTranche2)} دج)
+                <span className="text-xl font-bold text-carvex-cyan tabular-nums">
+                  <bdi>{formatPriceCentimes(activeTranche2)}</bdi>
+                </span>
+                <span className="text-xs text-slate-400 tabular-nums block">
+                  (<bdi dir="ltr">{formatDinar(activeTranche2)}</bdi> دج)
                 </span>
               </div>
             </div>
@@ -608,7 +618,7 @@ export default function VehicleDetailClient({
             <div className="p-5 rounded-xl bg-carvex-surface border border-carvex-border/80 relative flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <span className="w-8 h-8 rounded-lg bg-carvex-cyan/20 text-carvex-cyan font-black flex items-center justify-center font-mono">
+                  <span className="w-8 h-8 rounded-lg bg-carvex-cyan/20 text-carvex-cyan font-bold flex items-center justify-center tabular-nums">
                     03
                   </span>
                   <span className="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-2.5 py-0.5 rounded-full border border-emerald-400/20">
@@ -618,17 +628,19 @@ export default function VehicleDetailClient({
                 <h3 className="text-base font-bold text-white mb-1">
                   الرصيد المتبقي عند المعاينة النهائية
                 </h3>
-                <p className="text-xs text-carvex-muted mb-4 leading-relaxed">
+                <p className="text-xs sm:text-sm text-carvex-muted mb-4 leading-relaxed">
                   يُدفع في صالة العرض بعد إتمام الجمركة وفحص السيارة واستلام المفتاحين والملف القاعدي الأصلي.
                 </p>
               </div>
               <div className="pt-3 border-t border-carvex-border/60">
-                <span className="text-[10px] text-carvex-muted block">المبلغ المقدر (~30%):</span>
-                <span className="text-xl font-black text-carvex-cyan font-mono">
-                  {formatPriceCentimes(activeTranche3)}
+                <span className="text-xs text-carvex-muted block">
+                  المبلغ المقدر <bdi dir="ltr" className="tabular-nums">(~30%)</bdi>:
                 </span>
-                <span className="text-xs text-slate-400 font-mono block">
-                  ({formatDinar(activeTranche3)} دج)
+                <span className="text-xl font-bold text-carvex-cyan tabular-nums">
+                  <bdi>{formatPriceCentimes(activeTranche3)}</bdi>
+                </span>
+                <span className="text-xs text-slate-400 tabular-nums block">
+                  (<bdi dir="ltr">{formatDinar(activeTranche3)}</bdi> دج)
                 </span>
               </div>
             </div>
@@ -638,143 +650,159 @@ export default function VehicleDetailClient({
         {/* Detailed Technical Specs Matrix */}
         <div className="rounded-2xl bg-carvex-card border border-carvex-border p-6 sm:p-8 space-y-6">
           <div className="border-b border-carvex-border pb-4">
-            <span className="text-xs font-bold text-carvex-cyan uppercase tracking-wider">
+            <span className="text-xs font-bold text-carvex-cyan">
               المواصفات والتجهيزات
             </span>
-            <h2 className="text-2xl font-black text-white mt-1">
-              البطاقة التقنية الشاملة (Fiche Technique Complète)
+            <h2 className="text-2xl font-bold tracking-[-0.015em] text-white mt-1">
+              البطاقة التقنية الشاملة <bdi dir="ltr">(Fiche Technique Complète)</bdi>
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Engine & Dynamics */}
             <div className="space-y-4">
-              <h4 className="text-sm font-bold text-white flex items-center gap-2 border-b border-carvex-border pb-2">
+              <h3 className="text-base font-bold text-white flex items-center gap-2 border-b border-carvex-border pb-2">
                 <Gauge className="w-4 h-4 text-carvex-cyan" />
                 <span>المحرك والأداء الميكانيكي</span>
-              </h4>
-              <div className="space-y-2.5 text-xs">
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
+              </h3>
+              <div className="space-y-2.5 text-xs sm:text-sm">
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
                   <span className="text-carvex-muted">نوع المحرك:</span>
-                  <span className="font-bold text-white">4 أسطوانات بنزين توربو (Direct Injection)</span>
+                  <span className="font-bold text-white text-end">4 أسطوانات بنزين توربو <bdi dir="ltr">(Direct Injection)</bdi></span>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
                   <span className="text-carvex-muted">السعة اللترية:</span>
-                  <span className="font-bold text-white font-mono">
-                    {vehicle.engine_displacement_cc ? `${vehicle.engine_displacement_cc} cc` : '1498 cc'}
+                  <span className="font-bold text-white tabular-nums">
+                    <bdi dir="ltr">{vehicle.engine_displacement_cc ? `${vehicle.engine_displacement_cc} cc` : '1498 cc'}</bdi>
                   </span>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
                   <span className="text-carvex-muted">القوة الحصانية:</span>
-                  <span className="font-bold text-white font-mono">177 حصان بخاري (ch)</span>
-                </div>
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
-                  <span className="text-carvex-muted">عزم الدوران الأقصى:</span>
-                  <span className="font-bold text-white font-mono">255 ن.م (Nm)</span>
-                </div>
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
-                  <span className="text-carvex-muted">علبة السرعات:</span>
-                  <span className="font-bold text-white">
-                    {vehicle.transmission === 'automatique' ? 'أوتوماتيكية 7 سرعات ثنائية التعشيق (DCT)' : 'يدوية 6 سرعات'}
+                  <span className="font-bold text-white tabular-nums">
+                    <span className="tabular-nums">177</span> حصان بخاري <bdi dir="ltr">(ch)</bdi>
                   </span>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
+                  <span className="text-carvex-muted">عزم الدوران الأقصى:</span>
+                  <span className="font-bold text-white tabular-nums">
+                    <span className="tabular-nums">255</span> ن.م <bdi dir="ltr">(Nm)</bdi>
+                  </span>
+                </div>
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
+                  <span className="text-carvex-muted">علبة السرعات:</span>
+                  <span className="font-bold text-white text-end">
+                    {vehicle.transmission === 'automatique' ? (
+                      <>أوتوماتيكية 7 سرعات ثنائية التعشيق <bdi dir="ltr">(DCT)</bdi></>
+                    ) : (
+                      'يدوية 6 سرعات'
+                    )}
+                  </span>
+                </div>
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
                   <span className="text-carvex-muted">معدل استهلاك الوقود:</span>
-                  <span className="font-bold text-white font-mono">5.8 لتر / 100 كم (مختلط)</span>
+                  <span className="font-bold text-white tabular-nums">
+                    <bdi dir="ltr">5.8</bdi> لتر / 100 كم (مختلط)
+                  </span>
                 </div>
               </div>
             </div>
 
             {/* Safety & Driver Assist */}
             <div className="space-y-4">
-              <h4 className="text-sm font-bold text-white flex items-center gap-2 border-b border-carvex-border pb-2">
+              <h3 className="text-base font-bold text-white flex items-center gap-2 border-b border-carvex-border pb-2">
                 <ShieldCheck className="w-4 h-4 text-carvex-cyan" />
                 <span>أنظمة الأمان والسلامة</span>
-              </h4>
-              <div className="space-y-2.5 text-xs">
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
-                  <span className="text-carvex-muted">الوسائد الهوائية (Airbags):</span>
-                  <span className="font-bold text-white">6 وسائد (أمامية، جانبية، وستائر حماية)</span>
+              </h3>
+              <div className="space-y-2.5 text-xs sm:text-sm">
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
+                  <span className="text-carvex-muted">الوسائد الهوائية <bdi dir="ltr">(Airbags)</bdi>:</span>
+                  <span className="font-bold text-white text-end">6 وسائد (أمامية، جانبية، وستائر حماية)</span>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
                   <span className="text-carvex-muted">أنظمة الفرملة:</span>
-                  <span className="font-bold text-white font-mono">ABS + EBD + ESP + TCS + Hill Assist</span>
+                  <span className="font-bold text-white"><bdi dir="ltr">ABS + EBD + ESP + TCS + Hill Assist</bdi></span>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
                   <span className="text-carvex-muted">كاميرات المراقبة والرؤية:</span>
-                  <span className="font-bold text-white">كاميرا رؤية محيطية 360° بانورامية فائقة الدقة</span>
+                  <span className="font-bold text-white text-end tabular-nums">كاميرا رؤية محيطية <bdi dir="ltr">360°</bdi> بانورامية فائقة الدقة</span>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
                   <span className="text-carvex-muted">مساعد الركن والحساسات:</span>
-                  <span className="font-bold text-white">حساسات أمامية وخلفية مع رادار كشف العوائق</span>
+                  <span className="font-bold text-white text-end">حساسات أمامية وخلفية مع رادار كشف العوائق</span>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
                   <span className="text-carvex-muted">تثبيت السرعة:</span>
-                  <span className="font-bold text-white">مثبت سرعة تفاعلي ذكي (Adaptive Cruise Control)</span>
+                  <span className="font-bold text-white text-end">مثبت سرعة تفاعلي ذكي <bdi dir="ltr">(Adaptive Cruise Control)</bdi></span>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
                   <span className="text-carvex-muted">هيكل السيارة:</span>
-                  <span className="font-bold text-white">فولاذ عالي الصلابة حاصل على 5 نجوم C-NCAP</span>
+                  <span className="font-bold text-white text-end">فولاذ عالي الصلابة حاصل على 5 نجوم <bdi dir="ltr">C-NCAP</bdi></span>
                 </div>
               </div>
             </div>
 
             {/* Comfort & Luxury Features */}
             <div className="space-y-4">
-              <h4 className="text-sm font-bold text-white flex items-center gap-2 border-b border-carvex-border pb-2">
+              <h3 className="text-base font-bold text-white flex items-center gap-2 border-b border-carvex-border pb-2">
                 <Sparkles className="w-4 h-4 text-carvex-cyan" />
                 <span>الراحة والمقصورة الداخلية</span>
-              </h4>
-              <div className="space-y-2.5 text-xs">
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
+              </h3>
+              <div className="space-y-2.5 text-xs sm:text-sm">
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
                   <span className="text-carvex-muted">فتحة السقف:</span>
-                  <span className="font-bold text-white">بانورامية كهربائية قابلة للفتح مع عازل حراري</span>
+                  <span className="font-bold text-white text-end">بانورامية كهربائية قابلة للفتح مع عازل حراري</span>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
                   <span className="text-carvex-muted">المقاعد والفرش:</span>
-                  <span className="font-bold text-white">جلد فاخر مريح مع تحكم كهربائي وتدفئة أمامية</span>
+                  <span className="font-bold text-white text-end">جلد فاخر مريح مع تحكم كهربائي وتدفئة أمامية</span>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
                   <span className="text-carvex-muted">الشاشة المركزية:</span>
-                  <span className="font-bold text-white font-mono">12.3 بوصة تعمل باللمس بدقة HD</span>
+                  <span className="font-bold text-white tabular-nums text-end">
+                    <bdi dir="ltr">12.3</bdi> بوصة تعمل باللمس بدقة <bdi dir="ltr">HD</bdi>
+                  </span>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
                   <span className="text-carvex-muted">الاتصال الذكي:</span>
-                  <span className="font-bold text-white font-mono">Apple CarPlay & Android Auto لاسلكي</span>
+                  <span className="font-bold text-white text-end">
+                    <bdi dir="ltr">Apple CarPlay &amp; Android Auto</bdi> لاسلكي
+                  </span>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
                   <span className="text-carvex-muted">مكيف الهواء:</span>
-                  <span className="font-bold text-white">أوتوماتيكي ثنائي المناطق مع فلتر تنقية الهواء CN95</span>
+                  <span className="font-bold text-white text-end">أوتوماتيكي ثنائي المناطق مع فلتر تنقية الهواء <bdi dir="ltr">CN95</bdi></span>
                 </div>
               </div>
             </div>
 
             {/* Official Registration & Guarantees */}
             <div className="space-y-4">
-              <h4 className="text-sm font-bold text-white flex items-center gap-2 border-b border-carvex-border pb-2">
+              <h3 className="text-base font-bold text-white flex items-center gap-2 border-b border-carvex-border pb-2">
                 <Award className="w-4 h-4 text-carvex-cyan" />
                 <span>الوثائق والضمان المرفق</span>
-              </h4>
-              <div className="space-y-2.5 text-xs">
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
+              </h3>
+              <div className="space-y-2.5 text-xs sm:text-sm">
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
                   <span className="text-carvex-muted">الشهادة الجمركية:</span>
-                  <span className="font-bold text-emerald-400">شهادة مطابقة رسمية + D10 للجمارك الجزائرية</span>
+                  <span className="font-bold text-emerald-400 text-end">شهادة مطابقة رسمية + <bdi dir="ltr">D10</bdi> للجمارك الجزائرية</span>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
                   <span className="text-carvex-muted">الملف القاعدي:</span>
-                  <span className="font-bold text-white">تسليم ملف الترقيم الكامل لاستخراج البطاقة الرمادية</span>
+                  <span className="font-bold text-white text-end">تسليم ملف الترقيم الكامل لاستخراج البطاقة الرمادية</span>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
-                  <span className="text-carvex-muted">رقم الشاسيه (VIN):</span>
-                  <span className="font-bold text-white font-mono">مطابق 100% ومثبت في بوليصة الشحن الأصلية</span>
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
+                  <span className="text-carvex-muted">رقم الشاسيه <bdi dir="ltr">(VIN)</bdi>:</span>
+                  <span className="font-bold text-white tabular-nums text-end">مطابق <span className="tabular-nums">100%</span> ومثبت في بوليصة الشحن الأصلية</span>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
                   <span className="text-carvex-muted">المفاتيح:</span>
-                  <span className="font-bold text-white">مفتاحان ذكيان أصليان مع نظام التشغيل عن بعد</span>
+                  <span className="font-bold text-white text-end">مفتاحان ذكيان أصليان مع نظام التشغيل عن بعد</span>
                 </div>
-                <div className="flex justify-between py-1.5 border-b border-carvex-border/40">
+                <div className="flex justify-between gap-4 py-1.5 border-b border-carvex-border/40">
                   <span className="text-carvex-muted">حالة العداد:</span>
-                  <span className="font-bold text-white font-mono">000,000 كم (عداد مصفر لم يستعمل)</span>
+                  <span className="font-bold text-white tabular-nums text-end">
+                    <bdi dir="ltr" className="tabular-nums">000,000</bdi> كم (عداد مصفر لم يستعمل)
+                  </span>
                 </div>
               </div>
             </div>
@@ -783,17 +811,17 @@ export default function VehicleDetailClient({
 
         {/* Bottom Banner */}
         <div className="rounded-2xl bg-gradient-to-l from-carvex-cyan/20 via-carvex-card to-carvex-card border border-carvex-cyan/40 p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="space-y-2 text-right">
-            <h3 className="text-xl sm:text-2xl font-black text-white">
-              جاهز لحجز {vehicle.title}؟
-            </h3>
-            <p className="text-xs sm:text-sm text-carvex-muted max-w-xl">
-              تواصل مع فريق مبيعات CARVEX الآن للاطلاع على العقود المتوفرة أو حجز مكان في الحاوية القادمة بالصيغة التي اخترتها ({badgeHighlight}).
+          <div className="space-y-2 text-start">
+            <h2 className="text-xl sm:text-2xl font-bold tracking-[-0.015em] text-white">
+              جاهز لحجز <bdi>{vehicle.title}</bdi>؟
+            </h2>
+            <p className="text-sm sm:text-base text-carvex-muted max-w-prose leading-relaxed">
+              تواصل مع فريق مبيعات <bdi dir="ltr">CARVEX</bdi> الآن للاطلاع على العقود المتوفرة أو حجز مكان في الحاوية القادمة بالصيغة التي اخترتها ({badgeHighlight}).
             </p>
           </div>
           <button
             onClick={() => setModalOpen(true)}
-            className="py-3.5 px-6 rounded-xl bg-carvex-cyan hover:bg-carvex-cyan-hover text-black font-black text-sm transition-all shadow-lg shadow-carvex-cyan/20 flex items-center gap-2 flex-shrink-0"
+            className="py-3.5 px-6 rounded-xl bg-carvex-cyan hover:bg-carvex-cyan-hover text-black font-bold text-sm transition-all shadow-lg shadow-carvex-cyan/20 flex items-center gap-2 flex-shrink-0"
           >
             <MessageCircle className="w-5 h-5" />
             <span>تواصل مع الصالة الآن</span>

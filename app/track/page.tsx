@@ -137,19 +137,19 @@ export default function TrackPage() {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-right space-y-10">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-start space-y-10">
       
       {/* Page Header */}
-      <div className="space-y-3 text-center sm:text-right">
+      <div className="space-y-3 text-center sm:text-start">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-carvex-cyan/15 text-carvex-cyan text-xs font-bold">
           <Compass className="w-4 h-4" />
           <span>تتبع مسار شحنتك المباشر في البحر والميناء</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-black text-white">
+        <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-[-0.02em] leading-[1.2]">
           بوابة تتبع طلبات استيراد السيارات
         </h1>
-        <p className="text-sm text-carvex-muted max-w-2xl leading-relaxed">
-          أدخل رقم هاتفك المسجل بالعقد ورمز الأمان السري (PIN) لمتابعة مكان سيارتك في البحر، تاريخ الوصول المتوقع، وحالة التخليص الجمركي.
+        <p className="text-base text-carvex-muted max-w-prose leading-relaxed">
+          أدخل رقم هاتفك المسجل بالعقد ورمز الأمان السري <bdi dir="ltr">(PIN)</bdi> لمتابعة مكان سيارتك في البحر، تاريخ الوصول المتوقع، وحالة التخليص الجمركي.
         </p>
       </div>
 
@@ -160,22 +160,26 @@ export default function TrackPage() {
             <label className="text-xs font-bold text-white block">رقم الهاتف المسجل بالعقد:</label>
             <input
               type="text"
+              dir="ltr"
               placeholder="مثلاً: 0661XXXXXX"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl bg-carvex-card border border-carvex-border focus:border-carvex-cyan text-white text-sm outline-none transition-colors font-mono"
+              className="w-full px-4 py-3 rounded-xl bg-carvex-card border border-carvex-border focus:border-carvex-cyan text-white text-base sm:text-sm tabular-nums text-end outline-none transition-colors"
             />
           </div>
 
           <div className="sm:col-span-4 space-y-1">
-            <label className="text-xs font-bold text-white block">رمز التتبع السري (PIN):</label>
+            <label className="text-xs font-bold text-white block">
+              رمز التتبع السري <bdi dir="ltr">(PIN)</bdi>:
+            </label>
             <input
               type="password"
+              dir="ltr"
               placeholder="رمز من 4 أرقام"
               maxLength={6}
               value={pin}
               onChange={(e) => setPin(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl bg-carvex-card border border-carvex-border focus:border-carvex-cyan text-white text-sm outline-none transition-colors font-mono text-center tracking-widest"
+              className="w-full px-4 py-3 rounded-xl bg-carvex-card border border-carvex-border focus:border-carvex-cyan text-white text-base sm:text-sm font-mono tabular-nums outline-none transition-colors text-center tracking-[0.25em]"
             />
           </div>
 
@@ -183,7 +187,7 @@ export default function TrackPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-xl bg-carvex-cyan hover:bg-carvex-cyan-hover text-black font-black text-sm transition-all shadow-lg shadow-carvex-cyan/20 flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full py-3 rounded-xl bg-carvex-cyan hover:bg-carvex-cyan-hover text-black font-bold text-sm transition-all shadow-lg shadow-carvex-cyan/20 flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {loading ? (
                 <span className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
@@ -197,8 +201,10 @@ export default function TrackPage() {
           </div>
         </form>
 
-        <p className="text-[11px] text-carvex-muted mt-3">
-          * تجربة سريعة للبيانات التجريبية: استخدم الهاتف <code className="text-carvex-cyan font-mono">0661000000</code> والرمز <code className="text-carvex-cyan font-mono">1234</code>
+        <p className="text-xs text-carvex-muted mt-3 leading-relaxed">
+          * تجربة سريعة للبيانات التجريبية: استخدم الهاتف{' '}
+          <code dir="ltr" className="text-carvex-cyan font-mono tabular-nums">0661000000</code> والرمز{' '}
+          <code dir="ltr" className="text-carvex-cyan font-mono tabular-nums">1234</code>
         </p>
 
         {error && (
@@ -217,14 +223,14 @@ export default function TrackPage() {
           <div className="bg-carvex-card border border-carvex-cyan/40 rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-carvex-border gap-3">
               <div>
-                <span className="text-xs text-carvex-cyan font-mono font-bold block">
-                  طلب رقم: {order.order_number}
+                <span className="text-xs text-carvex-cyan font-bold block">
+                  طلب رقم: <bdi dir="ltr" className="font-mono tabular-nums">{order.order_number}</bdi>
                 </span>
-                <h2 className="text-xl font-black text-white">
-                  {order.expand?.vehicle?.title || 'طلب سيارة مستوردة'}
+                <h2 className="text-xl sm:text-2xl font-bold text-white tracking-[-0.015em]">
+                  <bdi>{order.expand?.vehicle?.title || 'طلب سيارة مستوردة'}</bdi>
                 </h2>
               </div>
-              <div className="text-left">
+              <div className="text-end">
                 <span className="text-xs text-carvex-muted block">صالة الاستلام</span>
                 <span className="text-sm font-bold text-slate-200">
                   {order.expand?.selected_branch?.name_ar || 'صالة جيجل (بوالرمل)'}
@@ -251,7 +257,7 @@ export default function TrackPage() {
                     }`}
                   >
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs font-mono font-black text-carvex-muted">
+                      <span className="text-xs font-bold text-carvex-muted tabular-nums">
                         المحطة 0{st.num}
                       </span>
                       {isCompleted ? (
@@ -262,11 +268,11 @@ export default function TrackPage() {
                         <Clock className="w-4 h-4 text-carvex-muted" />
                       )}
                     </div>
-                    <h4 className="text-sm font-bold text-white mb-1 flex items-center gap-1.5">
-                      <StepIcon className="w-4 h-4 text-carvex-cyan" />
-                      {st.title}
-                    </h4>
-                    <p className="text-[11px] text-carvex-muted leading-relaxed">{st.desc}</p>
+                    <h3 className="text-base font-bold text-white mb-1 flex items-center gap-1.5 leading-snug">
+                      <StepIcon className="w-4 h-4 text-carvex-cyan shrink-0" />
+                      <span>{st.title}</span>
+                    </h3>
+                    <p className="text-xs text-carvex-muted leading-relaxed">{st.desc}</p>
                   </div>
                 );
               })}
@@ -275,24 +281,28 @@ export default function TrackPage() {
             {/* Shipping & Voyage Details Box */}
             {order.expand?.shipment && (
               <div className="p-5 rounded-xl bg-carvex-surface border border-carvex-border space-y-3">
-                <h4 className="text-xs font-black text-carvex-cyan uppercase tracking-wider flex items-center gap-1.5">
+                <h3 className="text-base font-bold text-carvex-cyan flex items-center gap-1.5">
                   <Ship className="w-4 h-4" />
-                  بيانات الحاوية والباخرة في البحر
-                </h4>
+                  <span>بيانات الحاوية والباخرة في البحر</span>
+                </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                   <div>
-                    <span className="text-carvex-muted block text-[11px]">رقم الحاوية البحري:</span>
-                    <span className="text-white font-mono font-bold">{order.expand.shipment.container_number}</span>
+                    <span className="text-carvex-muted block text-xs">رقم الحاوية البحري:</span>
+                    <bdi dir="ltr" className="text-white font-mono tabular-nums font-bold">
+                      {order.expand.shipment.container_number}
+                    </bdi>
                   </div>
                   <div>
-                    <span className="text-carvex-muted block text-[11px]">اسم السفينة والناقل:</span>
-                    <span className="text-white font-bold">{order.expand.shipment.vessel_name}</span>
+                    <span className="text-carvex-muted block text-xs">اسم السفينة والناقل:</span>
+                    <bdi dir="ltr" className="text-white font-bold">
+                      {order.expand.shipment.vessel_name}
+                    </bdi>
                   </div>
                   <div>
-                    <span className="text-carvex-muted block text-[11px]">تاريخ الوصول المتوقع للميناء:</span>
-                    <span className="text-carvex-cyan font-mono font-bold">
+                    <span className="text-carvex-muted block text-xs">تاريخ الوصول المتوقع للميناء:</span>
+                    <bdi dir="ltr" className="text-carvex-cyan tabular-nums font-bold">
                       {order.expand.shipment.estimated_arrival}
-                    </span>
+                    </bdi>
                   </div>
                 </div>
               </div>

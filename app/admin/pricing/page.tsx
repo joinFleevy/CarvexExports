@@ -151,18 +151,20 @@ export default function AdminPricingPage() {
   };
 
   return (
-    <div className="space-y-8 pb-24 text-right">
+    <div className="space-y-8 pb-24 text-start">
       {/* Top Header */}
       <div className="border-b border-carvex-border/60 pb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs text-carvex-cyan font-bold uppercase tracking-wider mb-1">
+          <div className="flex items-center gap-2 text-xs text-carvex-cyan font-bold mb-1">
             <Settings2 className="w-4 h-4" />
-            <span>لوحة تحكم الإدارة والمشرفين (Espace Direction)</span>
+            <span>
+              لوحة تحكم الإدارة والمشرفين <bdi dir="ltr">(Espace Direction)</bdi>
+            </span>
           </div>
-          <h1 className="text-3xl font-black text-white">
-            حاسبة التكاليف والتسعير الذكي للسيارات (Simulateur de Tarification Pro)
+          <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-[-0.02em] leading-[1.2]">
+            حاسبة التكاليف والتسعير الذكي للسيارات <bdi dir="ltr">(Simulateur de Tarification Pro)</bdi>
           </h1>
-          <p className="text-xs sm:text-sm text-carvex-muted mt-1 max-w-3xl">
+          <p className="text-base text-carvex-muted leading-relaxed mt-1 max-w-prose">
             أداة داخلية لأصحاب الشركة لحساب تكلفة استيراد السيارات واقتراح أسعار البيع الثابتة الثلاثة مع إمكانية تعديل كافة الرسوم والرجوع للإعدادات الافتراضية بنقرة زر.
           </p>
         </div>
@@ -173,7 +175,9 @@ export default function AdminPricingPage() {
           className="py-2.5 px-4 rounded-xl bg-carvex-surface hover:bg-carvex-hover text-slate-200 text-xs font-bold border border-carvex-border flex items-center justify-center gap-2 transition-all self-start md:self-auto shadow-md"
         >
           <RotateCcw className="w-4 h-4 text-carvex-cyan" />
-          <span>إعادة ضبط المصنع (Valeurs par défaut)</span>
+          <span>
+            إعادة ضبط المصنع <bdi dir="ltr">(Valeurs par défaut)</bdi>
+          </span>
         </button>
       </div>
 
@@ -195,17 +199,17 @@ export default function AdminPricingPage() {
         <div className="lg:col-span-7 space-y-6">
           {/* Step 1: Vehicle Selection */}
           <div className="p-6 rounded-2xl bg-carvex-card border border-carvex-border space-y-4">
-            <h3 className="text-sm font-bold text-white flex items-center gap-2 border-b border-carvex-border pb-3">
+            <h2 className="text-lg font-bold text-white flex items-center gap-2 border-b border-carvex-border pb-3">
               <Car className="w-4 h-4 text-carvex-cyan" />
               <span>1. اختيار السيارة ومواصفات المصنع</span>
-            </h3>
+            </h2>
 
             <div>
               <label className="text-xs text-carvex-muted block mb-1">حدد السيارة من المخزون الحالي (أو موديل جديد):</label>
               <select
                 value={selectedVehicleId}
                 onChange={(e) => handleVehicleSelect(e.target.value)}
-                className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-carvex-cyan"
+                className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-base sm:text-sm text-white focus:outline-none focus:border-carvex-cyan"
               >
                 <option value="custom">➕ حساب موديل جديد غير مسجل في المخزون</option>
                 {vehicles.map((v) => (
@@ -218,26 +222,32 @@ export default function AdminPricingPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
               <div>
-                <label className="text-xs text-carvex-muted block mb-1">سعر المصنع بالصين (USD $):</label>
+                <label className="text-xs text-carvex-muted block mb-1">
+                  سعر المصنع بالصين <bdi dir="ltr">(USD $)</bdi>:
+                </label>
                 <div className="relative">
                   <input
                     type="number"
+                    dir="ltr"
                     step="100"
                     value={factoryPriceUsd}
                     onChange={(e) => setFactoryPriceUsd(Number(e.target.value) || 0)}
-                    className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-carvex-cyan"
+                    className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-base sm:text-sm text-white tabular-nums focus:outline-none focus:border-carvex-cyan"
                   />
-                  <span className="absolute left-3 top-2 text-xs text-carvex-muted font-mono">$</span>
+                  <span className="absolute left-3 top-2.5 text-xs text-carvex-muted">$</span>
                 </div>
               </div>
 
               <div>
-                <label className="text-xs text-carvex-muted block mb-1">سعة المحرك (cc):</label>
+                <label className="text-xs text-carvex-muted block mb-1">
+                  سعة المحرك <bdi dir="ltr">(cc)</bdi>:
+                </label>
                 <input
                   type="number"
+                  dir="ltr"
                   value={displacementCc}
                   onChange={(e) => setDisplacementCc(Number(e.target.value) || 1498)}
-                  className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-carvex-cyan"
+                  className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-base sm:text-sm text-white tabular-nums focus:outline-none focus:border-carvex-cyan"
                 />
               </div>
 
@@ -246,7 +256,7 @@ export default function AdminPricingPage() {
                 <select
                   value={engineType}
                   onChange={(e) => setEngineType(e.target.value as any)}
-                  className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-carvex-cyan"
+                  className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-base sm:text-sm text-white focus:outline-none focus:border-carvex-cyan"
                 >
                   <option value="essence">بنزين توربو (Essence)</option>
                   <option value="hybrid">هجين (Hybride)</option>
@@ -259,11 +269,13 @@ export default function AdminPricingPage() {
           {/* Step 2: Fully Editable Fees & Customs Parameters */}
           <div className="p-6 rounded-2xl bg-carvex-card border border-carvex-border space-y-5">
             <div className="flex items-center justify-between border-b border-carvex-border pb-3">
-              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <h2 className="text-lg font-bold text-white flex items-center gap-2">
                 <Sliders className="w-4 h-4 text-carvex-cyan" />
-                <span>2. الرسوم والمصاريف القابلة للتعديل (Paramètres Modifiables)</span>
-              </h3>
-              <span className="text-[10px] text-carvex-cyan bg-carvex-cyan/10 px-2 py-0.5 rounded">
+                <span>
+                  2. الرسوم والمصاريف القابلة للتعديل <bdi dir="ltr">(Paramètres Modifiables)</bdi>
+                </span>
+              </h2>
+              <span className="text-xs text-carvex-cyan bg-carvex-cyan/10 px-2 py-0.5 rounded">
                 قابلة للتخصيص
               </span>
             </div>
@@ -272,62 +284,76 @@ export default function AdminPricingPage() {
               {/* USD Rate */}
               <div className="p-3 bg-carvex-surface rounded-xl border border-carvex-border/60">
                 <div className="flex justify-between items-center mb-1">
-                  <label className="text-carvex-muted">سعر صرف الدولار (Dinar/USD):</label>
-                  <span className="font-mono text-white font-bold">{config.usdToDzdRate} دج</span>
+                  <label className="text-carvex-muted">
+                    سعر صرف الدولار <bdi dir="ltr">(Dinar/USD)</bdi>:
+                  </label>
+                  <span className="tabular-nums text-white font-bold">{config.usdToDzdRate}&nbsp;دج</span>
                 </div>
                 <input
                   type="number"
+                  dir="ltr"
                   value={config.usdToDzdRate}
                   onChange={(e) => updateConfigField('usdToDzdRate', Number(e.target.value) || 200)}
-                  className="w-full bg-carvex-dark border border-carvex-border rounded-lg px-2.5 py-1.5 text-xs text-white font-mono focus:outline-none focus:border-carvex-cyan"
+                  className="w-full bg-carvex-dark border border-carvex-border rounded-lg px-2.5 py-1.5 text-base sm:text-sm text-white tabular-nums focus:outline-none focus:border-carvex-cyan"
                 />
-                <span className="text-[10px] text-slate-500 mt-1 block">افتراضي: 200 دج (أو حسب سعر السوق)</span>
+                <span className="text-xs text-slate-400 mt-1 block leading-normal">
+                  افتراضي: 200&nbsp;دج (أو حسب سعر السوق)
+                </span>
               </div>
 
               {/* Maritime Freight */}
               <div className="p-3 bg-carvex-surface rounded-xl border border-carvex-border/60">
                 <div className="flex justify-between items-center mb-1">
                   <label className="text-carvex-muted">تكلفة الشحن البحري والتأمين:</label>
-                  <span className="font-mono text-white font-bold">{config.fretShippingCostCentimes} مليون</span>
+                  <span className="tabular-nums text-white font-bold">{config.fretShippingCostCentimes}&nbsp;مليون</span>
                 </div>
                 <input
                   type="number"
+                  dir="ltr"
                   value={config.fretShippingCostCentimes}
                   onChange={(e) => updateConfigField('fretShippingCostCentimes', Number(e.target.value) || 0)}
-                  className="w-full bg-carvex-dark border border-carvex-border rounded-lg px-2.5 py-1.5 text-xs text-white font-mono focus:outline-none focus:border-carvex-cyan"
+                  className="w-full bg-carvex-dark border border-carvex-border rounded-lg px-2.5 py-1.5 text-base sm:text-sm text-white tabular-nums focus:outline-none focus:border-carvex-cyan"
                 />
-                <span className="text-[10px] text-slate-500 mt-1 block">افتراضي: 40 مليون (~2000$ للحاوية)</span>
+                <span className="text-xs text-slate-400 mt-1 block leading-normal">
+                  افتراضي: 40&nbsp;مليون (<bdi dir="ltr">~2,000 $</bdi> للحاوية)
+                </span>
               </div>
 
               {/* Port & Transitaire */}
               <div className="p-3 bg-carvex-surface rounded-xl border border-carvex-border/60">
                 <div className="flex justify-between items-center mb-1">
                   <label className="text-carvex-muted">مصاريف الميناء والوكيل وفحص المناجم:</label>
-                  <span className="font-mono text-white font-bold">{config.portAndTransitCentimes} مليون</span>
+                  <span className="tabular-nums text-white font-bold">{config.portAndTransitCentimes}&nbsp;مليون</span>
                 </div>
                 <input
                   type="number"
+                  dir="ltr"
                   step="0.5"
                   value={config.portAndTransitCentimes}
                   onChange={(e) => updateConfigField('portAndTransitCentimes', Number(e.target.value) || 0)}
-                  className="w-full bg-carvex-dark border border-carvex-border rounded-lg px-2.5 py-1.5 text-xs text-white font-mono focus:outline-none focus:border-carvex-cyan"
+                  className="w-full bg-carvex-dark border border-carvex-border rounded-lg px-2.5 py-1.5 text-base sm:text-sm text-white tabular-nums focus:outline-none focus:border-carvex-cyan"
                 />
-                <span className="text-[10px] text-slate-500 mt-1 block">افتراضي: 13.5 مليون (جن جن / الجزائر)</span>
+                <span className="text-xs text-slate-400 mt-1 block leading-normal">
+                  افتراضي: 13.5&nbsp;مليون (جن جن / الجزائر)
+                </span>
               </div>
 
               {/* Moudjahidine License Market Cost */}
               <div className="p-3 bg-carvex-surface rounded-xl border border-carvex-border/60">
                 <div className="flex justify-between items-center mb-1">
                   <label className="text-carvex-muted">تكلفة شراء رخصة المجاهدين بالسوق:</label>
-                  <span className="font-mono text-white font-bold">{config.licenseMarketCostCentimes} مليون</span>
+                  <span className="tabular-nums text-white font-bold">{config.licenseMarketCostCentimes}&nbsp;مليون</span>
                 </div>
                 <input
                   type="number"
+                  dir="ltr"
                   value={config.licenseMarketCostCentimes}
                   onChange={(e) => updateConfigField('licenseMarketCostCentimes', Number(e.target.value) || 0)}
-                  className="w-full bg-carvex-dark border border-carvex-border rounded-lg px-2.5 py-1.5 text-xs text-white font-mono focus:outline-none focus:border-carvex-cyan"
+                  className="w-full bg-carvex-dark border border-carvex-border rounded-lg px-2.5 py-1.5 text-base sm:text-sm text-white tabular-nums focus:outline-none focus:border-carvex-cyan"
                 />
-                <span className="text-[10px] text-slate-500 mt-1 block">افتراضي: 65 مليون سنتيم</span>
+                <span className="text-xs text-slate-400 mt-1 block leading-normal">
+                  افتراضي: 65&nbsp;مليون سنتيم
+                </span>
               </div>
             </div>
 
@@ -336,16 +362,28 @@ export default function AdminPricingPage() {
               <span className="text-xs font-bold text-white block">نسب الضرائب الجمركية المعتمدة (المرسوم 23-74):</span>
               <div className="grid grid-cols-3 gap-2 text-center text-xs">
                 <div className="p-2 bg-carvex-dark rounded-lg border border-carvex-border/40">
-                  <span className="text-[10px] text-carvex-muted block">حقوق الجمرك DD</span>
-                  <span className="font-mono font-bold text-white">{config.baseDutyPercent}%</span>
+                  <span className="text-xs text-carvex-muted block">
+                    حقوق الجمرك <bdi dir="ltr">DD</bdi>
+                  </span>
+                  <span className="tabular-nums font-bold text-white">
+                    <bdi dir="ltr">{config.baseDutyPercent}%</bdi>
+                  </span>
                 </div>
                 <div className="p-2 bg-carvex-dark rounded-lg border border-carvex-border/40">
-                  <span className="text-[10px] text-carvex-muted block">تخفيض $\le 1.8L$</span>
-                  <span className="font-mono font-bold text-emerald-400">-{config.dutyDiscountPercentUnder1800}%</span>
+                  <span className="text-xs text-carvex-muted block">
+                    تخفيض <bdi dir="ltr">≤ 1.8L</bdi>
+                  </span>
+                  <span className="tabular-nums font-bold text-emerald-400">
+                    <bdi dir="ltr">–{config.dutyDiscountPercentUnder1800}%</bdi>
+                  </span>
                 </div>
                 <div className="p-2 bg-carvex-dark rounded-lg border border-carvex-border/40">
-                  <span className="text-[10px] text-carvex-muted block">الرسم TVA + TCS</span>
-                  <span className="font-mono font-bold text-white">{config.tvaPercent + config.tcsPercent}%</span>
+                  <span className="text-xs text-carvex-muted block">
+                    الرسم <bdi dir="ltr">TVA + TCS</bdi>
+                  </span>
+                  <span className="tabular-nums font-bold text-white">
+                    <bdi dir="ltr">{config.tvaPercent + config.tcsPercent}%</bdi>
+                  </span>
                 </div>
               </div>
             </div>
@@ -353,12 +391,14 @@ export default function AdminPricingPage() {
 
           {/* Step 3: Profit Margin Configuration */}
           <div className="p-6 rounded-2xl bg-carvex-card border border-carvex-border space-y-4">
-            <h3 className="text-sm font-bold text-white flex items-center gap-2 border-b border-carvex-border pb-3">
+            <h2 className="text-lg font-bold text-white flex items-center gap-2 border-b border-carvex-border pb-3">
               <TrendingUp className="w-4 h-4 text-carvex-cyan" />
-              <span>3. هامش ربح الشركة المستهدف (Marge Bénéficiaire)</span>
-            </h3>
+              <span>
+                3. هامش ربح الشركة المستهدف <bdi dir="ltr">(Marge Bénéficiaire)</bdi>
+              </span>
+            </h2>
 
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-4">
               <label className="flex items-center gap-2 text-xs text-white cursor-pointer">
                 <input
                   type="radio"
@@ -384,7 +424,9 @@ export default function AdminPricingPage() {
               <div>
                 <div className="flex justify-between items-center mb-1 text-xs">
                   <span className="text-carvex-muted">نسبة الربح المستهدفة:</span>
-                  <span className="font-bold text-carvex-cyan font-mono">{marginPercent}%</span>
+                  <span className="font-bold text-carvex-cyan tabular-nums">
+                    <bdi dir="ltr">{marginPercent}%</bdi>
+                  </span>
                 </div>
                 <input
                   type="range"
@@ -395,7 +437,7 @@ export default function AdminPricingPage() {
                   onChange={(e) => setMarginPercent(Number(e.target.value))}
                   className="w-full accent-carvex-cyan cursor-pointer"
                 />
-                <div className="flex justify-between text-[10px] text-carvex-muted font-mono mt-1">
+                <div className="flex justify-between text-xs text-carvex-muted tabular-nums mt-1">
                   <span>3% (سعر تنافسي)</span>
                   <span>10% (قياسي)</span>
                   <span>25% (فئة حصرية)</span>
@@ -406,9 +448,10 @@ export default function AdminPricingPage() {
                 <label className="text-xs text-carvex-muted block mb-1">المبلغ المقطوع لكل سيارة (مليون سنتيم):</label>
                 <input
                   type="number"
+                  dir="ltr"
                   value={marginCentimes}
                   onChange={(e) => setMarginCentimes(Number(e.target.value) || 0)}
-                  className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-carvex-cyan"
+                  className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-base sm:text-sm text-white tabular-nums focus:outline-none focus:border-carvex-cyan"
                 />
               </div>
             )}
@@ -419,85 +462,93 @@ export default function AdminPricingPage() {
         <div className="lg:col-span-5 space-y-6">
           <div className="p-6 rounded-2xl bg-carvex-card border-2 border-carvex-cyan/40 shadow-2xl space-y-6">
             <div className="border-b border-carvex-border pb-4">
-              <span className="text-xs font-bold text-carvex-cyan uppercase tracking-wider block">
+              <span className="text-xs font-bold text-carvex-cyan block">
                 ملخص التكلفة والأسعار المقترحة
               </span>
-              <h3 className="text-xl font-black text-white mt-1">
-                {carTitle}
-              </h3>
-              <p className="text-xs text-carvex-muted mt-0.5">
-                محسوبة آلياً وفق المعايير المحددة وهامش الربح: <strong className="text-carvex-cyan font-mono">{result.marginCentimes} مليون سنتيم</strong>
+              <h2 className="text-xl font-bold text-white mt-1">
+                <bdi>{carTitle}</bdi>
+              </h2>
+              <p className="text-xs text-carvex-muted mt-0.5 leading-relaxed">
+                محسوبة آلياً وفق المعايير المحددة وهامش الربح:{' '}
+                <strong className="text-carvex-cyan tabular-nums">{result.marginCentimes}&nbsp;مليون سنتيم</strong>
               </p>
             </div>
 
             {/* Suggested Price 1: Turnkey Clé en main */}
             <div className="p-4 rounded-xl bg-carvex-surface border border-carvex-cyan/30 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-white">1. سعر التسليم في الصالة (Clé en main)</span>
-                <span className="text-[10px] text-carvex-cyan bg-carvex-cyan/10 px-2 py-0.5 rounded font-bold">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-xs font-bold text-white">
+                  1. سعر التسليم في الصالة <bdi dir="ltr">(Clé en main)</bdi>
+                </span>
+                <span className="text-xs text-carvex-cyan bg-carvex-cyan/10 px-2 py-0.5 rounded font-bold whitespace-nowrap">
                   جمركة عادية (50%)
                 </span>
               </div>
               <div className="flex items-center justify-between gap-3 pt-1">
                 <div className="flex-1">
-                  <span className="text-[10px] text-carvex-muted block">السعر المقترح:</span>
+                  <span className="text-xs text-carvex-muted block">السعر المقترح:</span>
                   <input
                     type="number"
+                    dir="ltr"
                     value={customFinalTurnkey}
                     onChange={(e) => setCustomFinalTurnkey(Number(e.target.value) || 0)}
-                    className="w-full bg-carvex-dark border border-carvex-border rounded-lg px-2.5 py-1 text-base font-black text-carvex-cyan font-mono focus:outline-none focus:border-carvex-cyan"
+                    className="w-full bg-carvex-dark border border-carvex-border rounded-lg px-2.5 py-1 text-base font-bold text-carvex-cyan tabular-nums focus:outline-none focus:border-carvex-cyan"
                   />
                 </div>
-                <div className="text-left text-[11px] text-slate-400 font-mono pt-3">
-                  التكلفة: {result.costTurnkeyCentimes}M
+                <div className="text-end text-xs text-slate-400 tabular-nums pt-3">
+                  التكلفة: <bdi dir="ltr">{result.costTurnkeyCentimes}M</bdi>
                 </div>
               </div>
             </div>
 
             {/* Suggested Price 2: Moudjahidine */}
             <div className="p-4 rounded-xl bg-carvex-surface border border-emerald-500/30 space-y-2">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-2">
                 <span className="text-xs font-bold text-emerald-400">2. السعر مع توفير رخصة مجاهدين</span>
-                <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded font-bold">
+                <span className="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded font-bold whitespace-nowrap">
                   إعفاء 100%
                 </span>
               </div>
               <div className="flex items-center justify-between gap-3 pt-1">
                 <div className="flex-1">
-                  <span className="text-[10px] text-carvex-muted block">السعر المقترح:</span>
+                  <span className="text-xs text-carvex-muted block">السعر المقترح:</span>
                   <input
                     type="number"
+                    dir="ltr"
                     value={customFinalMoudjahidine}
                     onChange={(e) => setCustomFinalMoudjahidine(Number(e.target.value) || 0)}
-                    className="w-full bg-carvex-dark border border-carvex-border rounded-lg px-2.5 py-1 text-base font-black text-emerald-400 font-mono focus:outline-none focus:border-emerald-400"
+                    className="w-full bg-carvex-dark border border-carvex-border rounded-lg px-2.5 py-1 text-base font-bold text-emerald-400 tabular-nums focus:outline-none focus:border-emerald-400"
                   />
                 </div>
-                <div className="text-left text-[11px] text-slate-400 font-mono pt-3">
-                  التكلفة: {result.costMoudjahidineMarketCentimes}M
+                <div className="text-end text-xs text-slate-400 tabular-nums pt-3">
+                  التكلفة: <bdi dir="ltr">{result.costMoudjahidineMarketCentimes}M</bdi>
                 </div>
               </div>
             </div>
 
             {/* Suggested Price 3: FOB Port Only */}
             <div className="p-4 rounded-xl bg-carvex-surface border border-blue-500/30 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-blue-400">3. السعر واصل للميناء فقط (FOB)</span>
-                <span className="text-[10px] text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded font-bold">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-xs font-bold text-blue-400">
+                  3. السعر واصل للميناء فقط <bdi dir="ltr">(FOB)</bdi>
+                </span>
+                <span className="text-xs text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded font-bold whitespace-nowrap">
                   بدون جمركة
                 </span>
               </div>
               <div className="flex items-center justify-between gap-3 pt-1">
                 <div className="flex-1">
-                  <span className="text-[10px] text-carvex-muted block">السعر المقترح:</span>
+                  <span className="text-xs text-carvex-muted block">السعر المقترح:</span>
                   <input
                     type="number"
+                    dir="ltr"
                     value={customFinalFob}
                     onChange={(e) => setCustomFinalFob(Number(e.target.value) || 0)}
-                    className="w-full bg-carvex-dark border border-carvex-border rounded-lg px-2.5 py-1 text-base font-black text-blue-400 font-mono focus:outline-none focus:border-blue-400"
+                    className="w-full bg-carvex-dark border border-carvex-border rounded-lg px-2.5 py-1 text-base font-bold text-blue-400 tabular-nums focus:outline-none focus:border-blue-400"
                   />
                 </div>
-                <div className="text-left text-[11px] text-slate-400 font-mono pt-3">
-                  التكلفة: {result.fobPriceCentimes}M
+                <div className="text-end text-xs text-slate-400 tabular-nums pt-3">
+                  التكلفة: <bdi dir="ltr">{result.fobPriceCentimes}M</bdi>
                 </div>
               </div>
             </div>
@@ -506,7 +557,7 @@ export default function AdminPricingPage() {
             <div className="pt-2 space-y-3">
               <button
                 onClick={handleApplyToVehicle}
-                className="w-full py-3.5 px-4 rounded-xl bg-carvex-cyan hover:bg-carvex-cyan-hover text-black font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-carvex-cyan/20 transition-all"
+                className="w-full py-3.5 px-4 rounded-xl bg-carvex-cyan hover:bg-carvex-cyan-hover text-black font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-carvex-cyan/20 transition-all"
               >
                 <Save className="w-4 h-4" />
                 <span>نشر وتطبيق الأسعار على السيارة بالموقع</span>
@@ -521,22 +572,26 @@ export default function AdminPricingPage() {
 
             {/* Cost Breakdown Details */}
             <div className="pt-4 border-t border-carvex-border/60 space-y-2 text-xs">
-              <span className="text-[11px] font-bold text-carvex-muted block">تفصيل التكلفة الصافية للسيارة (Coût de revient):</span>
+              <span className="text-xs font-bold text-carvex-muted block">
+                تفصيل التكلفة الصافية للسيارة <bdi dir="ltr">(Coût de revient)</bdi>:
+              </span>
               <div className="flex justify-between text-slate-300">
-                <span>سعر المصنع + الشحن (FOB):</span>
-                <span className="font-mono">{result.fobPriceCentimes} مليون</span>
+                <span>سعر المصنع + الشحن <bdi dir="ltr">(FOB)</bdi>:</span>
+                <span className="tabular-nums">{result.fobPriceCentimes}&nbsp;مليون</span>
               </div>
               <div className="flex justify-between text-slate-300">
                 <span>الرسوم الجمركية الصافية:</span>
-                <span className="font-mono">{result.costTurnkeyCentimes - result.fobPriceCentimes - config.portAndTransitCentimes} مليون</span>
+                <span className="tabular-nums">
+                  {result.costTurnkeyCentimes - result.fobPriceCentimes - config.portAndTransitCentimes}&nbsp;مليون
+                </span>
               </div>
               <div className="flex justify-between text-slate-300">
                 <span>الميناء والتفتيش والوكيل:</span>
-                <span className="font-mono">{config.portAndTransitCentimes} مليون</span>
+                <span className="tabular-nums">{config.portAndTransitCentimes}&nbsp;مليون</span>
               </div>
               <div className="flex justify-between font-bold text-carvex-cyan border-t border-carvex-border/40 pt-1.5">
                 <span>هامش ربح الوكالة الصافي:</span>
-                <span className="font-mono">+{result.marginCentimes} مليون سنتيم</span>
+                <span className="tabular-nums">+{result.marginCentimes}&nbsp;مليون سنتيم</span>
               </div>
             </div>
           </div>

@@ -62,7 +62,7 @@ export default function BranchModal({ isOpen, onClose, carTitle, sourceContext }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-      <div className="relative w-full max-w-lg bg-neutral-900 border border-neutral-800 rounded-xl p-6 text-right">
+      <div className="relative w-full max-w-lg bg-neutral-900 border border-neutral-800 rounded-xl p-6 text-start">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -76,10 +76,14 @@ export default function BranchModal({ isOpen, onClose, carTitle, sourceContext }
           <h3 className="text-lg font-bold text-white mb-1">
             اختر صالة العرض أو الإدارة
           </h3>
-          <p className="text-xs text-neutral-400">
-            {carTitle
-              ? `طلب استفسار عن: ${carTitle}`
-              : 'اختر الصالة الأقرب لبدء محادثة واتساب مباشرة'}
+          <p className="text-sm text-neutral-400 leading-relaxed">
+            {carTitle ? (
+              <>
+                طلب استفسار عن: <bdi>{carTitle}</bdi>
+              </>
+            ) : (
+              'اختر الصالة الأقرب لبدء محادثة واتساب مباشرة'
+            )}
           </p>
         </div>
 
@@ -94,21 +98,28 @@ export default function BranchModal({ isOpen, onClose, carTitle, sourceContext }
               <div className="text-xs text-neutral-400">
                 <span>تواصل عبر واتساب &larr;</span>
               </div>
-              <div className="text-right">
+              <div className="text-start">
                 <div className="flex items-center gap-2 justify-end mb-1">
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-neutral-800 text-neutral-400">
+                  <span className="text-xs px-2 py-0.5 rounded bg-neutral-800 text-neutral-300">
                     {b.badge}
                   </span>
                   <h4 className="text-sm font-semibold text-white">
                     {b.name}
                   </h4>
                 </div>
-                <p className="text-xs text-neutral-400 flex items-center gap-1 justify-end">
+                <p className="text-xs text-neutral-400 flex items-center gap-1 justify-end leading-relaxed">
                   {b.location}
                   <MapPin className="w-3 h-3" />
                 </p>
-                <p className="text-xs text-neutral-400 flex items-center gap-1 justify-end mt-0.5 font-mono">
-                  {b.phones.join(' / ')}
+                <p className="text-xs text-neutral-400 flex items-center gap-1 justify-end mt-0.5 tabular-nums">
+                  <span>
+                    {b.phones.map((p, idx) => (
+                      <React.Fragment key={p}>
+                        {idx > 0 && ' / '}
+                        <bdi dir="ltr">{p}</bdi>
+                      </React.Fragment>
+                    ))}
+                  </span>
                   <Phone className="w-3 h-3" />
                 </p>
               </div>

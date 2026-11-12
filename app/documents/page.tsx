@@ -103,28 +103,29 @@ function DocumentsContent() {
   };
 
   return (
-    <div className="space-y-8 pb-20 text-right print:space-y-0 print:p-0">
+    <div className="space-y-8 pb-20 text-start print:space-y-0 print:p-0">
       {/* Top Header - Hidden in Print */}
       <div className="border-b border-carvex-border/60 pb-6 print:hidden">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <span className="text-xs font-bold text-carvex-cyan uppercase tracking-wider block">
+            <span className="text-xs font-bold text-carvex-cyan block">
               نظام إدارة وثائق الصالة الرسمي
             </span>
-            <h1 className="text-3xl font-black text-white mt-1">
-              مولد وصولات العربون وعقود السيارات (Documents du Showroom)
+            <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-[-0.02em] leading-[1.2] mt-1">
+              مولد وصولات العربون وعقود السيارات <bdi dir="ltr">(Documents du Showroom)</bdi>
             </h1>
-            <p className="text-xs sm:text-sm text-carvex-muted mt-1">
-              طباعة فورية لوصولات العربون، إيصالات الدفع، البطاقات التقنية، وعقود البيع مطابقة للشروط القانونية لشركة CARVEX EXPORT.
+            <p className="text-sm sm:text-base text-carvex-muted leading-relaxed max-w-prose mt-1">
+              طباعة فورية لوصولات العربون، إيصالات الدفع، البطاقات التقنية، وعقود البيع مطابقة للشروط القانونية لشركة{' '}
+              <bdi dir="ltr">CARVEX EXPORT</bdi>.
             </p>
           </div>
 
           <button
             onClick={handlePrint}
-            className="py-3 px-6 rounded-xl bg-carvex-cyan hover:bg-carvex-cyan-hover text-black font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-carvex-cyan/20 transition-all self-start md:self-auto"
+            className="py-3 px-6 rounded-xl bg-carvex-cyan hover:bg-carvex-cyan-hover text-black font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-carvex-cyan/20 transition-all self-start md:self-auto"
           >
             <Printer className="w-5 h-5" />
-            <span>طباعة الوثيقة الرسمية / PDF</span>
+            <span>طباعة الوثيقة الرسمية / <bdi dir="ltr">PDF</bdi></span>
           </button>
         </div>
 
@@ -139,7 +140,7 @@ function DocumentsContent() {
             }`}
           >
             <FileText className="w-4 h-4" />
-            <span>وصل استلام عربون (Reçu d&apos;arbon)</span>
+            <span>وصل استلام عربون <bdi dir="ltr">(Reçu d&rsquo;arbon)</bdi></span>
           </button>
 
           <button
@@ -151,7 +152,7 @@ function DocumentsContent() {
             }`}
           >
             <CreditCard className="w-4 h-4" />
-            <span>وصل استلام دفعة مالية (Reçu de paiement)</span>
+            <span>وصل استلام دفعة مالية <bdi dir="ltr">(Reçu de paiement)</bdi></span>
           </button>
 
           <button
@@ -163,7 +164,7 @@ function DocumentsContent() {
             }`}
           >
             <Building2 className="w-4 h-4" />
-            <span>عقد بيع وحجز سيارة (Contrat de vente)</span>
+            <span>عقد بيع وحجز سيارة <bdi dir="ltr">(Contrat de vente)</bdi></span>
           </button>
 
           <button
@@ -175,7 +176,7 @@ function DocumentsContent() {
             }`}
           >
             <Car className="w-4 h-4" />
-            <span>البطاقة التقنية (Fiche technique)</span>
+            <span>البطاقة التقنية <bdi dir="ltr">(Fiche technique)</bdi></span>
           </button>
         </div>
       </div>
@@ -185,11 +186,11 @@ function DocumentsContent() {
         {/* Editor Controls Sidebar - Hidden in Print */}
         <div className="lg:col-span-5 bg-carvex-card border border-carvex-border p-6 rounded-2xl space-y-5 print:hidden">
           <div className="flex items-center justify-between border-b border-carvex-border pb-3">
-            <h3 className="text-base font-bold text-white flex items-center gap-2">
+            <h2 className="text-base font-bold text-white flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-carvex-cyan" />
               <span>بيانات المعاملة والزبون</span>
-            </h3>
-            <span className="text-[11px] text-carvex-muted">تحديث حي في المعاينة</span>
+            </h2>
+            <span className="text-xs text-carvex-muted">تحديث حي في المعاينة</span>
           </div>
 
           {/* Branch Picker */}
@@ -198,7 +199,7 @@ function DocumentsContent() {
             <select
               value={selectedBranch}
               onChange={(e) => setSelectedBranch(e.target.value as any)}
-              className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-carvex-cyan"
+              className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-base sm:text-sm text-white focus:outline-none focus:border-carvex-cyan"
             >
               <option value="alger">الجزائر العاصمة (المحمدية / صافكس)</option>
               <option value="jijel">جيجل (بوالرمل / ميناء جن جن)</option>
@@ -212,32 +213,38 @@ function DocumentsContent() {
               <label className="text-xs text-carvex-muted block mb-1 font-medium">رقم الوصل المرجعي:</label>
               <input
                 type="text"
+                dir="ltr"
                 value={docNumber}
                 onChange={(e) => setDocNumber(e.target.value)}
-                className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-carvex-cyan"
+                className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-base sm:text-sm text-white font-mono tabular-nums focus:outline-none focus:border-carvex-cyan"
               />
             </div>
             <div>
               <label className="text-xs text-carvex-muted block mb-1 font-medium">التاريخ:</label>
               <input
                 type="date"
+                dir="ltr"
                 value={docDate}
                 onChange={(e) => setDocDate(e.target.value)}
-                className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-carvex-cyan"
+                className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-base sm:text-sm text-white tabular-nums focus:outline-none focus:border-carvex-cyan"
               />
             </div>
           </div>
 
           {/* Client Details */}
           <div className="space-y-3 pt-2 border-t border-carvex-border/60">
-            <span className="text-xs font-bold text-carvex-cyan block">بيانات المشتري (Client):</span>
+            <span className="text-xs font-bold text-carvex-cyan block">
+              بيانات المشتري <bdi dir="ltr">(Client)</bdi>:
+            </span>
             <div>
-              <label className="text-xs text-carvex-muted block mb-1">الاسم واللقب (Nom & Prénom):</label>
+              <label className="text-xs text-carvex-muted block mb-1">
+                الاسم واللقب <bdi dir="ltr">(Nom &amp; Prénom)</bdi>:
+              </label>
               <input
                 type="text"
                 value={clientName}
                 onChange={(e) => setClientName(e.target.value)}
-                className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-carvex-cyan"
+                className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-base sm:text-sm text-white focus:outline-none focus:border-carvex-cyan"
               />
             </div>
 
@@ -246,18 +253,22 @@ function DocumentsContent() {
                 <label className="text-xs text-carvex-muted block mb-1">رقم الهاتف:</label>
                 <input
                   type="text"
+                  dir="ltr"
                   value={clientPhone}
                   onChange={(e) => setClientPhone(e.target.value)}
-                  className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-carvex-cyan"
+                  className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-base sm:text-sm text-white tabular-nums focus:outline-none focus:border-carvex-cyan"
                 />
               </div>
               <div>
-                <label className="text-xs text-carvex-muted block mb-1">رقم ب.ت.و / CNI:</label>
+                <label className="text-xs text-carvex-muted block mb-1">
+                  رقم ب.ت.و / <bdi dir="ltr">CNI</bdi>:
+                </label>
                 <input
                   type="text"
+                  dir="ltr"
                   value={clientCin}
                   onChange={(e) => setClientCin(e.target.value)}
-                  className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-carvex-cyan"
+                  className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-base sm:text-sm text-white font-mono tabular-nums focus:outline-none focus:border-carvex-cyan"
                 />
               </div>
             </div>
@@ -268,7 +279,7 @@ function DocumentsContent() {
                 type="text"
                 value={clientAddress}
                 onChange={(e) => setClientAddress(e.target.value)}
-                className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-carvex-cyan"
+                className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-base sm:text-sm text-white focus:outline-none focus:border-carvex-cyan"
               />
             </div>
           </div>
@@ -282,18 +293,21 @@ function DocumentsContent() {
                 type="text"
                 value={carTitle}
                 onChange={(e) => setCarTitle(e.target.value)}
-                className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-carvex-cyan"
+                className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-base sm:text-sm text-white focus:outline-none focus:border-carvex-cyan"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-xs text-carvex-muted block mb-1">رقم الشاسيه (Châssis / VIN):</label>
+                <label className="text-xs text-carvex-muted block mb-1">
+                  رقم الشاسيه <bdi dir="ltr">(Châssis / VIN)</bdi>:
+                </label>
                 <input
                   type="text"
+                  dir="ltr"
                   value={vinNumber}
                   onChange={(e) => setVinNumber(e.target.value)}
-                  className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-carvex-cyan"
+                  className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-base sm:text-sm text-white font-mono tabular-nums focus:outline-none focus:border-carvex-cyan"
                 />
               </div>
               <div>
@@ -302,7 +316,7 @@ function DocumentsContent() {
                   type="text"
                   value={carColor}
                   onChange={(e) => setCarColor(e.target.value)}
-                  className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-carvex-cyan"
+                  className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-base sm:text-sm text-white focus:outline-none focus:border-carvex-cyan"
                 />
               </div>
             </div>
@@ -314,27 +328,32 @@ function DocumentsContent() {
             <div>
               <div className="flex justify-between items-center mb-1">
                 <label className="text-xs text-carvex-muted">المبلغ المسلم (بالملايين سنتيم):</label>
-                <span className="text-xs font-black text-carvex-cyan font-mono">{amountCentimes} مليون سنتيم</span>
+                <span className="text-xs font-bold text-carvex-cyan tabular-nums">
+                  {amountCentimes}&nbsp;مليون سنتيم
+                </span>
               </div>
               <input
                 type="number"
+                dir="ltr"
                 min="1"
                 step="1"
                 value={amountCentimes}
                 onChange={(e) => setAmountCentimes(Number(e.target.value) || 0)}
-                className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-sm text-white font-mono focus:outline-none focus:border-carvex-cyan"
+                className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-base sm:text-sm text-white tabular-nums focus:outline-none focus:border-carvex-cyan"
               />
-              <span className="text-[10px] text-slate-400 font-mono mt-1 block">
-                يعادل: {amountDzd.toLocaleString('fr-FR')} دينار جزائري (DA)
+              <span className="text-xs text-slate-400 tabular-nums mt-1 block">
+                يعادل: <bdi dir="ltr">{amountDzd.toLocaleString('fr-FR')}</bdi> دينار جزائري <bdi dir="ltr">(DA)</bdi>
               </span>
             </div>
 
             <div>
-              <label className="text-xs text-carvex-muted block mb-1">طريقة الدفع (Mode de paiement):</label>
+              <label className="text-xs text-carvex-muted block mb-1">
+                طريقة الدفع <bdi dir="ltr">(Mode de paiement)</bdi>:
+              </label>
               <select
                 value={paymentMode}
                 onChange={(e) => setPaymentMode(e.target.value as any)}
-                className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-carvex-cyan"
+                className="w-full bg-carvex-surface border border-carvex-border rounded-xl px-3 py-2 text-base sm:text-sm text-white focus:outline-none focus:border-carvex-cyan"
               >
                 <option value="especes">نقداً في الصندوق (Espèces)</option>
                 <option value="cheque">شيك بنكي معتمد (Chèque de banque)</option>
@@ -362,25 +381,25 @@ function DocumentsContent() {
                     />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-black text-slate-900 tracking-tight font-mono">
-                      CARVEX EXPORT
+                    <h2 className="text-2xl font-bold text-slate-900 tracking-[-0.02em]">
+                      <bdi dir="ltr">CARVEX EXPORT</bdi>
                     </h2>
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-600">
+                    <p dir="ltr" className="text-xs font-bold uppercase tracking-[0.05em] text-slate-600 text-start">
                       SARL AU CAPITAL DE 10 000 000 DA
                     </p>
-                    <p className="text-[10px] text-slate-500">
+                    <p className="text-xs text-slate-500">
                       استيراد وتوزيع وتجارة السيارات الجديدة
                     </p>
                   </div>
                 </div>
 
                 {/* Dealership Legal Coordinates */}
-                <div className="text-left text-[10px] text-slate-600 leading-tight space-y-0.5">
+                <div dir="ltr" className="text-left text-xs text-slate-600 leading-relaxed space-y-0.5 tabular-nums">
                   <p className="font-bold text-slate-800">SARL CARVEX EXPORT</p>
-                  <p>RC: 16/00-0123456B24</p>
-                  <p>NIF: 002416012345678</p>
-                  <p>NIS: 002416012345678</p>
-                  <p>Art. Imposition: 16041234567</p>
+                  <p className="font-mono">RC: 16/00-0123456B24</p>
+                  <p className="font-mono">NIF: 002416012345678</p>
+                  <p className="font-mono">NIS: 002416012345678</p>
+                  <p className="font-mono">Art. Imposition: 16041234567</p>
                   <p className="font-bold text-slate-900 pt-1">{branch.phone}</p>
                 </div>
               </div>
@@ -388,27 +407,45 @@ function DocumentsContent() {
               {/* Title & Metadata Banner */}
               <div className="py-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200">
                 <div>
-                  <h3 className="text-xl sm:text-2xl font-black text-slate-900 uppercase tracking-tight">
-                    {docType === 'recu_arbon' && "REÇU D'ARBON / وصل استلام عربون"}
-                    {docType === 'recu_paiement' && 'REÇU DE PAIEMENT / وصل استلام دفعة'}
-                    {docType === 'contrat_vente' && 'BON DE COMMANDE / عقد طلب وحجز سيارة'}
-                    {docType === 'fiche_technique' && 'FICHE TECHNIQUE / البطاقة التقنية للمركبة'}
+                  <h3 className="text-xl sm:text-2xl font-bold text-slate-900 uppercase tracking-[-0.015em]">
+                    {docType === 'recu_arbon' && (
+                      <>
+                        <bdi dir="ltr">REÇU D&rsquo;ARBON</bdi> / وصل استلام عربون
+                      </>
+                    )}
+                    {docType === 'recu_paiement' && (
+                      <>
+                        <bdi dir="ltr">REÇU DE PAIEMENT</bdi> / وصل استلام دفعة
+                      </>
+                    )}
+                    {docType === 'contrat_vente' && (
+                      <>
+                        <bdi dir="ltr">BON DE COMMANDE</bdi> / عقد طلب وحجز سيارة
+                      </>
+                    )}
+                    {docType === 'fiche_technique' && (
+                      <>
+                        <bdi dir="ltr">FICHE TECHNIQUE</bdi> / البطاقة التقنية للمركبة
+                      </>
+                    )}
                   </h3>
                   <p className="text-xs text-slate-500 mt-0.5">
-                    {branch.nameFr} — {branch.nameAr}
+                    <bdi dir="ltr">{branch.nameFr}</bdi> — {branch.nameAr}
                   </p>
                 </div>
 
-                <div className="text-left text-xs space-y-1">
+                <div className="text-end text-xs space-y-1">
                   <div className="flex items-center gap-2">
                     <span className="text-slate-500">N° Réf:</span>
-                    <span className="font-bold font-mono text-slate-900 bg-slate-100 px-2 py-0.5 rounded">
+                    <bdi dir="ltr" className="font-bold font-mono tabular-nums text-slate-900 bg-slate-100 px-2 py-0.5 rounded">
                       {docNumber}
-                    </span>
+                    </bdi>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-slate-500">Date:</span>
-                    <span className="font-bold font-mono text-slate-900">{docDate}</span>
+                    <bdi dir="ltr" className="font-bold tabular-nums text-slate-900">
+                      {docDate}
+                    </bdi>
                   </div>
                 </div>
               </div>
@@ -416,43 +453,44 @@ function DocumentsContent() {
               {/* Client & Transaction Details Table */}
               <div className="py-6 space-y-6">
                 {/* 2-column details block */}
-                <div className="grid grid-cols-2 gap-6 bg-slate-50 p-5 rounded-xl border border-slate-200 text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 bg-slate-50 p-5 rounded-xl border border-slate-200 text-xs leading-relaxed">
                   <div className="space-y-2">
-                    <p className="text-[10px] font-bold uppercase text-slate-400">
-                      بيانات المشتري (Client)
+                    <p className="text-xs font-bold uppercase tracking-[0.05em] text-slate-500">
+                      بيانات المشتري <bdi dir="ltr">(Client)</bdi>
                     </p>
                     <p>
-                      <strong className="text-slate-800">الاسم واللقب:</strong> {clientName}
+                      <strong className="text-slate-800">الاسم واللقب:</strong> <bdi>{clientName}</bdi>
                     </p>
                     <p>
                       <strong className="text-slate-800">الهاتف:</strong>{' '}
-                      <span className="font-mono">{clientPhone}</span>
+                      <bdi dir="ltr" className="tabular-nums">{clientPhone}</bdi>
                     </p>
                     <p>
                       <strong className="text-slate-800">رقم CNI:</strong>{' '}
-                      <span className="font-mono">{clientCin}</span>
+                      <bdi dir="ltr" className="font-mono tabular-nums">{clientCin}</bdi>
                     </p>
                     <p>
-                      <strong className="text-slate-800">العنوان:</strong> {clientAddress}
+                      <strong className="text-slate-800">العنوان:</strong> <bdi>{clientAddress}</bdi>
                     </p>
                   </div>
 
                   <div className="space-y-2">
-                    <p className="text-[10px] font-bold uppercase text-slate-400">
-                      بيانات المركبة (Véhicule)
+                    <p className="text-xs font-bold uppercase tracking-[0.05em] text-slate-500">
+                      بيانات المركبة <bdi dir="ltr">(Véhicule)</bdi>
                     </p>
                     <p>
-                      <strong className="text-slate-800">الموديل:</strong> {carTitle}
+                      <strong className="text-slate-800">الموديل:</strong> <bdi>{carTitle}</bdi>
                     </p>
                     <p>
-                      <strong className="text-slate-800">رقم الهيكل (VIN):</strong>{' '}
-                      <span className="font-mono">{vinNumber}</span>
+                      <strong className="text-slate-800">رقم الهيكل <bdi dir="ltr">(VIN)</bdi>:</strong>{' '}
+                      <bdi dir="ltr" className="font-mono tabular-nums">{vinNumber}</bdi>
                     </p>
                     <p>
-                      <strong className="text-slate-800">اللون:</strong> {carColor}
+                      <strong className="text-slate-800">اللون:</strong> <bdi>{carColor}</bdi>
                     </p>
                     <p>
-                      <strong className="text-slate-800">حالة العداد:</strong> 000,000 كلم (جديدة 2026)
+                      <strong className="text-slate-800">حالة العداد:</strong>{' '}
+                      <bdi dir="ltr" className="tabular-nums">000,000&nbsp;km</bdi> (جديدة 2026)
                     </p>
                   </div>
                 </div>
@@ -460,25 +498,37 @@ function DocumentsContent() {
                 {/* Amount Highlight Box */}
                 <div className="p-5 rounded-xl border-2 border-slate-900 bg-slate-100/70 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div>
-                    <span className="text-[10px] font-bold uppercase text-slate-600 block">
-                      المبلغ المستلم (Montant Perçu)
+                    <span className="text-xs font-bold text-slate-600 block">
+                      المبلغ المستلم <bdi dir="ltr">(Montant Perçu)</bdi>
                     </span>
-                    <div className="text-3xl font-black text-slate-950 font-mono tracking-tight mt-0.5">
-                      {amountCentimes} مليون سنتيم
+                    <div className="text-3xl font-bold text-slate-950 tabular-nums tracking-[-0.02em] mt-0.5">
+                      {amountCentimes}&nbsp;مليون سنتيم
                     </div>
-                    <div className="text-xs font-mono text-slate-700 mt-0.5">
-                      ({amountDzd.toLocaleString('fr-FR')} DZD)
+                    <div className="text-xs tabular-nums text-slate-700 mt-0.5">
+                      <bdi dir="ltr">({amountDzd.toLocaleString('fr-FR')} DZD)</bdi>
                     </div>
                   </div>
 
-                  <div className="text-left text-xs space-y-1">
-                    <span className="text-[10px] font-bold uppercase text-slate-500 block">
-                      طريقة التسديد (Mode de règlement)
+                  <div className="text-end text-xs space-y-1">
+                    <span className="text-xs font-bold text-slate-500 block">
+                      طريقة التسديد <bdi dir="ltr">(Mode de règlement)</bdi>
                     </span>
                     <span className="font-bold text-slate-900 inline-block bg-white px-2.5 py-1 rounded border border-slate-300">
-                      {paymentMode === 'especes' && 'نقداً في الصندوق (Espèces)'}
-                      {paymentMode === 'cheque' && 'شيك بنكي معتمد (Chèque)'}
-                      {paymentMode === 'virement' && 'تحويل بنكي (Virement)'}
+                      {paymentMode === 'especes' && (
+                        <>
+                          نقداً في الصندوق <bdi dir="ltr">(Espèces)</bdi>
+                        </>
+                      )}
+                      {paymentMode === 'cheque' && (
+                        <>
+                          شيك بنكي معتمد <bdi dir="ltr">(Chèque)</bdi>
+                        </>
+                      )}
+                      {paymentMode === 'virement' && (
+                        <>
+                          تحويل بنكي <bdi dir="ltr">(Virement)</bdi>
+                        </>
+                      )}
                     </span>
                   </div>
                 </div>
@@ -486,31 +536,32 @@ function DocumentsContent() {
                 {/* Montant en toutes lettres (Arabic & French) */}
                 <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs">
                   <div>
-                    <span className="text-[10px] font-bold text-slate-500 block">
-                      المبلغ بالأحرف باللغة العربية (Montant en toutes lettres - Arabe):
+                    <span className="text-xs font-bold text-slate-500 block">
+                      المبلغ بالأحرف باللغة العربية <bdi dir="ltr">(Montant en toutes lettres – Arabe)</bdi>:
                     </span>
-                    <p className="font-bold text-slate-900 font-sans mt-0.5 text-sm">
+                    <p className="font-bold text-slate-900 font-sans mt-0.5 text-sm leading-relaxed">
                       {arabicWords}
                     </p>
-                    <p className="text-[11px] text-slate-600">
+                    <p className="text-xs text-slate-600 mt-0.5">
                       أي ما قيمته: <strong className="text-slate-900">{centimesWords}</strong>
                     </p>
                   </div>
 
                   <div className="pt-2 border-t border-slate-200">
-                    <span className="text-[10px] font-bold text-slate-500 block">
+                    <span className="text-xs font-bold text-slate-500 block">
                       Montant en toutes lettres (Français):
                     </span>
-                    <p className="font-medium text-slate-800 italic mt-0.5 font-sans">
+                    <p lang="fr" dir="ltr" className="font-medium text-slate-800 italic mt-0.5 font-sans text-start leading-relaxed">
                       Arrêté le présent reçu à la somme de: {frenchWords}.
                     </p>
                   </div>
                 </div>
 
                 {/* Legal notes */}
-                <div className="text-[10px] text-slate-500 leading-relaxed border-t border-slate-200 pt-3">
+                <div className="text-xs text-slate-500 leading-relaxed border-t border-slate-200 pt-3">
                   <p>
-                    * يُعتبر هذا الوصل إثباتاً رسمياً لعملية الحجز أو استلام الدفعة المحددة أعلاه، وهو خاضع لبنود العقد المبرم بين الطرفين وتعهّد شركة CARVEX EXPORT باستيراد وتخليص وتسليم المركبة المعنية جاهزة للسير مع كامل وثائقها القانونية.
+                    * يُعتبر هذا الوصل إثباتاً رسمياً لعملية الحجز أو استلام الدفعة المحددة أعلاه، وهو خاضع لبنود العقد المبرم بين الطرفين وتعهّد شركة{' '}
+                    <bdi dir="ltr">CARVEX EXPORT</bdi> باستيراد وتخليص وتسليم المركبة المعنية جاهزة للسير مع كامل وثائقها القانونية.
                   </p>
                 </div>
               </div>
@@ -521,23 +572,24 @@ function DocumentsContent() {
               <div className="grid grid-cols-2 gap-8 text-xs text-center">
                 <div className="space-y-16">
                   <p className="font-bold text-slate-800">
-                    توقيع المشتري (Signature du Client)
+                    توقيع المشتري <bdi dir="ltr">(Signature du Client)</bdi>
                   </p>
-                  <p className="text-[10px] text-slate-400">« قرئ وصودق عليه »</p>
+                  <p className="text-xs text-slate-500">« قرئ وصودق عليه »</p>
                 </div>
 
                 <div className="space-y-8">
                   <p className="font-bold text-slate-800">
-                    ختم وإمضاء شركة CARVEX EXPORT
+                    ختم وإمضاء شركة <bdi dir="ltr">CARVEX EXPORT</bdi>
                   </p>
-                  <div className="inline-block p-4 border-2 border-dashed border-slate-300 rounded-xl text-slate-400 text-[10px]">
-                    ختم الصالة الرسمي (Cachet & Signature)
+                  <div className="inline-block p-4 border-2 border-dashed border-slate-300 rounded-xl text-slate-500 text-xs">
+                    ختم الصالة الرسمي <bdi dir="ltr">(Cachet &amp; Signature)</bdi>
                   </div>
                 </div>
               </div>
 
-              <div className="text-center text-[9px] text-slate-400 pt-8 border-t border-slate-200 mt-6">
-                SARL CARVEX EXPORT — {branch.address} — هاتف: {branch.phone} — www.carvexexport.com
+              <div className="text-center text-xs text-slate-500 pt-8 border-t border-slate-200 mt-6 tabular-nums">
+                <bdi dir="ltr">SARL CARVEX EXPORT</bdi> — <bdi>{branch.address}</bdi> — هاتف:{' '}
+                <bdi dir="ltr">{branch.phone}</bdi> — <bdi dir="ltr">www.carvexexport.com</bdi>
               </div>
             </div>
           </div>
@@ -549,7 +601,7 @@ function DocumentsContent() {
 
 export default function DocumentsPage() {
   return (
-    <Suspense fallback={<div className="p-12 text-center text-white">جاري تحميل نظام الوثائق...</div>}>
+    <Suspense fallback={<div className="p-12 text-center text-white">جاري تحميل نظام الوثائق…</div>}>
       <DocumentsContent />
     </Suspense>
   );

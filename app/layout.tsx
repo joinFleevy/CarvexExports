@@ -7,14 +7,14 @@ import Footer from '@/components/Footer';
 const readex = Readex_Pro({
   subsets: ['arabic', 'latin'],
   variable: '--font-readex',
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['400', '500', '600', '700'],
   display: 'swap',
 });
 
 const outfit = Outfit({
   subsets: ['latin'],
   variable: '--font-outfit',
-  weight: ['400', '600', '700', '900'],
+  weight: ['400', '500', '600', '700', '800', '900'],
   display: 'swap',
 });
 
@@ -58,11 +58,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className={`${readex.variable} ${outfit.variable} dark`}>
+    <html lang="ar" dir="rtl" className={`${readex.variable} ${outfit.variable} dark antialiased`}>
       <head>
         <link rel="icon" href="/images/logo.jpg" />
       </head>
-      <body className="min-h-screen flex flex-col bg-carvex-dark text-slate-100 antialiased selection:bg-carvex-cyan selection:text-black">
+      <body className="min-h-screen flex flex-col bg-carvex-dark text-slate-100 selection:bg-carvex-cyan selection:text-black">
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

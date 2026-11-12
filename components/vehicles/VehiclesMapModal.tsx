@@ -22,8 +22,8 @@ export default function VehiclesMapModal({
         <div className="p-4 border-b border-neutral-100 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <MapPin className="w-4 h-4 text-neutral-900" />
-            <h3 className="text-sm font-bold text-neutral-900">Carte des Showrooms et Véhicules</h3>
-            <span className="text-xs text-neutral-400">({vehicles.length} véhicules)</span>
+            <h2 className="text-base font-bold text-neutral-900 tracking-[-0.01em]">Carte des Showrooms et Véhicules</h2>
+            <span className="text-xs text-neutral-500 tabular-nums">({vehicles.length} véhicules)</span>
           </div>
           <button
             type="button"
@@ -57,11 +57,14 @@ export default function VehiclesMapModal({
                 }}
               >
                 <div className="bg-white border-2 border-neutral-950 px-2.5 py-1 rounded-full shadow-lg flex items-center gap-1.5 transform group-hover:scale-110 transition-transform">
-                  <span className="text-[10px] font-bold text-neutral-950">{car.priceDzdCentimes} M</span>
+                  <span className="text-xs font-bold text-neutral-950 tabular-nums">{car.priceDzdCentimes}{"\u00A0"}M</span>
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                 </div>
                 <div className="w-2 h-2 bg-neutral-950 rotate-45 -mt-1 shadow-sm" />
-                <span className="text-[10px] font-semibold text-neutral-700 bg-white/90 px-1.5 rounded mt-1 shadow-xs truncate max-w-[120px]">
+                <span
+                  title={car.title}
+                  className="text-xs font-semibold text-neutral-700 bg-white/90 px-1.5 rounded mt-1 shadow-xs truncate max-w-[140px]"
+                >
                   {car.title}
                 </span>
               </div>

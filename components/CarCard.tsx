@@ -17,7 +17,7 @@ export default function CarCard({ vehicle }: CarCardProps) {
       : '/images/carvexexport_DfXYcp-HC7n.jpg';
 
   return (
-    <div className="border border-neutral-800 bg-neutral-900/40 rounded-lg overflow-hidden flex flex-col text-right">
+    <div className="border border-neutral-800 bg-neutral-900/40 rounded-lg overflow-hidden flex flex-col text-start">
       <div className="relative aspect-[16/10] w-full bg-neutral-950 overflow-hidden">
         <Image
           src={imageSrc}
@@ -31,11 +31,13 @@ export default function CarCard({ vehicle }: CarCardProps) {
       <div className="p-4 flex flex-col flex-grow justify-between gap-3">
         <div>
           <div className="flex items-center justify-between text-xs text-neutral-400 mb-1">
-            <span>{vehicle.year}</span>
-            <span>{vehicle.brand}</span>
+            <span className="tabular-nums">{vehicle.year}</span>
+            <span>
+              <bdi>{vehicle.brand}</bdi>
+            </span>
           </div>
           <h3 className="text-base font-semibold text-white">
-            {vehicle.title}
+            <bdi>{vehicle.title}</bdi>
           </h3>
         </div>
 
@@ -46,7 +48,7 @@ export default function CarCard({ vehicle }: CarCardProps) {
                 السعر عند الطلب
               </span>
             ) : (
-              <span className="text-base font-bold text-white font-mono">
+              <span className="text-base font-bold text-white tabular-nums">
                 {formatPriceCentimes(vehicle.price_total_dzd_centimes)}
               </span>
             )}

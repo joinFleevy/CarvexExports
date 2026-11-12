@@ -51,15 +51,15 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  height: 1.125rem;
+  height: 1.15em;
   overflow: hidden;
 }
 
 .osmo-menu-button-text p {
   margin: 0;
-  font-size: 1.05rem;
-  line-height: 1.125rem;
-  height: 1.125rem;
+  font-size: 1rem;
+  line-height: 1.15;
+  height: 1.15em;
   font-weight: 500;
   color: var(--osmo-dark);
 }
@@ -206,8 +206,10 @@
   color: var(--osmo-primary);
   text-transform: uppercase;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
   line-height: 1;
   padding-top: 0.15rem;
   transition: color 0.3s ease;

@@ -90,14 +90,14 @@ export default function PriceHistogram({
       {/* Inputs / Value displays exactly matching the screenshot */}
       <div className="flex items-center justify-between gap-2 pt-1">
         <div className="flex-1 bg-neutral-50 border border-neutral-200 rounded-md px-2.5 py-1.5 flex items-center justify-between">
-          <span className="text-[10px] uppercase font-semibold text-neutral-400">FROM</span>
-          <span className="text-xs font-bold text-neutral-900">
+          <span className="text-xs uppercase font-semibold tracking-[0.05em] text-neutral-500">FROM</span>
+          <span className="text-xs font-bold text-neutral-900 tabular-nums">
             {currencySymbol}{from.toFixed(2)}
           </span>
         </div>
         <div className="flex-1 bg-neutral-50 border border-neutral-200 rounded-md px-2.5 py-1.5 flex items-center justify-between">
-          <span className="text-[10px] uppercase font-semibold text-neutral-400">TO</span>
-          <span className="text-xs font-bold text-neutral-900">
+          <span className="text-xs uppercase font-semibold tracking-[0.05em] text-neutral-500">TO</span>
+          <span className="text-xs font-bold text-neutral-900 tabular-nums">
             {currencySymbol}{to.toFixed(2)}
           </span>
         </div>

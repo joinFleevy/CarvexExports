@@ -22,7 +22,7 @@ export default function VehicleCard({
   onSelectShowroomFilter,
   currency = 'DZD',
 }: VehicleCardProps) {
-  const formattedPrice = `${vehicle.priceDzdCentimes} M`;
+  const formattedPrice = `${vehicle.priceDzdCentimes}\u00A0M`;
   const priceSubtitle = 'سنتيم شاملة كل الرسوم';
 
   return (
@@ -35,14 +35,14 @@ export default function VehicleCard({
         {/* Availability Status Badge & Showroom Pill */}
         <div className="flex items-center gap-1.5 flex-wrap">
           {vehicle.status === 'in_stock' ? (
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60 shadow-2xs">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60 shadow-2xs">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>متوفرة بالمعرض</span>
+              <bdi dir="rtl" lang="ar">متوفرة بالمعرض</bdi>
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200/60 shadow-2xs">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200/60 shadow-2xs">
               <Ship className="w-3 h-3 text-blue-500" />
-              <span>استيراد بالطلب</span>
+              <bdi dir="rtl" lang="ar">استيراد بالطلب</bdi>
             </span>
           )}
 
@@ -55,10 +55,10 @@ export default function VehicleCard({
                 onSelectShowroomFilter(vehicle.showroom, e);
               }
             }}
-            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold bg-neutral-100 hover:bg-neutral-200 text-neutral-700 transition-colors"
+            className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs font-semibold bg-neutral-100 hover:bg-neutral-200 text-neutral-700 transition-colors"
             title={`Filtrer par showroom: ${vehicle.showroom}`}
           >
-            <MapPin className="w-2.5 h-2.5 text-neutral-500" />
+            <MapPin className="w-3 h-3 text-neutral-500" />
             <span>{vehicle.showroom}</span>
           </button>
         </div>
@@ -100,35 +100,41 @@ export default function VehicleCard({
         {/* Car Name & Details */}
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <h4 className="text-sm sm:text-base font-bold text-neutral-900 group-hover:text-black truncate">
+            <h2
+              title={vehicle.title}
+              className="text-sm sm:text-base font-bold text-neutral-900 group-hover:text-black truncate tracking-[-0.01em]"
+            >
               {vehicle.title}
-            </h4>
+            </h2>
           </div>
-          <p className="text-[11px] text-neutral-500 truncate mt-0.5">
+          <p
+            title={vehicle.subtitle}
+            className="text-xs text-neutral-500 truncate mt-0.5"
+          >
             {vehicle.subtitle}
           </p>
 
           {/* Functional Tag Pills */}
           <div className="flex items-center gap-1.5 mt-2 flex-wrap">
-            <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-neutral-100 text-neutral-700">
+            <span className="text-xs font-semibold px-2 py-0.5 rounded bg-neutral-100 text-neutral-700 tabular-nums">
               {vehicle.year}
             </span>
-            <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-neutral-100 text-neutral-700">
+            <span className="text-xs font-semibold px-2 py-0.5 rounded bg-neutral-100 text-neutral-700">
               {vehicle.transmission}
             </span>
-            <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200/50">
-              {vehicle.customsRegime}
+            <span className="text-xs font-semibold px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200/50">
+              <bdi dir="rtl" lang="ar">{vehicle.customsRegime}</bdi>
             </span>
           </div>
         </div>
 
         {/* Real Price in Million Centimes */}
-        <div className="text-right shrink-0">
-          <span className="text-base sm:text-lg font-black text-neutral-950 block leading-tight">
-            {formattedPrice}
+        <div className="text-end shrink-0">
+          <span className="text-base sm:text-lg font-extrabold tracking-[-0.015em] text-neutral-950 block leading-tight tabular-nums">
+            <bdi>{formattedPrice}</bdi>
           </span>
-          <span className="text-[10px] text-neutral-400 block font-medium mt-0.5">
-            {priceSubtitle}
+          <span className="text-xs text-neutral-500 block font-medium mt-0.5">
+            <bdi dir="rtl" lang="ar">{priceSubtitle}</bdi>
           </span>
         </div>
       </div>

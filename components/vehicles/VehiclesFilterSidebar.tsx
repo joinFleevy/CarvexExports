@@ -90,7 +90,7 @@ export default function VehiclesFilterSidebar({
 
   return (
     <aside
-      className={`bg-white select-none flex flex-col justify-between ${
+      className={`bg-white flex flex-col justify-between ${
         isMobileDrawer
           ? 'w-full max-w-sm h-full p-5 overflow-y-auto'
           : 'w-64 shrink-0 border-r border-neutral-100 p-5 overflow-y-auto hidden lg:flex'
@@ -101,9 +101,9 @@ export default function VehiclesFilterSidebar({
         <div className="flex items-center justify-between pb-3 border-b border-neutral-100">
           <div className="flex items-center gap-2">
             <SlidersHorizontal className="w-4 h-4 text-neutral-800" />
-            <h3 className="text-sm font-bold text-neutral-900 tracking-tight font-sans">
+            <h2 className="text-sm font-bold text-neutral-900 tracking-[-0.01em] font-sans">
               Filter by
-            </h3>
+            </h2>
           </div>
           <div className="flex items-center gap-2">
             <button
@@ -134,7 +134,7 @@ export default function VehiclesFilterSidebar({
             onClick={() => setShowroomOpen(!showroomOpen)}
             className="w-full flex items-center justify-between text-left group"
           >
-            <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider font-sans group-hover:text-neutral-700">
+            <span className="text-xs font-bold text-neutral-500 uppercase tracking-[0.05em] font-sans group-hover:text-neutral-700">
               SHOWROOM BRANCH
             </span>
             {showroomOpen ? (
@@ -152,14 +152,15 @@ export default function VehiclesFilterSidebar({
                   <button
                     key={opt.id}
                     type="button"
+                    title={opt.label}
                     onClick={() => onFilterChange({ ...filters, showroom: opt.id })}
-                    className={`py-1.5 px-2 text-[11px] rounded-lg transition-all font-semibold text-center border truncate ${
+                    className={`py-1.5 px-2 text-xs rounded-lg transition-all font-semibold text-center border truncate ${
                       isSelected
                         ? 'bg-neutral-900 text-white border-neutral-900 shadow-2xs'
                         : 'bg-neutral-50 text-neutral-600 border-neutral-200/80 hover:bg-neutral-100'
                     }`}
                   >
-                    {opt.label}
+                    <bdi>{opt.label}</bdi>
                   </button>
                 );
               })}
@@ -170,10 +171,10 @@ export default function VehiclesFilterSidebar({
         {/* AVAILABLE NOW ONLY Switch */}
         <div className="flex items-center justify-between pt-1 pb-1 border-t border-neutral-100">
           <div>
-            <span className="text-[10px] font-bold text-neutral-700 uppercase tracking-wider block font-sans">
+            <span className="text-xs font-bold text-neutral-700 uppercase tracking-[0.05em] block font-sans">
               AVAILABLE NOW ONLY
             </span>
-            <span className="text-[10px] text-neutral-400 block">
+            <span className="text-xs text-neutral-500 block">
               En stock au showroom
             </span>
           </div>
@@ -205,8 +206,8 @@ export default function VehiclesFilterSidebar({
             onClick={() => setPriceOpen(!priceOpen)}
             className="w-full flex items-center justify-between text-left group"
           >
-            <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider font-sans group-hover:text-neutral-700">
-              PRICE RANGE (MILLION CENTIMES)
+            <span className="text-xs font-bold text-neutral-500 uppercase tracking-[0.05em] font-sans group-hover:text-neutral-700">
+              PRICE RANGE (M. CENTIMES)
             </span>
             {priceOpen ? (
               <ChevronUp className="w-3.5 h-3.5 text-neutral-400" />
@@ -224,8 +225,8 @@ export default function VehiclesFilterSidebar({
                 onChange={(range) => onFilterChange({ ...filters, priceRange: range })}
                 currencySymbol=""
               />
-              <div className="text-[10px] text-neutral-400 text-center mt-1">
-                {filters.priceRange[0]} M à {filters.priceRange[1]} M Centimes
+              <div className="text-xs text-neutral-500 text-center mt-1.5 tabular-nums">
+                {filters.priceRange[0]}{"\u00A0"}M à {filters.priceRange[1]}{"\u00A0"}M Centimes
               </div>
             </div>
           )}
@@ -238,7 +239,7 @@ export default function VehiclesFilterSidebar({
             onClick={() => setBrandOpen(!brandOpen)}
             className="w-full flex items-center justify-between text-left group"
           >
-            <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider font-sans group-hover:text-neutral-700">
+            <span className="text-xs font-bold text-neutral-500 uppercase tracking-[0.05em] font-sans group-hover:text-neutral-700 tabular-nums">
               CAR BRAND {filters.brands.length > 0 && `(${filters.brands.length})`}
             </span>
             {brandOpen ? (
@@ -283,7 +284,7 @@ export default function VehiclesFilterSidebar({
             onClick={() => setBodyTypeOpen(!bodyTypeOpen)}
             className="w-full flex items-center justify-between text-left group"
           >
-            <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider font-sans group-hover:text-neutral-700">
+            <span className="text-xs font-bold text-neutral-500 uppercase tracking-[0.05em] font-sans group-hover:text-neutral-700">
               BODY TYPE
             </span>
             {bodyTypeOpen ? (
@@ -313,7 +314,10 @@ export default function VehiclesFilterSidebar({
                     >
                       {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
                     </div>
-                    <span className="text-xs text-neutral-700 group-hover:text-neutral-900 truncate">
+                    <span
+                      title={type.label}
+                      className="text-xs text-neutral-700 group-hover:text-neutral-900 truncate"
+                    >
                       {type.label}
                     </span>
                   </button>
@@ -330,7 +334,7 @@ export default function VehiclesFilterSidebar({
             onClick={() => setTransmissionOpen(!transmissionOpen)}
             className="w-full flex items-center justify-between text-left group"
           >
-            <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider font-sans group-hover:text-neutral-700">
+            <span className="text-xs font-bold text-neutral-500 uppercase tracking-[0.05em] font-sans group-hover:text-neutral-700">
               TRANSMISSION
             </span>
             {transmissionOpen ? (
@@ -354,11 +358,12 @@ export default function VehiclesFilterSidebar({
                     key={trans}
                     type="button"
                     onClick={() => onFilterChange({ ...filters, transmission: trans })}
-                    className={`py-1.5 text-[11px] rounded-md transition-all font-semibold ${
+                    className={`py-1.5 text-xs rounded-md transition-all font-semibold truncate px-1 ${
                       isSelected
                         ? 'bg-white text-neutral-900 shadow-2xs border border-neutral-200/80'
                         : 'text-neutral-500 hover:text-neutral-900'
                     }`}
+                    title={labels[trans]}
                   >
                     {labels[trans]}
                   </button>
@@ -375,7 +380,7 @@ export default function VehiclesFilterSidebar({
             onClick={() => setFuelTypeOpen(!fuelTypeOpen)}
             className="w-full flex items-center justify-between text-left group"
           >
-            <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider font-sans group-hover:text-neutral-700">
+            <span className="text-xs font-bold text-neutral-500 uppercase tracking-[0.05em] font-sans group-hover:text-neutral-700">
               FUEL TYPE
             </span>
             {fuelTypeOpen ? (
@@ -420,8 +425,9 @@ export default function VehiclesFilterSidebar({
             onClick={() => setCustomsOpen(!customsOpen)}
             className="w-full flex items-center justify-between text-left group"
           >
-            <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-wider font-sans group-hover:text-neutral-700">
-              RÉGIME DOUANIER (الجمارك)
+            <span className="text-xs font-bold text-neutral-500 font-sans group-hover:text-neutral-700">
+              <span className="uppercase tracking-[0.05em]">RÉGIME DOUANIER</span>{' '}
+              <bdi dir="rtl" lang="ar">(الجمارك)</bdi>
             </span>
             {customsOpen ? (
               <ChevronUp className="w-3.5 h-3.5 text-neutral-400" />
@@ -435,7 +441,7 @@ export default function VehiclesFilterSidebar({
               {[
                 { id: 'all', label: 'Tous les régimes' },
                 { id: 'مجاهدين', label: 'رخصة مجاهدين (Exonération)' },
-                { id: 'ملف عادي -3 سنوات', label: 'ملف عادي -3 سنوات' },
+                { id: 'ملف عادي -3 سنوات', label: 'ملف عادي – 3 سنوات' },
               ].map((reg) => {
                 const isSelected = filters.customsRegime === reg.id;
                 return (
@@ -448,13 +454,13 @@ export default function VehiclesFilterSidebar({
                         customsRegime: reg.id as any,
                       })
                     }
-                    className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                    className={`w-full text-start px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                       isSelected
                         ? 'bg-neutral-900 text-white'
                         : 'text-neutral-600 hover:bg-neutral-100'
                     }`}
                   >
-                    {reg.label}
+                    <bdi>{reg.label}</bdi>
                   </button>
                 );
               })}
@@ -473,7 +479,7 @@ export default function VehiclesFilterSidebar({
           >
             <span>Afficher les résultats</span>
             {totalResultsCount !== undefined && (
-              <span className="px-2 py-0.5 bg-neutral-800 rounded-full text-[11px]">
+              <span className="px-2 py-0.5 bg-neutral-800 rounded-full text-xs tabular-nums">
                 ({totalResultsCount})
               </span>
             )}

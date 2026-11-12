@@ -7,13 +7,44 @@
   --foreground: #f1f5f9;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: var(--font-readex), system-ui, -apple-system, sans-serif;
-  direction: rtl;
-  text-align: right;
-  overflow-x: hidden;
-  margin: 0;
-  padding: 0;
+@layer base {
+  html {
+    font-size: 100%;
+  }
+
+  body {
+    color: var(--foreground);
+    background: var(--background);
+    font-family: var(--font-readex), system-ui, -apple-system, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    direction: rtl;
+    text-align: start;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    text-underline-position: from-font;
+    text-decoration-thickness: from-font;
+  }
+
+  abbr[title] {
+    text-decoration: underline dotted;
+    text-underline-offset: 0.2em;
+  }
 }
