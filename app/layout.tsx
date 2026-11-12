@@ -1,20 +1,18 @@
 import type { Metadata } from 'next';
-import { Readex_Pro, Outfit } from 'next/font/google';
+import { Rubik, Outfit } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
-const readex = Readex_Pro({
+const rubik = Rubik({
   subsets: ['arabic', 'latin'],
-  variable: '--font-readex',
-  weight: ['400', '500', '600', '700'],
+  variable: '--font-arabic',
   display: 'swap',
 });
 
 const outfit = Outfit({
   subsets: ['latin'],
   variable: '--font-outfit',
-  weight: ['400', '500', '600', '700', '800', '900'],
   display: 'swap',
 });
 
@@ -58,7 +56,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" className={`${readex.variable} ${outfit.variable} dark antialiased`}>
+    <html lang="ar" dir="rtl" className={`${rubik.variable} ${outfit.variable} dark antialiased`}>
       <head>
         <link rel="icon" href="/images/logo.jpg" />
       </head>

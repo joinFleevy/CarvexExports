@@ -1,19 +1,11 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { Geist, Newsreader } from 'next/font/google';
+import { Lora } from 'next/font/google';
 import MainShowcase from '@/components/home/MainShowcase';
 
-const geistSans = Geist({
+const loraEditorial = Lora({
   subsets: ['latin'],
-  variable: '--font-geist-sans',
-  weight: ['400', '500', '600', '700'],
-  display: 'swap',
-});
-
-const editorial = Newsreader({
-  subsets: ['latin'],
-  variable: '--font-editorial',
-  weight: ['200', '400'],
+  variable: '--font-heading-serif',
   style: ['normal', 'italic'],
   display: 'swap',
 });
@@ -26,7 +18,7 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   return (
-    <div className={`${geistSans.variable} ${editorial.variable}`}>
+    <div className={loraEditorial.variable}>
       <MainShowcase />
     </div>
   );

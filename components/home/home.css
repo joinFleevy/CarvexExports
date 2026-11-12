@@ -72,8 +72,8 @@ html:has(.forge-home) body::-webkit-scrollbar,
   --bezzy: cubic-bezier(0.8, 0, 0, 1);
   --bezzy2: cubic-bezier(0.43, 0.195, 0.02, 1);
   --bezzy3: cubic-bezier(0.5, 0, 0, 1);
-  --font-heading: var(--font-editorial), Georgia, Times, "Times New Roman", serif;
-  --font-body: var(--font-geist-sans), Arial, Helvetica, "Liberation Sans", sans-serif;
+  --font-heading: var(--font-heading-serif), Georgia, Times, "Times New Roman", serif;
+  --font-body: var(--font-outfit), system-ui, -apple-system, sans-serif;
 
   position: relative;
   min-height: 100vh;
@@ -99,8 +99,8 @@ html:has(.forge-home) body::-webkit-scrollbar,
 }
 
 .forge-home[data-lang="ar"] {
-  --font-heading: var(--font-readex), system-ui, sans-serif;
-  --font-body: var(--font-readex), system-ui, sans-serif;
+  --font-heading: var(--font-arabic), system-ui, sans-serif;
+  --font-body: var(--font-arabic), system-ui, sans-serif;
   direction: rtl;
   text-align: start;
 }
@@ -303,7 +303,7 @@ html:has(.forge-home) body::-webkit-scrollbar,
 .forge-h1 {
   font-family: var(--font-heading);
   font-size: clamp(2.75rem, 6.25vw, 6rem);
-  font-weight: 200;
+  font-weight: 400;
   line-height: 1.1;
   letter-spacing: -0.02em;
   color: var(--global-white);
@@ -723,7 +723,7 @@ html:has(.forge-home) body::-webkit-scrollbar,
   border-bottom: 1px solid var(--hairline);
   font-family: var(--font-heading);
   font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 200;
+  font-weight: 400;
   line-height: 1.1;
   letter-spacing: -0.02em;
   color: rgba(242, 241, 237, 0.72);
@@ -1163,7 +1163,7 @@ a.forge-contact-row:hover {
 .forge-spec-title {
   font-family: var(--font-heading);
   font-size: clamp(2.5rem, 4.6vw, 4.25rem);
-  font-weight: 200;
+  font-weight: 400;
   line-height: 1.08;
   letter-spacing: -0.02em;
   color: var(--global-white);
@@ -1423,7 +1423,7 @@ a.forge-contact-row:hover {
 .forge-process-display {
   font-family: var(--font-heading);
   font-size: clamp(2.5rem, 5.6vw, 5.25rem);
-  font-weight: 200;
+  font-weight: 400;
   line-height: 1.08;
   letter-spacing: -0.02em;
   color: rgba(242, 241, 237, 0.62);
@@ -1511,7 +1511,7 @@ a.forge-contact-row:hover {
 .forge-glass-num {
   font-family: var(--font-heading);
   font-size: clamp(3.5rem, 5.2vw, 5.25rem);
-  font-weight: 200;
+  font-weight: 400;
   font-style: italic;
   line-height: 1;
   font-variant-numeric: tabular-nums;
@@ -1606,7 +1606,7 @@ a.forge-contact-row:hover {
 .forge-portal-title {
   font-family: var(--font-heading);
   font-size: clamp(2.75rem, 6.2vw, 5.5rem);
-  font-weight: 200;
+  font-weight: 400;
   line-height: 1.08;
   letter-spacing: -0.02em;
   color: rgba(255, 255, 255, 0.42);
@@ -1679,7 +1679,7 @@ a.forge-contact-row:hover {
 .forge-footer-title {
   font-family: var(--font-heading);
   font-size: clamp(3.25rem, 6.8vw, 6rem);
-  font-weight: 200;
+  font-weight: 400;
   line-height: 1.05;
   letter-spacing: -0.02em;
   color: var(--global-white);

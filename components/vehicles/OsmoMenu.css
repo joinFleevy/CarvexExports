@@ -1,19 +1,3 @@
-@font-face {
-  font-family: 'PP Neue Corp Tight';
-  src: url('https://cdn.prod.website-files.com/673af51dea86ab95d124c3ee/673b0f5784f7060c0ac05534_PPNeueCorp-TightUltrabold.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'PP Neue Montreal';
-  src: url('https://cdn.prod.website-files.com/6819ed8312518f61b84824df/6819ed8312518f61b84825ba_PPNeueMontreal-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
 .osmo-menu-root {
   --osmo-primary: #ff4c24;
   --osmo-dark: #131313;
@@ -38,7 +22,7 @@
   padding: 0.5rem 0.625rem;
   margin-left: -0.625rem;
   color: var(--osmo-dark);
-  font-family: 'PP Neue Montreal', var(--font-outfit), Arial, sans-serif;
+  font-family: var(--font-outfit), system-ui, sans-serif;
   font-weight: 500;
   line-height: 1;
   user-select: none;
@@ -189,11 +173,11 @@
   z-index: 1;
   margin: 0;
   text-transform: uppercase;
-  font-family: 'PP Neue Corp Tight', var(--font-outfit), Arial, sans-serif;
+  font-family: var(--font-outfit), system-ui, sans-serif;
   font-size: clamp(3rem, 7.2vh, 5rem);
-  font-weight: 700;
-  line-height: 0.75;
-  letter-spacing: -0.01em;
+  font-weight: 800;
+  line-height: 0.78;
+  letter-spacing: -0.025em;
   color: var(--osmo-dark);
   text-shadow: 0px 1em 0px var(--osmo-neutral-200);
   transition: transform 0.55s var(--osmo-cubic-default);
@@ -241,7 +225,7 @@
   margin: 0;
   font-size: 0.875rem;
   color: rgba(19, 19, 19, 0.6);
-  font-family: 'PP Neue Montreal', Arial, sans-serif;
+  font-family: var(--font-outfit), system-ui, sans-serif;
   font-weight: 500;
 }
 
@@ -255,7 +239,7 @@
 .osmo-p-large {
   margin: 0;
   font-size: 1.0625rem;
-  font-family: 'PP Neue Montreal', Arial, sans-serif;
+  font-family: var(--font-outfit), system-ui, sans-serif;
   font-weight: 500;
   color: var(--osmo-dark);
 }
