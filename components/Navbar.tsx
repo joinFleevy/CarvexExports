@@ -12,8 +12,14 @@ export default function Navbar() {
   const [branchModalOpen, setBranchModalOpen] = useState(false);
   const pathname = usePathname();
 
-  // If on the full-screen homepage or vehicle catalogue app page, do not render the public navbar
-  if (pathname === '/' || pathname === '/vehicles' || pathname === '/inventory' || pathname === '/products') {
+  // If on the full-screen homepage, vehicle catalogue app page, or admin dashboard, do not render the public navbar
+  if (
+    pathname === '/' ||
+    pathname === '/vehicles' ||
+    pathname === '/inventory' ||
+    pathname === '/products' ||
+    pathname?.startsWith('/admin')
+  ) {
     return null;
   }
 

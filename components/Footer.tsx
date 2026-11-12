@@ -8,8 +8,14 @@ import { usePathname } from 'next/navigation';
 export default function Footer() {
   const pathname = usePathname();
 
-  // If on the full-screen homepage or vehicle catalogue app page, do not render the public footer
-  if (pathname === '/' || pathname === '/vehicles' || pathname === '/inventory' || pathname === '/products') {
+  // If on the full-screen homepage, vehicle catalogue app page, or admin dashboard, do not render the public footer
+  if (
+    pathname === '/' ||
+    pathname === '/vehicles' ||
+    pathname === '/inventory' ||
+    pathname === '/products' ||
+    pathname?.startsWith('/admin')
+  ) {
     return null;
   }
 
