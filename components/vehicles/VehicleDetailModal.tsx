@@ -15,7 +15,8 @@ import {
   Calendar,
   Send,
 } from 'lucide-react';
-import { VehicleItem } from '@/lib/vehiclesData';
+import { VehicleItem, getVehicleGallery } from '@/lib/vehiclesData';
+import FramerMoveableThumbnails from '@/components/ui/framer-moveable-thumbnails';
 
 interface VehicleDetailModalProps {
   vehicle: VehicleItem | null;
@@ -37,6 +38,8 @@ export default function VehicleDetailModal({
 
   if (!vehicle) return null;
 
+  const galleryItems = vehicle.gallery || getVehicleGallery(vehicle);
+
   const whatsappMessage = encodeURIComponent(
     `Bonjour Carvex Export DZ, je suis intéressé par la ${vehicle.title} (${vehicle.year}) au prix de ${vehicle.priceDzdCentimes}M Centimes (Showroom: ${vehicle.showroom}). Pouvez-vous me donner plus de détails ?`
   );
@@ -48,9 +51,9 @@ export default function VehicleDetailModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-150">
+    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-150">
       <div
-        className="bg-white rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl border border-neutral-100 flex flex-col max-h-[92vh] animate-in zoom-in-95 duration-150"
+        className="bg-white rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl border border-neutral-100 flex flex-col max-h-[92vh] animate-in zoom-in-95 duration-150"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
@@ -97,32 +100,30 @@ export default function VehicleDetailModal({
 
         {/* Modal Body */}
         <div className="p-4 sm:p-6 overflow-y-auto space-y-5">
-          {/* Main Car Photo with clean studio cyclorama background */}
-          <div className="h-44 sm:h-52 bg-neutral-50/70 rounded-2xl flex items-center justify-center relative p-4 border border-neutral-100 overflow-hidden">
-            <div className="relative w-full h-full">
-              <Image
-                src={vehicle.image}
-                alt={vehicle.title}
-                fill
-                sizes="(max-width: 640px) 100vw, 600px"
-                className="object-contain filter drop-shadow-md"
-                priority
-              />
-            </div>
+          {/* Main Moveable Thumbnails Carousel Gallery */}
+          <div className="relative rounded-2xl overflow-hidden bg-neutral-950 p-2 sm:p-3 border border-neutral-200 shadow-inner">
+            <FramerMoveableThumbnails
+              items={galleryItems}
+              heightClass="h-52 sm:h-64 md:h-72"
+              showOverlayBadges={true}
+              activeBadgeTitle={vehicle.title}
+            />
+
             {/* Showroom badge */}
-            <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-xs px-2.5 py-1 rounded-full text-xs font-semibold text-neutral-700 border border-neutral-200/60 shadow-2xs flex items-center gap-1">
-              <MapPin className="w-3 h-3 text-neutral-500" />
+            <div className="absolute top-5 left-5 z-20 bg-black/70 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-white border border-white/20 shadow-lg flex items-center gap-1.5 pointer-events-none">
+              <MapPin className="w-3.5 h-3.5 text-cyan-400" />
               <bdi dir="rtl" lang="ar">{vehicle.showroomNameAr}</bdi>
             </div>
+
             {/* Stock status badge */}
-            <div className="absolute top-3 right-3">
+            <div className="absolute top-5 right-5 z-20 pointer-events-none">
               {vehicle.status === 'in_stock' ? (
-                <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60 shadow-2xs flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-600/90 text-white backdrop-blur-md border border-emerald-400/40 shadow-lg flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                   <span><bdi dir="rtl" lang="ar">متوفرة بالمعرض</bdi> — En Stock</span>
                 </span>
               ) : (
-                <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200/60 shadow-2xs">
+                <span className="px-3 py-1 rounded-full text-xs font-bold bg-blue-600/90 text-white backdrop-blur-md border border-blue-400/40 shadow-lg">
                   <span><bdi dir="rtl" lang="ar">استيراد بالطلب</bdi> — Sur Commande</span>
                 </span>
               )}

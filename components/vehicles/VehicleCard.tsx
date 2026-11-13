@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { Heart, MapPin, Ship } from 'lucide-react';
+import { Heart, MapPin, Ship, Camera } from 'lucide-react';
 import { VehicleItem } from '@/lib/vehiclesData';
 
 interface VehicleCardProps {
@@ -92,6 +92,12 @@ export default function VehicleCard({
             className="object-contain"
             priority={false}
           />
+        </div>
+
+        {/* 5-Photo Moveable Gallery Pill */}
+        <div className="absolute bottom-1 right-1 bg-neutral-900/80 backdrop-blur-xs px-2 py-0.5 rounded-full text-[10px] sm:text-[11px] font-semibold text-white/95 border border-white/10 opacity-80 group-hover:opacity-100 transition-opacity flex items-center gap-1 shadow-sm">
+          <Camera className="w-3 h-3 text-cyan-400" />
+          <span>5 صور (المقود، المقاعد...)</span>
         </div>
       </div>
 

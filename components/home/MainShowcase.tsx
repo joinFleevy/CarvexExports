@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import ForgeButton from './ForgeButton';
+import { BlurReveal } from '@/components/blur-reveal';
 import {
   FORGE_MEDIA,
   MARQUEE_LOGOS,
@@ -640,7 +641,16 @@ export default function MainShowcase() {
                 >
                   <h1 className="forge-h1 forge-hero-title-lines">
                     {t.heroTitleLines.map((line, i) => (
-                      <span key={i}>{line}</span>
+                      <BlurReveal
+                        key={`${lang}-${i}-${line}`}
+                        as="span"
+                        className="forge-hero-title-line"
+                        delay={0.12 + i * 0.16}
+                        speedReveal={1.6}
+                        speedSegment={0.6}
+                      >
+                        {line}
+                      </BlurReveal>
                     ))}
                   </h1>
                   <ForgeButton
@@ -969,8 +979,28 @@ export default function MainShowcase() {
               <div className="col-2-12">
                 <div className="forge-process-header">
                   <h2 className="forge-process-display">
-                    <span>{t.processLine1}</span>
-                    <span>{t.processLine2}</span>
+                    <BlurReveal
+                      key={`${lang}-p1-${t.processLine1}`}
+                      as="span"
+                      className="forge-process-line"
+                      inView
+                      delay={0.08}
+                      speedReveal={1.5}
+                      speedSegment={0.55}
+                    >
+                      {t.processLine1}
+                    </BlurReveal>
+                    <BlurReveal
+                      key={`${lang}-p2-${t.processLine2}`}
+                      as="span"
+                      className="forge-process-line"
+                      inView
+                      delay={0.24}
+                      speedReveal={1.5}
+                      speedSegment={0.55}
+                    >
+                      {t.processLine2}
+                    </BlurReveal>
                   </h2>
                   <ForgeButton
                     label={t.processCalcLink}
@@ -1028,7 +1058,17 @@ export default function MainShowcase() {
           </div>
           <div className="forge-portal-veil" aria-hidden="true" />
           <div className="forge-portal-center">
-            <h2 className="forge-portal-title">{t.showcase1Title}</h2>
+            <BlurReveal
+              key={`${lang}-s1-${t.showcase1Title}`}
+              as="h2"
+              className="forge-portal-title"
+              inView
+              delay={0.1}
+              speedReveal={1.5}
+              speedSegment={0.55}
+            >
+              {t.showcase1Title}
+            </BlurReveal>
             <p className="forge-p">{t.showcase1Body}</p>
             <ForgeButton
               label={t.showcase1Cta}
@@ -1050,7 +1090,17 @@ export default function MainShowcase() {
           </div>
           <div className="forge-portal-veil" aria-hidden="true" />
           <div className="forge-portal-center">
-            <h2 className="forge-portal-title">{t.showcase2Title}</h2>
+            <BlurReveal
+              key={`${lang}-s2-${t.showcase2Title}`}
+              as="h2"
+              className="forge-portal-title"
+              inView
+              delay={0.1}
+              speedReveal={1.5}
+              speedSegment={0.55}
+            >
+              {t.showcase2Title}
+            </BlurReveal>
             <p className="forge-p">{t.showcase2Body}</p>
             <ForgeButton
               label={t.showcase2Cta}
@@ -1076,8 +1126,28 @@ export default function MainShowcase() {
         <div className="forge-footer-hero">
           <p className="forge-h2">{t.footerEyebrow}</p>
           <h2 className="forge-footer-title">
-            <span>{t.footerLine1}</span>
-            <span>{t.footerLine2}</span>
+            <BlurReveal
+              key={`${lang}-f1-${t.footerLine1}`}
+              as="span"
+              className="forge-footer-line"
+              inView
+              delay={0.08}
+              speedReveal={1.5}
+              speedSegment={0.55}
+            >
+              {t.footerLine1}
+            </BlurReveal>
+            <BlurReveal
+              key={`${lang}-f2-${t.footerLine2}`}
+              as="span"
+              className="forge-footer-line"
+              inView
+              delay={0.24}
+              speedReveal={1.5}
+              speedSegment={0.55}
+            >
+              {t.footerLine2}
+            </BlurReveal>
           </h2>
           <ForgeButton
             label={t.footerCta}

@@ -30,6 +30,7 @@ import { Vehicle, getVehicleImageUrl } from '@/lib/pocketbase';
 import { formatPriceCentimes, formatDinar } from '@/lib/utils';
 import { calculateAlgerianCustoms } from '@/lib/customs';
 import BranchModal from '@/components/BranchModal';
+import FramerMoveableThumbnails, { ThumbnailItem } from '@/components/ui/framer-moveable-thumbnails';
 
 type CustomsMode = 'turnkey' | 'moudjahidine_own' | 'moudjahidine_market' | 'fob_port';
 
@@ -58,10 +59,34 @@ export default function VehicleDetailClient({
 
   const status = statusConfig[vehicle.status] || statusConfig.in_stock;
 
-  // Prepare images array
+  // Prepare images array including interior views (steering, gearshift, seats, door)
   const rawImages = vehicle.images && vehicle.images.length > 0 ? vehicle.images : ['carvexexport_DfXYcp-HC7n.jpg'];
   const galleryUrls = rawImages.map((img) => getVehicleImageUrl(vehicle, img));
   const currentImage = galleryUrls[selectedImageIndex] || galleryUrls[0];
+
+  const defaultInteriors = [
+    { url: 'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=1400&q=80', title: 'المقود والكوكبيت الرقمي', category: 'steering', categoryLabelAr: 'المقود' },
+    { url: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1400&q=80', title: 'مبدل السرعات والكونسول المركزي', category: 'gearshift', categoryLabelAr: 'مبدل السرعات' },
+    { url: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1400&q=80', title: 'المقاعد الجلدية الفاخرة', category: 'seats', categoryLabelAr: 'المقاعد' },
+    { url: 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1400&q=80', title: 'باب السيارة الداخلي والتطعيمات', category: 'door', categoryLabelAr: 'باب السيارة' },
+  ];
+
+  const thumbnailItems: ThumbnailItem[] = [
+    ...galleryUrls.map((url, i) => ({
+      id: `ext-${i}`,
+      url,
+      title: `${vehicle.title} — صورة ${i + 1}`,
+      category: 'exterior',
+      categoryLabelAr: 'الهيكل الخارجي',
+    })),
+    ...defaultInteriors.map((item, i) => ({
+      id: `int-${i}`,
+      url: item.url,
+      title: item.title,
+      category: item.category,
+      categoryLabelAr: item.categoryLabelAr,
+    })),
+  ];
 
   // Automatic In-Context Customs Calculations
   const fobPrice = vehicle.price_fob_dzd_centimes || Math.round(vehicle.price_total_dzd_centimes * 0.7);
@@ -344,65 +369,13 @@ export default function VehicleDetailClient({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Gallery (8 cols) */}
           <div className="lg:col-span-8 space-y-4">
-            {/* Main Stage Image */}
-            <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden border border-carvex-border bg-black/60 shadow-2xl">
-              <Image
-                src={currentImage}
-                alt={vehicle.title}
-                fill
-                priority
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 66vw"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-
-              {/* Watermark / Badge */}
-              <div className="absolute bottom-4 right-4 flex items-center gap-2 bg-black/75 px-3 py-1.5 rounded-xl border border-white/10 backdrop-blur-md">
-                <ShieldCheck className="w-4 h-4 text-carvex-cyan" />
-                <span className="text-xs font-bold text-white">صور أصلية ومعاينة حقيقية 100%</span>
-              </div>
-
-              {/* Navigation arrows if multiple images */}
-              {galleryUrls.length > 1 && (
-                <>
-                  <button
-                    onClick={() =>
-                      setSelectedImageIndex((prev) => (prev > 0 ? prev - 1 : galleryUrls.length - 1))
-                    }
-                    className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-carvex-cyan hover:text-black text-white border border-white/10 transition-colors"
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-                  <button
-                    onClick={() =>
-                      setSelectedImageIndex((prev) => (prev < galleryUrls.length - 1 ? prev + 1 : 0))
-                    }
-                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-carvex-cyan hover:text-black text-white border border-white/10 transition-colors"
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
-                </>
-              )}
-            </div>
-
-            {/* Thumbnail Strip */}
-            {galleryUrls.length > 1 && (
-              <div className="flex gap-3 overflow-x-auto pb-2">
-                {galleryUrls.map((url, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setSelectedImageIndex(idx)}
-                    className={`relative w-24 h-16 rounded-xl overflow-hidden border-2 flex-shrink-0 transition-all ${
-                      selectedImageIndex === idx
-                        ? 'border-carvex-cyan ring-2 ring-carvex-cyan/30'
-                        : 'border-carvex-border opacity-70 hover:opacity-100'
-                    }`}
-                  >
-                    <Image src={url} alt={`صورة ${idx + 1}`} fill className="object-cover" />
-                  </button>
-                ))}
-              </div>
-            )}
+            {/* Interactive Moveable Thumbnails Carousel Gallery */}
+            <FramerMoveableThumbnails
+              items={thumbnailItems}
+              heightClass="h-[320px] sm:h-[420px] md:h-[480px]"
+              showOverlayBadges={true}
+              activeBadgeTitle={vehicle.title}
+            />
 
             {/* Quick Specs Cards */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
