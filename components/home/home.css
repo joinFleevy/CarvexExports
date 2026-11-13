@@ -876,16 +876,17 @@ html:has(.forge-home) body::-webkit-scrollbar,
   font-family: var(--font-body);
   font-style: normal;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 2;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   z-index: 1;
-  overflow: clip;
   color: var(--brand-bc5);
-  transition: opacity var(--ease) var(--dur);
+  transition: color 0.3s ease;
 }
 
 @media (min-width: 700px) {
@@ -894,18 +895,15 @@ html:has(.forge-home) body::-webkit-scrollbar,
   }
 }
 
-.forge-cta-text span {
+.forge-cta-text .letter {
   display: inline-block;
-  text-shadow: rgba(242, 241, 237, 0.6) 0px -4em 0px;
-  transition: transform 0.5s var(--bezzy2);
+  will-change: font-variation-settings, font-weight;
+  transition: color 0.3s ease;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .forge-cta:hover .forge-cta-text:not(.forge-cta-text--rtl) {
-    opacity: 0.68;
-  }
-  .forge-cta:hover .forge-cta-text:not(.forge-cta-text--rtl) span {
-    transform: translateY(4em);
+  .forge-cta:hover .forge-cta-text {
+    color: #ffffff;
   }
 }
 

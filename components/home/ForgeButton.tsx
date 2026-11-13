@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import VariableFontHoverByLetter from '@/components/fancy/text/variable-font-hover-by-letter';
 
 interface ForgeButtonProps {
   label: string;
@@ -14,6 +15,9 @@ interface ForgeButtonProps {
   ariaLabel?: string;
   cursorLabel?: string;
   external?: boolean;
+  staggerDuration?: number;
+  fromFontVariationSettings?: string;
+  toFontVariationSettings?: string;
 }
 
 export default function ForgeButton({
@@ -27,27 +31,28 @@ export default function ForgeButton({
   ariaLabel,
   cursorLabel = 'Explore',
   external = false,
+  staggerDuration = 0.025,
+  fromFontVariationSettings = "'wght' 400, 'slnt' 0",
+  toFontVariationSettings = "'wght' 900, 'slnt' -10",
 }: ForgeButtonProps) {
-  const content = isRtl ? (
-    <span className="forge-cta-text forge-cta-text--rtl">{label}</span>
-  ) : (
-    <span className="forge-cta-text" aria-hidden="true">
-      {Array.from(label).map((ch, idx) => (
-        <span
-          key={`${ch}-${idx}`}
-          style={{ transitionDelay: `${Math.min(idx, 20) * 0.02}s` }}
-        >
-          {ch === ' ' ? '\u00A0' : ch}
-        </span>
-      ))}
-    </span>
-  );
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
 
   const inner = (
     <>
       <i className="forge-cta-shimmer" aria-hidden="true" />
-      {content}
-      <span className="sr-only">{label}</span>
+      <span className={`forge-cta-text ${isRtl ? 'forge-cta-text--rtl' : ''}`}>
+        <VariableFontHoverByLetter
+          label={label}
+          isHovered={isHovered}
+          fromFontVariationSettings={fromFontVariationSettings}
+          toFontVariationSettings={toFontVariationSettings}
+          staggerDuration={staggerDuration}
+          transition={{ type: 'spring', duration: 0.65 }}
+        />
+      </span>
     </>
   );
 
@@ -59,6 +64,8 @@ export default function ForgeButton({
           target={external ? '_blank' : undefined}
           rel={external ? 'noopener noreferrer' : undefined}
           onClick={onClick}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
           aria-label={ariaLabel || label}
           data-cursor-label={cursorLabel}
           className={`forge-cta ${className}`}
@@ -72,6 +79,8 @@ export default function ForgeButton({
       <Link
         href={href}
         onClick={onClick}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         aria-label={ariaLabel || label}
         data-cursor-label={cursorLabel}
         className={`forge-cta ${className}`}
@@ -86,6 +95,8 @@ export default function ForgeButton({
       type={type}
       disabled={disabled}
       onClick={onClick}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       aria-label={ariaLabel || label}
       data-cursor-label={cursorLabel}
       className={`forge-cta ${className}`}

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { debounce } from 'lodash';
 import { type AnimationOptions, motion, stagger, useAnimate } from 'motion/react';
 
@@ -15,6 +15,11 @@ export interface VariableFontHoverByLetterProps {
   onClick?: () => void;
   isHovered?: boolean;
 }
+
+const parseWeight = (settings: string, fallback: number): number => {
+  const match = settings.match(/'wght'\s*(\d+)/i) || settings.match(/wght\s*(\d+)/i);
+  return match ? parseInt(match[1], 10) : fallback;
+};
 
 export const VariableFontHoverByLetter = ({
   label,
@@ -32,7 +37,10 @@ export const VariableFontHoverByLetter = ({
   ...props
 }: VariableFontHoverByLetterProps) => {
   const [scope, animate] = useAnimate();
-  const [isHovered, setIsHovered] = useState(false);
+  const [internalHovered, setInternalHovered] = useState(false);
+
+  const fromWeight = parseWeight(fromFontVariationSettings, 400);
+  const toWeight = parseWeight(toFontVariationSettings, 900);
 
   const mergeTransition = (baseTransition: AnimationOptions) => ({
     ...baseTransition,
@@ -41,53 +49,70 @@ export const VariableFontHoverByLetter = ({
     }),
   });
 
-  const triggerAnimate = debounce(
-    (hovering: boolean) => {
-      if (!scope.current) return;
-      animate(
-        '.letter',
-        { fontVariationSettings: hovering ? toFontVariationSettings : fromFontVariationSettings },
-        mergeTransition(transition)
-      );
-    },
-    60,
-    { leading: true, trailing: true }
+  // Keep a stable ref to perform animation
+  const runAnimationRef = useRef<(hovering: boolean) => void>(() => {});
+  runAnimationRef.current = (hovering: boolean) => {
+    if (!scope.current) return;
+    animate(
+      '.letter',
+      {
+        fontVariationSettings: hovering ? toFontVariationSettings : fromFontVariationSettings,
+        fontWeight: hovering ? toWeight : fromWeight,
+      },
+      mergeTransition(transition)
+    );
+  };
+
+  const debouncedAnimateRef = useRef(
+    debounce(
+      (hovering: boolean) => {
+        runAnimationRef.current(hovering);
+      },
+      60,
+      { leading: true, trailing: true }
+    )
   );
 
+  // Controlled hover from parent (e.g. ForgeButton)
   useEffect(() => {
     if (controlledIsHovered !== undefined) {
-      triggerAnimate(controlledIsHovered);
+      debouncedAnimateRef.current(controlledIsHovered);
     }
-  }, [controlledIsHovered, toFontVariationSettings, fromFontVariationSettings]);
+  }, [controlledIsHovered, toFontVariationSettings, fromFontVariationSettings, toWeight, fromWeight]);
 
-  const hoverStart = debounce(
-    () => {
-      if (controlledIsHovered !== undefined) return;
-      if (isHovered) return;
-      setIsHovered(true);
-      triggerAnimate(true);
-    },
-    100,
-    { leading: true, trailing: true }
+  // Uncontrolled hover handlers
+  const hoverStartRef = useRef(
+    debounce(
+      () => {
+        if (controlledIsHovered !== undefined) return;
+        setInternalHovered(true);
+        debouncedAnimateRef.current(true);
+      },
+      100,
+      { leading: true, trailing: true }
+    )
   );
 
-  const hoverEnd = debounce(
-    () => {
-      if (controlledIsHovered !== undefined) return;
-      setIsHovered(false);
-      triggerAnimate(false);
-    },
-    100,
-    { leading: true, trailing: true }
+  const hoverEndRef = useRef(
+    debounce(
+      () => {
+        if (controlledIsHovered !== undefined) return;
+        setInternalHovered(false);
+        debouncedAnimateRef.current(false);
+      },
+      100,
+      { leading: true, trailing: true }
+    )
   );
 
   const isArabic = typeof label === 'string' && /[\u0600-\u06FF]/.test(label);
 
   return (
     <motion.span
-      className={className}
-      onHoverStart={hoverStart}
-      onHoverEnd={hoverEnd}
+      className={`inline-block ${className}`}
+      data-hovered={controlledIsHovered !== undefined ? controlledIsHovered : internalHovered}
+      onHoverStart={() => hoverStartRef.current()}
+      onHoverEnd={() => hoverEndRef.current()}
       onClick={onClick}
       ref={scope}
       {...props}
@@ -100,7 +125,10 @@ export const VariableFontHoverByLetter = ({
             <motion.span
               className="inline-block letter"
               aria-hidden="true"
-              style={{ fontVariationSettings: fromFontVariationSettings }}
+              style={{
+                fontVariationSettings: fromFontVariationSettings,
+                fontWeight: fromWeight,
+              }}
             >
               {word}
             </motion.span>
@@ -108,18 +136,19 @@ export const VariableFontHoverByLetter = ({
           </span>
         ))
       ) : (
-        label.split('').map((letter: string, i: number) => {
-          return (
-            <motion.span
-              key={i}
-              className="inline-block whitespace-pre letter"
-              aria-hidden="true"
-              style={{ fontVariationSettings: fromFontVariationSettings }}
-            >
-              {letter === ' ' ? '\u00A0' : letter}
-            </motion.span>
-          );
-        })
+        label.split('').map((letter: string, i: number) => (
+          <motion.span
+            key={i}
+            className="inline-block whitespace-pre letter"
+            aria-hidden="true"
+            style={{
+              fontVariationSettings: fromFontVariationSettings,
+              fontWeight: fromWeight,
+            }}
+          >
+            {letter === ' ' ? '\u00A0' : letter}
+          </motion.span>
+        ))
       )}
     </motion.span>
   );

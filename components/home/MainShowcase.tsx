@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import ForgeButton from './ForgeButton';
 import { BlurReveal } from '@/components/blur-reveal';
+import VariableFontHoverByLetter from '@/components/fancy/text/variable-font-hover-by-letter';
 import {
   FORGE_MEDIA,
   MARQUEE_LOGOS,
@@ -1164,7 +1165,12 @@ export default function MainShowcase() {
             onClick={scrollToTop}
             data-cursor="Top"
           >
-            <span>{t.footerBackTop}</span>
+            <VariableFontHoverByLetter
+              label={t.footerBackTop}
+              fromFontVariationSettings="'wght' 400, 'slnt' 0"
+              toFontVariationSettings="'wght' 900, 'slnt' -10"
+              staggerDuration={0.03}
+            />
             <span aria-hidden="true">↑</span>
           </button>
 
