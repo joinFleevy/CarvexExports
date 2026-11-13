@@ -5,6 +5,7 @@ import Link from 'next/link';
 import ForgeButton from './ForgeButton';
 import { BlurReveal } from '@/components/blur-reveal';
 import VariableFontHoverByLetter from '@/components/fancy/text/variable-font-hover-by-letter';
+import { Signature } from '@/components/signature';
 import {
   FORGE_MEDIA,
   MARQUEE_LOGOS,
@@ -1175,23 +1176,37 @@ export default function MainShowcase() {
           </button>
 
           <div className="forge-footer-micro-row">
-            <div className="forge-footer-micro-links">
-              <Link href="/vehicles">{t.cardCatalogTitle}</Link>
-              <Link href="/track">{t.cardTrackTitle}</Link>
-              <Link href="/calculator">{t.processCalcLink}</Link>
-              <Link href="/showrooms">{t.cardVisitTitle}</Link>
-              <Link href="/documents">Dossier &amp; Decree 23-74</Link>
+            <div className="forge-footer-micro-info">
+              <div className="forge-footer-micro-links">
+                <Link href="/vehicles">{t.cardCatalogTitle}</Link>
+                <Link href="/track">{t.cardTrackTitle}</Link>
+                <Link href="/calculator">{t.processCalcLink}</Link>
+                <Link href="/showrooms">{t.cardVisitTitle}</Link>
+                <Link href="/documents">Dossier &amp; Decree 23-74</Link>
+              </div>
+
+              <div className="forge-footer-micro-links">
+                {SHOWROOMS.map((sr) => (
+                  <a
+                    key={sr.id}
+                    href={`tel:+213${(sr.phones[0] ?? '0770727007').replace(/^0/, '')}`}
+                  >
+                    {sr.city[lang]}: <bdi dir="ltr">{sr.phones[0]}</bdi>
+                  </a>
+                ))}
+              </div>
             </div>
 
-            <div className="forge-footer-micro-links">
-              {SHOWROOMS.map((sr) => (
-                <a
-                  key={sr.id}
-                  href={`tel:+213${(sr.phones[0] ?? '0770727007').replace(/^0/, '')}`}
-                >
-                  {sr.city[lang]}: <bdi dir="ltr">{sr.phones[0]}</bdi>
-                </a>
-              ))}
+            <div className="forge-footer-signature-container" aria-hidden="true">
+              <Signature
+                text="Carvex Cars ."
+                color="#ffffff"
+                fontSize={24}
+                duration={1.2}
+                delay={0.2}
+                inView={true}
+                className="forge-footer-signature"
+              />
             </div>
           </div>
         </div>
