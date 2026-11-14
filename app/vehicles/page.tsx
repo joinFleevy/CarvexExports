@@ -12,9 +12,9 @@ import { ChevronDown, Car, X } from 'lucide-react';
 const INITIAL_FILTERS: FilterState = {
   showroom: 'all',
   availableNowOnly: false,
-  priceRange: [200, 900], // in Million Centimes (e.g. 200M to 900M DZD)
+  priceRange: [150, 1100], // in Million Centimes (e.g. 150M to 1100M DZD)
   brands: [],
-  bodyTypes: ['Sedan', 'Coupe', 'Hatchback', 'Crossover', 'Van'],
+  bodyTypes: ['Sedan', 'Coupe', 'Hatchback', 'Crossover', 'Van', 'Pickup'],
   transmission: 'any',
   fuelTypes: [],
   customsRegime: 'all',
@@ -24,7 +24,7 @@ export default function VehiclesPage() {
   const [activeNavTab, setActiveNavTab] = useState<VehiclesNavTab>('vehicles');
   const [filters, setFilters] = useState<FilterState>(INITIAL_FILTERS);
   const [favorites, setFavorites] = useState<Set<string>>(
-    new Set(['mazda-6', 'mazda-3-hatchback'])
+    new Set(['fiat-500-hybrid', 'geely-coolray'])
   );
   const [recents, setRecents] = useState<Set<string>>(new Set());
   const [sortBy, setSortBy] = useState<'featured' | 'price_asc' | 'price_desc' | 'power_desc' | 'year_desc' | 'brand_asc'>('featured');
@@ -59,7 +59,7 @@ export default function VehiclesPage() {
     setFilters({
       showroom: 'all',
       availableNowOnly: false,
-      priceRange: [200, 900],
+      priceRange: [150, 1100],
       brands: [],
       bodyTypes: [],
       transmission: 'any',

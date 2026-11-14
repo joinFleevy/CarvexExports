@@ -12,7 +12,7 @@ export interface FilterState {
   bodyTypes: string[];
   transmission: 'any' | 'automatic' | 'manual';
   fuelTypes: string[];
-  customsRegime: 'all' | 'مجاهدين' | 'ملف عادي -3 سنوات';
+  customsRegime: 'all' | 'مجاهدين' | 'ملف عادي -3 سنوات' | 'وكيل معتمد (رسمي)';
 }
 
 interface VehiclesFilterSidebarProps {
@@ -69,6 +69,7 @@ export default function VehiclesFilterSidebar({
     { id: 'Coupe', label: 'Coupe' },
     { id: 'Hatchback', label: 'Hatchback' },
     { id: 'Crossover', label: 'Crossover / SUV' },
+    { id: 'Pickup', label: 'Pickup (بيك أب)' },
     { id: 'Wagon', label: 'Wagon' },
     { id: 'Van', label: 'Van' },
   ];
@@ -219,8 +220,8 @@ export default function VehiclesFilterSidebar({
           {priceOpen && (
             <div className="pt-1">
               <PriceHistogram
-                minPrice={200}
-                maxPrice={900}
+                minPrice={150}
+                maxPrice={1100}
                 currentRange={filters.priceRange}
                 onChange={(range) => onFilterChange({ ...filters, priceRange: range })}
                 currencySymbol=""
@@ -440,6 +441,7 @@ export default function VehiclesFilterSidebar({
             <div className="space-y-1 pt-1">
               {[
                 { id: 'all', label: 'Tous les régimes' },
+                { id: 'وكيل معتمد (رسمي)', label: 'وكيل معتمد رسمي (0 كم)' },
                 { id: 'مجاهدين', label: 'رخصة مجاهدين (Exonération)' },
                 { id: 'ملف عادي -3 سنوات', label: 'ملف عادي – 3 سنوات' },
               ].map((reg) => {
