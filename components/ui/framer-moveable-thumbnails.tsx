@@ -154,26 +154,36 @@ export function FramerMoveableThumbnails({
           {currentItems.map((item, idx) => (
             <div
               key={item.id ?? idx}
-              className="shrink-0 w-full h-full relative bg-neutral-950 flex items-center justify-center overflow-hidden"
+              className={`shrink-0 w-full h-full relative flex items-center justify-center overflow-hidden ${
+                item.category === 'exterior' ? 'bg-white' : 'bg-neutral-950'
+              }`}
             >
               {/* Background Glow / Ambiance */}
-              <div
-                className="absolute inset-0 bg-cover bg-center filter blur-2xl opacity-20 scale-110 pointer-events-none"
-                style={{ backgroundImage: `url(${item.url})` }}
-              />
+              {item.category !== 'exterior' && (
+                <div
+                  className="absolute inset-0 bg-cover bg-center filter blur-2xl opacity-20 scale-110 pointer-events-none"
+                  style={{ backgroundImage: `url(${item.url})` }}
+                />
+              )}
 
               {/* Main Image */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={item.url}
                 alt={item.title}
-                className="w-full h-full object-contain sm:object-cover relative z-1 pointer-events-none select-none transition-transform duration-500"
+                className={`w-full h-full relative z-1 pointer-events-none select-none transition-transform duration-500 ${
+                  item.category === 'exterior' ? 'object-contain p-2' : 'object-cover'
+                }`}
                 draggable={false}
                 loading={idx === 0 ? 'eager' : 'lazy'}
               />
 
               {/* Subtle Bottom Scrim for Title Legibility */}
-              <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/85 via-black/40 to-transparent pointer-events-none z-2" />
+              <div className={`absolute inset-x-0 bottom-0 h-28 pointer-events-none z-2 ${
+                item.category === 'exterior'
+                  ? 'bg-gradient-to-t from-black/60 via-black/20 to-transparent'
+                  : 'bg-gradient-to-t from-black/85 via-black/40 to-transparent'
+              }`} />
             </div>
           ))}
         </motion.div>
